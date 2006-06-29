@@ -1,0 +1,3 @@
+(lambda(i)(cons newline(cons(quote Editor)(sequence(head i)(cons(quote ready
+)(append(edit_output(edit(head i)(untilend(tail i))))(cons newline(quote
+(Exit editor)))))))))

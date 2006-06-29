@@ -1,0 +1,12 @@
+(LETREC GETFRINGE
+	(GETFRINGE LAMBDA (T)
+		(AUXFRINGE T (QUOTE NIL)))
+	(AUXFRINGE LAMBDA (T X)
+		(IF (EQ T (QUOTE NIL)) X
+			(IF (ATOM T) (CONS T X)
+				(IF (EQ (CDR T) (QUOTE NIL)) (CONS (CAR T) X)
+					(IF (EQ (CDR (CDR T)) (QUOTE NIL)) 
+							(AUXFRINGE (CAR (CDR T)) X)
+						(AUXFRINGE (CAR (CDR T)) 
+						           (AUXFRINGE (CAR (CDR (CDR T))) X))))))))&
+					

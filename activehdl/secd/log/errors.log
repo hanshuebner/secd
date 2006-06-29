@@ -1,0 +1,256 @@
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (341, 5): Unknown identifier "clk".
+# Error: COMP96_0078: fep_toplevel.vhd : (342, 5): Unknown identifier "reset".
+# Error: COMP96_0078: fep_toplevel.vhd : (343, 5): Unknown identifier "button".
+# Error: COMP96_0078: fep_toplevel.vhd : (344, 5): Unknown identifier "ram_read".
+# Error: COMP96_0078: fep_toplevel.vhd : (345, 5): Unknown identifier "ram_in".
+# Error: COMP96_0078: fep_toplevel.vhd : (346, 5): Unknown identifier "ram_write".
+# Error: COMP96_0078: fep_toplevel.vhd : (347, 5): Unknown identifier "ram_out".
+# Error: COMP96_0078: fep_toplevel.vhd : (348, 5): Unknown identifier "ram_a".
+# Error: COMP96_0078: fep_toplevel.vhd : (349, 5): Unknown identifier "ram_busy".
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0078: fep_toplevel.vhd : (351, 5): Unknown identifier "stopped".
+# Error: COMP96_0078: fep_toplevel.vhd : (352, 5): Unknown identifier "state".
+# Error: COMP96_0133: fep_toplevel.vhd : (341, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (341, 5): "clk" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "clk".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "reset".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "button".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "ram_in".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "ram_busy".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0056: secd_toplevel.vhd : (26, 1): Cannot find referenced entity declaration "dff".
+# Error: COMP96_0019: secd_toplevel.vhd : (56, 1): Keyword "begin" expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (57, 3): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 33): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (57, 38): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 38): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (57, 42): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (57, 42): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (58, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 41): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (76, 46): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 46): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (76, 50): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (76, 50): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (77, 5): Design unit declaration expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 35): Keyword "is" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): '(' expected.
+# Error: COMP96_0028: secd_toplevel.vhd : (90, 40): Identifier or keyword expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 40): ';' expected.
+# Error: COMP96_0019: secd_toplevel.vhd : (90, 44): Keyword "end" expected.
+# Error: COMP96_0015: secd_toplevel.vhd : (90, 44): ';' expected.
+# Error: COMP96_0016: secd_toplevel.vhd : (91, 5): Design unit declaration expected.
+# Error: COMP96_0071: control_unit.vhd : (85, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (85, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (85, 15): Boolean type expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (341, 5): Unknown identifier "clk".
+# Error: COMP96_0078: fep_toplevel.vhd : (342, 5): Unknown identifier "reset".
+# Error: COMP96_0078: fep_toplevel.vhd : (343, 5): Unknown identifier "button".
+# Error: COMP96_0078: fep_toplevel.vhd : (344, 5): Unknown identifier "ram_read".
+# Error: COMP96_0078: fep_toplevel.vhd : (345, 5): Unknown identifier "ram_in".
+# Error: COMP96_0078: fep_toplevel.vhd : (346, 5): Unknown identifier "ram_write".
+# Error: COMP96_0078: fep_toplevel.vhd : (347, 5): Unknown identifier "ram_out".
+# Error: COMP96_0078: fep_toplevel.vhd : (348, 5): Unknown identifier "ram_a".
+# Error: COMP96_0078: fep_toplevel.vhd : (349, 5): Unknown identifier "ram_busy".
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0078: fep_toplevel.vhd : (351, 5): Unknown identifier "stopped".
+# Error: COMP96_0078: fep_toplevel.vhd : (352, 5): Unknown identifier "state".
+# Error: COMP96_0133: fep_toplevel.vhd : (341, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (341, 5): "clk" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "clk".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "reset".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "button".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "ram_in".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "ram_busy".
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0078: control_unit.vhd : (86, 25): Unknown identifier "stop".
+# Error: COMP96_0133: control_unit.vhd : (86, 25): Cannot find object declaration.
+# Error: COMP96_0071: control_unit.vhd : (86, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (86, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (86, 15): Boolean type expected.
+# Error: COMP96_0122: secd_toplevel.vhd : (42, 3): Symbol "stop_input" has already been declared in this region.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0078: control_unit.vhd : (86, 25): Unknown identifier "stop".
+# Error: COMP96_0133: control_unit.vhd : (86, 25): Cannot find object declaration.
+# Error: COMP96_0071: control_unit.vhd : (86, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (86, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (86, 15): Boolean type expected.
+# Error: COMP96_0122: secd_toplevel.vhd : (42, 3): Symbol "stop_input" has already been declared in this region.
+# Error: COMP96_0078: fep_toplevel.vhd : (350, 5): Unknown identifier "stop".
+# Error: COMP96_0133: fep_toplevel.vhd : (350, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (350, 5): "stop" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (340, 0): No actual specified for local port "stop_input".
+# Error: COMP96_0078: control_unit.vhd : (86, 25): Unknown identifier "stop".
+# Error: COMP96_0133: control_unit.vhd : (86, 25): Cannot find object declaration.
+# Error: COMP96_0071: control_unit.vhd : (86, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: control_unit.vhd : (86, 15): Undefined type of expression.
+# Error: COMP96_0098: control_unit.vhd : (86, 15): Boolean type expected.
+# Error: COMP96_0078: secd_toplevel.vhd : (73, 25): Unknown identifier "stop_instruction".
+# Error: COMP96_0133: secd_toplevel.vhd : (73, 25): Cannot find object declaration.
+# Error: COMP96_0104: secd_toplevel.vhd : (73, 5): Undefined type of expression.
+# Error: COMP96_0078: secd_toplevel.vhd : (85, 18): Unknown identifier "stop_clock".
+# Error: COMP96_0133: secd_toplevel.vhd : (85, 18): Cannot find object declaration.
+# Error: COMP96_0104: secd_toplevel.vhd : (85, 5): Undefined type of expression.
+# Error: COMP96_0078: secd_toplevel.vhd : (73, 25): Unknown identifier "stop_instruction".
+# Error: COMP96_0133: secd_toplevel.vhd : (73, 25): Cannot find object declaration.
+# Error: COMP96_0104: secd_toplevel.vhd : (73, 5): Undefined type of expression.
+# Error: COMP96_0078: secd_toplevel.vhd : (85, 18): Unknown identifier "stop_clock".
+# Error: COMP96_0133: secd_toplevel.vhd : (85, 18): Cannot find object declaration.
+# Error: COMP96_0104: secd_toplevel.vhd : (85, 5): Undefined type of expression.
+# Error: 'h:/fpga/secd/activehdl/secd/src/stop.vhd': no su

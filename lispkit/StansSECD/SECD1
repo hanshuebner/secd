@@ -1,0 +1,82 @@
+(* 
+val fName = "/zaphod1/Giam/Courses/DPL Folder/Fall 2001/ML Code/SECD1";
+use(fName);
+*)
+
+type Variable   = string;      (* type abbreviation           *)
+type FuncSymbol = string;      (* type abbreviation           *)
+type Location   = int;         (* static distance of variable *)
+
+datatype LambdaExp =
+    Var of Variable             |
+    Fun of FuncSymbol           |
+    Abs of Variable * LambdaExp |
+    App of LambdaExp*LambdaExp  |
+    Cond of LambdaExp*LambdaExp*LambdaExp;
+    
+(* Examples of Lambda Expressions *)
+
+val ex1 = Abs("x", Abs("y", App(Var "x", Var "y")));
+val ex2 = App(Abs("x", Var "x"), App(Fun "f", Fun "a"));
+val ex3 = App(App(Abs("x", Fun "b"), Fun "c"), App(Fun "f", Abs("y", Fun "c")));
+val ex4 = App(Abs("z", Abs("y", App(Abs("x", Var "x"), Fun "z"))), Fun "a");
+val ex5 = Cond(Fun "a", Fun "b", Fun"c");
+val ex6 = Cond(Fun "true", Fun "b", Fun"c");
+
+datatype Command =
+    ldv of Location                      |  (* Load variable from location *)
+    ldc of FuncSymbol                    |  (* Load constant  *)
+    ldf of Command list                  |  (* Load Function  *)
+    app                                  |  (* Application    *)
+    sel of (Command list)*(Command list) |
+    rtn                                  ;  (* Return         *)
+
+datatype Result =
+    Closure of (Command list * Result list) |
+    Result of LambdaExp                     ;
+
+fun
+    exec (s, e,  ldv(l)::c, d) = (    (List.nth(e, l))::s, e, c, d)  |
+    exec (s, e, ldf(c')::c, d) = (Closure (c', e)::s, e, c, d)       |
+    exec (s, e,  ldc(f)::c, d) = (  Result(Fun f)::s, e, c, d)       |
+    exec (Closure (c', e')::a::s, e, ap::c, d) =
+        ([], a::e', c', (s, e, c)::d)                                |
+    exec([a], e', [rtn], (s, e, c)::d) = (a::s, e, c, d)             |
+    exec(Result(Fun "true")::s, e, sel(c1, c2)::c, d) = 
+        (s, e, c1@c, d)                                              |
+    exec(Result(Fun"false")::s, e, sel(c1, c2)::c, d) = 
+        (s, e, c2@c, d)                                              ;
+    
+fun machine (s, e, c, d) =
+    let val (s', e', c', d') = exec(s, e, c, d)
+    in
+        if null(c') then hd(s') else machine(s', e', c', d')
+    end;
+    
+fun Position(v, env) =  (* Compute static distance *)
+    if v = hd(env) then 0 else 1 + Position(v, tl env);
+
+fun
+    Compile(Var v, env) = [ldv(Position(v, env))]                  |
+    Compile(Fun f, env) = [ldc(f)]                                 |
+    Compile(Abs(v, b), env) =
+        let val body = Compile(b, v::env) in [ldf(body@[rtn])] end |
+    Compile(App(f, a), env) = Compile(a, env)@Compile(f, env)@[app]|
+    Compile(Cond(b, t, e), env) =
+        Compile(b, env)@[sel(Compile(t, env), Compile(e, env))];
+
+(*    Examples of Compilation and Execution ============
+
+val EX1 = Compile(ex1, []);
+val EX2 = Compile(ex2, []);
+val EX3 = Compile(ex3, []);
+val EX4 = Compile(ex4, []);
+val EX5 = Compile(ex5, []);
+val EX6 = Compile(ex6, []);
+machine([],[], EX1, []);
+machine([],[], EX2, []);
+machine([],[], EX3, []);
+machine([],[], EX4, []);
+machine([],[], EX5, []);
+machine([],[], EX6, []);
+*)

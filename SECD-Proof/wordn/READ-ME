@@ -1,0 +1,29 @@
+% --------------------------------------------------------------------- %
+% DIRECTORY: wordn                                                      %
+%                                                                       %
+% DESCRIPTION: The finite, nonempty word datatype used in the SECD      %
+%              microprocessor specification and verification.           %
+%                                                                       %
+% AUTHOR: Thomas F. Melham                                              %
+%                                                                       %
+% ADDRESS: University of Cambridge                                      %
+%          Computer Laboratory                                          %
+%          New Museums Site                                             %
+%          Pembroke Street                                              %
+%          Cambridge, CB2 3QG                                           %
+%          England                                                      %
+%                                                                       %
+%          email: tfm@cl.cam.ac.uk                                      %
+%                                                                       %
+% DATE of inclusion: 92.02.27                                           %
+% --------------------------------------------------------------------- %
+This is an early draft of the datatype that was used in the SECD proof.
+It has only been changed where necessary to work under later versions
+of HOL.  All changes were done by Brian Graham (btg@cl.cam.ac.uk).
+
+The following files are included:
+  Makefile
+  mk_bus.ml	defines an underlying "bus" datatype, essentially nonempty lists
+  bus.ml        defines conversions and functions for use with buses
+  mk_wordn.ml	defines the type of finite size words
+  wordn.ml	type definition package for wordn instances

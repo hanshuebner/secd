@@ -1,0 +1,21 @@
+(letrec check(comment quote((Variable definition and scope checker)(P Henderson
+and S B Jones PRG Oxford August 1982)))(check lambda(p)(checkexpr p(quote
+NIL)(quote NIL)))(checkexpr lambda(p e loc)(if(atom p)(ok p e loc)(if(eq
+(head p)(quote quote))(quote NIL)(if(eq(head p)(quote lambda))(checkexpr
+(head(tail(tail p)))(append(head(tail p))e)loc)(if(eq(head p)(quote let
+))(checklet(tail p)e loc)(if(eq(head p)(quote letrec))(checkletrec(tail
+p)e loc)(if(isop(head p))(checkeach(tail p)e loc)(checkeach p e loc))))
+))))(ok lambda(name e loc)(if(eq e(quote NIL))(cons(cons name loc)(quote
+NIL))(if(eq name(head e))(quote NIL)(ok name(tail e)loc))))(isop lambda
+(op)(member op(quote(chr atom head tail leq eq cons add sub mul div rem
+if))))(member lambda(x l)(if(eq l(quote NIL))(quote F)(if(eq x(head l))
+(quote T)(member x(tail l)))))(append lambda(l1 l2)(if(eq l1(quote NIL)
+)l2(cons(head l1)(append(tail l1)l2))))(vars lambda(l)(if(eq l(quote NIL
+))(quote NIL)(cons(head(head l))(vars(tail l)))))(checklet lambda(p e loc
+)(append(checkexpr(head p)(append(vars(tail p))e)loc)(checklist(tail p)
+e loc)))(checkletrec lambda(p e loc)(let(append(checkexpr(head p)newe loc
+)(checklist(tail p)newe loc))(newe append(vars(tail p))e)))(checklist lambda
+(l e loc)(if(eq l(quote NIL))(quote NIL)(append(checkexpr(tail(head l))
+e(cons(head(head l))loc))(checklist(tail l)e loc))))(checkeach lambda(l
+e loc)(if(eq l(quote NIL))(quote NIL)(append(checkexpr(head l)e loc)(checkeach
+(tail l)e loc)))))

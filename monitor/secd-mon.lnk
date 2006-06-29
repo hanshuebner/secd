@@ -1,0 +1,11 @@
+-mxsuj
+secd-mon
+vec
+secd-mon
+-g _acia_control = 0xe000
+-g _acia_data = 0xe001
+-g _led = 0xe040
+-g stack = 0xf0c0
+-b sysrom = 0xf800
+-b svec = 0xfff0
+-e

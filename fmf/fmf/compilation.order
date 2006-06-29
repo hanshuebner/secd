@@ -1,0 +1,7 @@
+.\..\gen_utils.vhd
+.\..\memory.vhd
+.\..\ff_package.vhd
+.\..\conversions.vhd
+.\..\ecl_utils.vhd
+.\..\state_tab_package.vhd
+.\..\switch_pkg.vhd

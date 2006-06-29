@@ -1,0 +1,39 @@
+$WAVE4
+$RESOLUTION 1000
+I 1 "e#9#std_logicc9 UX01ZWLH-"
+$S 1 1 utmi_clkout
+$S 2 1 reset_sw
+$S 3 1 button_sw
+I 2 "a#29#std_logic_vector(13 downto 0)1 ricd13 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS OUT 596 2 14 "UUT/my_datapath/ram_addr"
+$SC +1-+13
+$OUT 595 1 20 0 read
+I 3 "a#29#std_logic_vector(31 downto 0)1 ricd31 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS IN +16 3 32 16 0 mem_din
+$SC +1-+31
+$OUT 594 1 16 0 ram_write
+$BUS OUT +50 3 32 16 0 mem_dout
+$SC +1-+31
+$BUS S 561 3 32 16 0 data_bus
+$SC +1-+31
+$BUS S 399 3 32 16 0 arg
+$SC +1-+31
+$BUS S +49 3 32 17 0 lu_out
+$SC +1-+31
+$BUS S +16 3 32 16 0 buf2
+$SC +1-+31
+$BUS S 513 2 14 16 0 free
+$SC +1-+13
+$BUS S 354 2 14 16 0 y1
+$SC +1-+13
+$BUS S +97 2 14 17 0 "2"
+$SC +1-+13
+$BUS S 369 2 14 16 0 parent
+$SC +1-+13
+$BUS S +1 2 14 16 1 roo
+$SC +1-+13
+P 0 1-3 354-+77 +34-676 CS "0"
+P 0 1 Stimulator "CLK:FRM:Override:100.000000;2;1;0;50;1:Clock:1:"
+P 0 2 Stimulator "FRM:FRM:Override:1 0 ns, 0 200 ns, 1 500 ns:Formula:1:"
+P 0 3 Stimulator "FRM:FRM:Override:1 0 ns, 0 700 ns, 1 1400 ns:Formula:1:"
+$ENDWAVE

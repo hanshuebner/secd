@@ -1,0 +1,8 @@
+(letrec(convert(cons(quote 2)ones))(convert lambda(l)(cons(head l)(convert
+(normalise(quote 2)(cons(quote 0)(mult(tail l)))))))(ones cons(quote 1)
+ones)(mult lambda(l)(cons(mul(quote 10)(head l))(mult(tail l))))(normalise
+lambda(c l)(let(if(eq(div e c)(div(add e(quote 9))c))(cons(add d(div e c
+))(normalise(add c(quote 1))(cons(rem e c)x)))(carry c(cons d(normalise
+(add c(quote 1))(cons e x)))))(d head l)(e head(tail l))(x tail(tail l)
+)))(carry lambda(c l)(let(cons(add d(div e c))(cons(rem e c)x))(d head l
+)(e head(tail l))(x tail(tail l)))))

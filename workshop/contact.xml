@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="website.xsl" ?>
+ <page name="contact" title="Contact">
+  Please contact <a href="mailto:hans.huebner@gmail.com">Hans
+  Hübner</a> for inquiries about the breakout group.  <a
+  href="mailto:pc@p-cos.net">Pascal Costanza</a> is the primary
+  contact for the <a href="http://lisp-ecoop.bknr.net">ECOOP06 LISP
+  Workshop</a>.
+  <p>
+   <strong>
+    The number of workshop participants is limited!  If you want to
+    attend, it is mandatory that you first contact <a
+    href="mailto:pc@p-cos.net">Pascal Costanza</a>
+    before registering through the ECOOP06 web site.
+   </strong>
+  </p>
+ </page>
+ 

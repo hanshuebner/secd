@@ -1,0 +1,5 @@
+(restore(def list(lambda(l)(if(eq l(quote NIL))(quote NIL)(cons newline
+(cons(head(head l))(list(tail l)))))))(def newline(chr(quote 13)))(def palindromes
+(logic(list(all(x)(x <> x)))(forall(x)(x = NIL + x))(forall(a x y z)((a
+.x)=(a.y)+ z)(x = y + z))(fact(NIL <> NIL))(forall(a x y z)((a.x)<> y)(
+x <> z)(y = z +(a))))))

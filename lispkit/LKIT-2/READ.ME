@@ -1,0 +1,35 @@
+Hi!
+
+This is in lieu of any real documentation.
+
+The system was published in Peter Henderson : Functional Programming (Prentice
+Hall: 1980) and I first implemented it on my Apple II in UCSD Pascal. It was 
+then moved to the VAX 780 by Mike Bartelson and Cathy Saba in 1983 - still in
+Pascal. It was then lost from the VAX.
+
+It was then rewritten in C, version running on a Mac (2 Meg board) in LightspeedC. 
+It was also rewritten to run onthe Intel Hypercube the department acquired in 1987,
+and was implemented as a "parallel RPC environment" on the Hypercube. Several 
+students (David Shulman among them) wre involved inthe experiment.
+
+It was finally ported to ANSI C, running on several architectures.
+
+Bugs:  the force and delay primitives lead to some obscure and intermittent bugs:
+on return from a garbage collection, sometimes an opcode of ZERO appears.
+It is not known whether the bug is in the garbage collector or in the primitives.
+
+When you RUN it, it first asks about dumping registers, then, later, about
+opcodes. If you are doing no debugging of a LISPKIT program, answer N.
+It will then ask about a function file - give it the file name for the file
+holding the code - LISPKIT.LKC is the code file for the compiler. It will 
+eventually ask for an argument file. Any one of the *.LKS files is OK - they
+are the LISPKIT SOURCE files.It will ask, at some point, for the name of the 
+file to send the output to, and whether you want things echoed at the console.
+I would suggest using the console at first for output.
+
+Say that you loaded LISPKIT.LKC, then you loaded NQUEEN.LKS as argument file
+and directed the output to NQUEEN.LKC - the compiled code file. You can then
+answer y to the request for loading a new function, give it the NQUEEN.LKC
+file, give it CONSOLE for argument file and the type 8&<CR> at the prompt >.
+This should give you a solution to the 8 queen problem. This is entirely
+feasible on the Mac - up to 11 queens takes a couple of minutes.

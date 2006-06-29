@@ -1,0 +1,897 @@
+$WAVE4
+$RESOLUTION 1000
+$ENDTIME 9800000
+I 1 "e#9#std_logicc9 UX01ZWLH-"
+$S 1 1 clk
+$S 2 1 reset
+$S 3 1 busy
+I 2 "a#29#std_logic_vector(31 downto 0)1 ricd31 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS S 4 2 32 din32
+$SC 5-36
+$BUS S +1 2 32 dout32
+$SC +1-69
+I 3 "a#29#std_logic_vector(13 downto 0)1 ricd13 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS S +1 3 14 addr32
+$SC +1-84
+$S +1 1 read32_enable
+$S +1 1 0 9 write
+I 4 "a#28#std_logic_vector(7 downto 0)1 ricd7 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS S +1 4 8 din8
+$SC +1-+7
+$BUS S +1 4 8 dout8
+$SC +1-+7
+I 5 "a#29#std_logic_vector(15 downto 0)1 ricd15 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS S +1 5 16 addr8
+$SC +1-+15
+$S +1 1 read8_enable
+$S +1 1 0 8 write
+$S +1 1 ram_oen
+$S +1 1 4 2 c
+$S +1 1 4 2 w
+$BUS S +1 5 16 ram_io
+$SC +1-+15
+I 6 "a#29#std_logic_vector(20 downto 0)1 ricd20 0 e#9#std_logicc9 UX01ZWLH-"
+$BUS S +1 6 21 ram_a
+$SC +1-+20
+$S +1 1 ram_bhen
+$S +1 1 5 2 l
+P 0 1-167 CS "0"
+$WAVES 1
+=0 T 0
+=1 D 0 1
+R 1 98 =2 D 100k 1
+$VALUES
+V 1
+U
+R 2 49 1 0
+V 1
+1
+$END
+$WAVES 2
+*0
+*1
+=3 D 200k 1
+$VALUES
+V 3
+U
+1
+0
+$END
+$WAVES 3
+*0
+=4 D 0 2
+=5 D 400k 2
+=6 D 600k 2
+R 2 12 =7 D 200k 2 *5
+R 2 2 *7 *6
+$VALUES
+V 1
+U
+R 2 15 0 1
+V 1
+0
+$END
+$WAVES 5-8 +5 +2 +3-+4/2 +1 +1 +3-+2 +3-+2
+*0
+=8 D 300k 1
+$VALUES
+V 2
+U
+1
+$END
+$WAVES 9-+3 +2 +2 +1-+4/2 +4 +1 +4 +1 +4 +1 71-83
+*0
+*8
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 38 +1 +2 +5 +2 +3
+*0
+=9 D 8600k 2
+=10 D 800k 2
+$VALUES
+V 3
+U
+1
+0
+$END
+$WAVES 40 53
+*0
+*9
+$VALUES
+V 2
+U
+1
+$END
+$WAVES 42 +1-+4/2 +3 +2
+*0
+*9
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 44 +5
+*0
+*9
+*10
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES +5 +4 +5
+*0
+=11 D 8800k 2
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 55 65
+*0
+*11
+$VALUES
+V 2
+U
+1
+$END
+$WAVES 56 +1 +3-+2 +4 +1
+*0
+*11
+*10
+$VALUES
+V 3
+U
+1
+0
+$END
+$WAVES 59 +5 +4 +1
+*0
+*11
+*10
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES 84
+*0
+*8
+=12 D 8700k 3
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES +1
+*0
+*1
+=13 D 8200k 3
+=14 D 200k 3
+=15 D 600k 3
+*14
+$VALUES
+V 1
+U
+R 2 2 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*1
+*8
+=16 D 100k 3
+$VALUES
+V 4
+U
+0
+1
+0
+$END
+$WAVES +2 +4
+*0
+=17 D 3400k 3
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 89 +4
+*0
+*17
+=18 D 1800k 3
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES 90 +4
+*0
+*17
+*15
+=19 D 1200k 3
+$VALUES
+V 4
+U
+0
+1
+0
+$END
+$WAVES 91 +4
+*0
+*17
+R 1 3 *15
+$VALUES
+V 1
+U
+R 2 2 1 0
+$END
+$WAVES +2
+*0
+=20 D 1400k 2
+=21 D 1800k 2
+$VALUES
+V 3
+U
+1
+0
+$END
+$WAVES +1
+*0
+*20
+R 1 3 *6
+=22 D 3000k 2
+*21
+$VALUES
+V 1
+U
+R 2 3 0 1
+$END
+$WAVES +1
+*0
+*20
+=23 D 1200k 2
+*6
+*22
+*6
+*23
+$VALUES
+V 1
+U
+R 2 3 1 0
+$END
+$WAVES +1
+*0
+*20
+*6
+=24 D 4800k 2
+R 1 2 *6
+$VALUES
+V 1
+U
+R 2 2 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*20
+*23
+*6
+$VALUES
+V 4
+U
+0
+1
+0
+$END
+$WAVES +1
+*0
+*20
+R 1 3 *6
+*24
+$VALUES
+V 1
+U
+R 2 2 1 0
+V 1
+1
+$END
+$WAVES +1
+*0
+*20
+*21
+*22
+*6
+*23
+$VALUES
+V 1
+U
+R 2 2 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*20
+*6
+*23
+=25 D 3600k 2
+R 1 2 *6
+$VALUES
+V 1
+U
+R 2 3 1 0
+$END
+$WAVES +2-+12
+*0
+=26 D 1000k 3
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*26
+=27 D 2400k 3
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES +1
+*0
+*26
+R 1 5 *19
+$VALUES
+V 1
+U
+R 2 3 0 1
+$END
+$WAVES +1
+*0
+*26
+R 1 11 *15
+$VALUES
+V 1
+U
+R 2 6 0 1
+$END
+$WAVES +1
+*0
+*1
+*26
+R 2 3 *14 =28 D 400k 3
+*14
+=29 D 2800k 3
+R 2 3 *14 *28
+*14
+$VALUES
+V 1
+U
+R 2 8 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*1
+*17
+R 2 3 *14 *28
+*14
+$VALUES
+V 1
+U
+R 2 4 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*4
+*23
+R 2 3 *5 *7
+*5
+=30 D 2600k 2
+R 2 4 *5 *7
+*6
+*7
+*6
+$VALUES
+V 1
+U
+R 2 10 1 0
+V 1
+1
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 12 *7 *5
+R 2 2 *7 *6
+$VALUES
+V 1
+U
+R 2 15 1 0
+V 1
+1
+$END
+$WAVES +1
+*0
+*4
+*5
+R 1 3 *7
+=31 D 2800k 2
+R 2 3 *7 *5
+*7
+$VALUES
+V 1
+U
+R 2 6 1 0
+V 1
+1
+$END
+$WAVES +2
+*0
+*4
+R 1 2 *5
+*7
+R 2 2 =32 D 801k 2 =33 D 399k 6
+R 2 2 *10 *5
+R 2 2 *32 *33
+=34 D 201k 2
+*7
+*33
+*34
+$VALUES
+V 6
+U
+Z
+1
+0
+Z
+1
+R 2 5 Z 0
+V 5
+Z
+1
+0
+Z
+0
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+=35 D 599k 6
+*34
+*7
+$VALUES
+V 1
+U
+R 2 3 Z 1
+R 4 2 Z 0 Z 1
+V 5
+Z
+1
+Z
+0
+1
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*35
+*34
+*7
+$VALUES
+V 1
+U
+R 2 4 Z 1
+R 4 2 Z 0 Z 1
+V 3
+Z
+1
+0
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*35
+*34
+$VALUES
+V 1
+U
+R 2 3 Z 1
+R 2 4 Z 0
+V 4
+Z
+1
+Z
+0
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*35
+*34
+$VALUES
+V 1
+U
+R 2 9 Z 0
+$END
+$WAVES +1
+*0
+*4
+*5
+*6
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*35
+*34
+*7
+$VALUES
+V 1
+U
+R 2 4 Z 0
+R 4 2 Z 1 Z 0
+V 3
+Z
+0
+1
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*7
+*33
+*34
+*7
+$VALUES
+V 6
+U
+Z
+0
+1
+Z
+0
+R 2 2 Z 1
+V 4
+Z
+0
+Z
+1
+R 2 2 Z 0
+V 4
+1
+Z
+1
+0
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+R 2 2 *32 *33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*34
+*7
+*33
+*34
+$VALUES
+V 3
+U
+Z
+0
+R 4 2 1 Z 0 Z
+R 2 3 0 Z
+V 4
+0
+1
+Z
+0
+$END
+$WAVES +1 +5
+*0
+*4
+*5
+*6
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*35
+*34
+$VALUES
+V 1
+U
+R 2 3 Z 1
+R 2 4 Z 0
+V 4
+Z
+1
+Z
+0
+$END
+$WAVES +-4
+*0
+*4
+*5
+*6
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*35
+*34
+$VALUES
+V 1
+U
+R 2 9 Z 0
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*7
+*33
+*34
+*7
+$VALUES
+V 6
+U
+Z
+1
+0
+Z
+1
+R 2 2 Z 0
+V 4
+Z
+1
+Z
+0
+R 2 2 Z 1
+V 4
+0
+Z
+0
+1
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*7
+*33
+*34
+$VALUES
+V 6
+U
+Z
+0
+1
+Z
+0
+R 2 5 Z 1
+V 5
+Z
+0
+1
+Z
+1
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*7
+*33
+*34
+$VALUES
+V 3
+U
+Z
+0
+R 4 2 1 Z 0 Z
+R 2 3 0 Z
+V 4
+0
+1
+Z
+0
+$END
+$WAVES +2
+*0
+*4
+*5
+*6
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*35
+*34
+*7
+$VALUES
+V 1
+U
+R 2 4 Z 0
+R 4 2 Z 1 Z 0
+V 3
+Z
+0
+1
+$END
+$WAVES +1
+*0
+*4
+R 1 2 *5
+*7
+*34
+*33
+*32
+*33
+R 2 2 *10 *5
+R 2 2 *32 *33
+*32
+*7
+*33
+*34
+$VALUES
+V 3
+U
+Z
+1
+R 4 2 0 Z 1 Z
+R 2 3 1 Z
+V 4
+1
+0
+Z
+1
+$END
+$WAVES +2-+18
+*0
+*4
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*4
+*25
+R 2 7 *5 *7
+*5
+=36 D 1000k 2
+*6
+$VALUES
+V 1
+U
+R 2 9 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*4
+*6
+R 4 3 *5 *20 *5 *7
+R 1 5 *5
+$VALUES
+V 1
+U
+R 2 9 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+R 1 2 *7
+*6
+R 2 6 *10 *5
+R 2 2 *7 *6
+$VALUES
+V 1
+U
+R 2 9 1 0
+V 1
+1
+$END
+$WAVES +1
+*0
+R 1 2 *7
+*6
+*7
+R 2 6 *5 *10
+*6
+*7
+*6
+$VALUES
+V 1
+U
+R 2 9 1 0
+V 1
+1
+$END
+$ENDWAVE

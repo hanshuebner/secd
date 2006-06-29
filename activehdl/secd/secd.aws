@@ -1,0 +1,15 @@
+[Version]
+Version=7.1
+[Designs]
+secd=.\secd.adf
+[Browser]
+sort=order
+mode=none
+[Order]
+order=1
+macro=
+[Expand]
+secd=1
+fmf=0
+[Settings]
+Active=secd

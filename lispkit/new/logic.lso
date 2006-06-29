@@ -1,0 +1,143 @@
+(letrec(letrec(lambda(kb)(append(quote(Logic LispKit interpreter: type end
+to finish))(interact kb(quote(patience))(quote((quote 50)))(quote NotDefined
+)(quote NIL))))(comment quote((Logic LispKit interpreter, Geraint Jones,
+PRG Oxford)(Last changed 11 November from the text of)(LispKit interpreter,
+Geraint Jones, PRG Oxford)(Last changed 8 November 1982)))(interact lambda
+(kb globaln globalv it database)(letrec(cons(chr(quote 13))(cons(quote >
+)line))(line if(eq tag(quote exit))(quote(Exit logic interpreter))(if(eq
+tag(quote message))(append message(interact(tail kb)newglobaln newglobalv
+it newdatabase))(if(eq tag(quote evaluation))(append(print expression)(
+interact(tail kb)globaln globalv expression database))(if(eq tag(quote restore
+))(interact(append file(let(if(eq(head t)(quote >))(tail t)t)(t tail kb
+)))globaln globalv it database)(cons(quote Error)(interact(tail kb)globaln
+globalv it database))))))(tag head result)(message head(tail result))(expression
+head(tail result))(file tail result)(newglobaln head(tail(tail result))
+)(newglobalv head(tail(tail(tail result))))(newdatabase head(tail(tail(
+tail(tail result)))))(result loop(head kb)globaln globalv it database)(
+print letrec(lambda(s)(first patience(flatten s)))(first lambda(n l)(if
+(eq l(quote NIL))(quote NIL)(if(eq n(quote 0))(let(cons stop(cons stop(
+cons stop(quote NIL))))(stop chr(quote 46)))(cons(head l)(first(sub n(quote
+1))(tail l))))))(patience evaluate(quote patience)globaln globalv it database
+)(flatten lambda(s)(letrec(if(isfunction s)(quote(**function**))(if(isvariable
+s)(subscript(tail s)(quote NIL))(if(atom s)(cons s(quote NIL))(cons open
+(append(flatten(head s))t)))))(t if(eq(head r)(quote NIL))(cons close(quote
+NIL))(if(eq(head r)open)(tail r)(cons point(append r(cons close(quote NIL
+))))))(r flatten(tail s))(subscript lambda(v s)(if(atom v)(cons v s)(subscript
+(tail v)(cons colon(cons(head v)s)))))(open chr(quote 40))(close chr(quote
+41))(point chr(quote 46))(colon chr(quote 58)))))))(loop lambda(command
+globaln globalv it database)(letrec(if(atom command)(if(eq command(quote
+end))exit(if(eq command(quote save))(save(cons(quote database)globaln)globaln
+globalv database)(if(eq command(quote vars))(message globaln globaln globalv
+database)(if(eq command(quote new))(message(quote(new database))globaln
+globalv(quote NIL))(evaluation expression)))))(if(eq keyword(quote def)
+)(if(eq name(quote Error))error(if(atom name)(message(cons name(quote(defined
+)))(cons name globaln)(cons value globalv)database)error))(if(eq keyword
+(quote cancel))(if(member name globaln)(message(cons name(quote(cancelled
+)))(remove name globaln globaln)(remove name globaln globalv)database)error
+)(if(eq keyword(quote save))(save(tail command)globaln globalv database
+)(if(eq keyword(quote restore))(restore(tail command))(if(if(eq keyword
+(quote fact))(quote T)(eq keyword(quote forall)))(message(quote(asserted
+))globaln globalv(cons command database))(evaluation expression)))))))(
+keyword head command)(name head'(tail' command))(value head'(tail'(tail'
+command)))(expression evaluate command globaln globalv it database)(remove
+lambda(a t l)(if(eq a(head t))(tail l)(cons(head l)(remove a(tail t)(tail
+l)))))(exit cons(quote exit)(quote NIL))(message lambda(m n v d)(cons(quote
+message)(cons m(cons n(cons v(cons d(quote NIL)))))))(evaluation lambda
+(e)(cons(quote evaluation)(cons e(quote NIL))))(error message(quote(Error
+))globaln globalv)(save lambda(l globaln globalv database)(letrec(message
+(cons(cons(quote restore)(deflist l globaln globalv(if(member(quote database
+)l)database(quote NIL))))(quote NIL))globaln globalv database)(deflist lambda
+(l n v d)(if(eq n(quote NIL))d(deflist l(tail n)(tail v)(if(member(head
+n)l)(cons(cons(quote def)(cons(head n)(cons(head v)(quote NIL))))d)d)))
+)))(restore lambda(f)(cons(quote restore)f))))(evaluate letrec(lambda(e
+globaln globalv it database)(letrec(eval e n v)(n cons(cons(quote it)(cons
+(quote database)globaln))(quote NIL))(v cons(cons it(cons(assemble database
+)(listeval globalv n v)))(quote NIL))))(eval lambda(e n v)(letrec(if(atom
+e)(associate e n v)(if(eq keyword(quote quote))text1(if(eq keyword(quote
+atom))(if(atom argument1)(quote T)(isvariable argument1))(if(eq keyword
+(quote head))(if(indivisible argument1)(quote Error)(head argument1))(if
+(eq keyword(quote tail))(if(indivisible argument1)(quote Error)(tail argument1
+))(if(eq keyword(quote cons))(cons(if(reserved argument1)(quote Error)argument1
+)argument2)(if(eq keyword(quote eq))(equal argument1 argument2)(if(eq keyword
+(quote leq))(leq argument1 argument2)(if(eq keyword(quote add))(add argument1
+argument2)(if(eq keyword(quote sub))(sub argument1 argument2)(if(eq keyword
+(quote mul))(mul argument1 argument2)(if(eq keyword(quote div))(if(eq argument2
+(quote 0))(quote Error)(div argument1 argument2))(if(eq keyword(quote rem
+))(if(eq argument2(quote 0))(quote Error)(rem argument1 argument2))(if(
+eq keyword(quote if))(if argument1 argument2 argument3)(if(eq keyword(quote
+lambda))(makefunction text1 text2 n v)(if(eq keyword(quote let))(let(eval
+text1 newn newv)(newn cons(names definitions)n)(newv cons(listeval(values
+definitions)n v)v))(if(eq keyword(quote letrec))(letrec(eval text1 newn
+newv)(newn cons(names definitions)n)(newv cons(listeval(values definitions
+)newn newv)v))(if(eq keyword(quote chr))(chr argument1)(if(eq keyword(quote
+all))(solve text1(tail' texts)(associate(quote database)n v))(if(eq keyword
+(quote logic))(letrec(eval text1 newn newv)(newn cons(quote(database))n
+)(newv cons(cons(dbappend(assemble(tail' texts))(associate(quote database
+)n v))(quote NIL))v)(dbappend lambda(n o)(if(eq n(quote NIL))o(if(atom n
+)(quote NIL)(cons(head n)(dbappend(tail n)o))))))(letrec(if(isfunction applicand
+)(eval body newn newv)(quote Error))(body tail(head function))(newn cons
+(head(head function))(head(tail function)))(newv cons arguments(tail(tail
+function)))(function tail applicand)(applicand eval(head e)n v)))))))))
+)))))))))))))(keyword head e)(arguments listeval texts n v)(argument1 head'
+arguments)(argument2 head'(tail' arguments))(argument3 head'(tail'(tail'
+arguments)))(definitions assoclist'(tail' texts))(texts tail e)(text1 head'
+texts)(text2 head'(tail' texts))))(listeval let(lambda(l n v)(map(e n v
+)l))(e lambda(n v)(lambda(x)(eval x n v))))(associate letrec(lambda(a n
+v)(if(eq n(quote NIL))(quote NotDefined)(if(member a(head n))(locate a(
+head n)(head v))(associate a(tail n)(tail v)))))(locate lambda(a n v)(if
+(atom v)(quote Error)(if(eq a(head n))(head v)(locate a(tail n)(tail v)
+)))))(names let(lambda(d)(map v d))(v lambda(b)(head b)))(values let(lambda
+(d)(map v d))(v lambda(b)(tail b)))(indivisible lambda(c)(if(atom c)(quote
+T)(if(isfunction c)(quote T)(isvariable c))))(solve letrec(lambda(variables
+constraints database)(realise variables(loop(quote 1)(cons(cons(setvars
+(quote 0)(markvars variables constraints))(quote NIL))(quote NIL))database
+)))(realise letrec(lambda(variables environments)(map(instantiate(map sub0
+variables))environments))(sub0 lambda(v)(subscript(quote 0)(makevariable
+v)))(instantiate lambda(v)(lambda(e)(instance v e)))(instance lambda(v e
+)(if(isvariable v)(if(defined v e)(instance(associate v e)e)v)(if(atom v
+)v(cons(instance(head v)e)(instance(tail v)e))))))(loop lambda(level waiting
+database)(letrec(if(eq waiting(quote NIL))(quote NIL)(append solved(loop
+(add(quote 1)level)resubmitted database)))(solved head deduction)(resubmitted
+tail deduction)(deduction deduce waiting(setvars level database))))(deduce
+lambda(waiting database)(letrec(if(eq waiting(quote NIL))(quote(NIL))(cons
+solved resubmitted))(solved if(eq constraints(quote NIL))(cons environment
+solved')solved')(resubmitted if(eq constraints(quote NIL))resubmitted'(
+append(resolve constraints environment database)resubmitted'))(constraints
+head(head waiting))(environment tail(head waiting))(solved' head rest)(
+resubmitted' tail rest)(rest deduce(tail waiting)database)))(resolve lambda
+(constraints environment database)(letrec(if(eq database(quote NIL))(quote
+NIL)(if(eq unification(quote impossible))rest(cons(cons relaxation unification
+)rest)))(unification unify(head constraints)(head clause)environment)(relaxation
+append(tail clause)(tail constraints))(clause head database)(rest resolve
+constraints environment(tail database))))(unify lambda(a b substitution
+)(letrec(if(equal a' b')substitution(if(isvariable a')(bind a' b' substitution
+)(if(isvariable b')(bind b' a' substitution)(if(if(atom a')(quote T)(atom
+b'))(quote impossible)(if(eq unifyheads(quote impossible))(quote impossible
+)unifytails)))))(a' associate a substitution)(b' associate b substitution
+)(unifyheads unify(head a')(head b')substitution)(unifytails unify(tail
+a')(tail b')unifyheads)))(defined lambda(v e)(if(eq e(quote NIL))(quote
+F)(if(equal v(head(head e)))(quote T)(defined v(tail e)))))(associate letrec
+(lambda(v e)(if(defined v e)(associate(immediate v e)e)v))(immediate lambda
+(v e)(if(equal v(head(head e)))(tail(head e))(immediate v(tail e)))))(bind
+lambda(n v e)(cons(cons n v)e))(setvars lambda(i e)(if(isvariable e)(subscript
+i e)(if(atom e)e(cons(setvars i(head e))(setvars i(tail e))))))(subscript
+lambda(i v)(makevariable(cons i(tail v)))))(assemble lambda(d)(letrec(if
+(atom d)(quote NIL)(if(atom clause)rest(if(eq keyword(quote fact))(cons
+(tail clause)rest)(if(eq keyword(quote forall))(cons(markvars(head(tail
+clause))(tail(tail clause)))rest)rest))))(clause head d)(keyword head clause
+)(rest assemble(tail d))))(markvars lambda(v e)(if(atom e)(if(member e v
+)(makevariable e)e)(cons(markvars v(head e))(markvars v(tail e)))))))(append
+lambda(a b)(if(atom a)b(cons(head a)(append(tail a)b))))(member lambda(
+a l)(if(atom l)(quote F)(if(eq a(head l))(quote T)(member a(tail l)))))
+(equal lambda(a b)(if(eq a b)(quote T)(if(if(atom a)(quote T)(atom b))(
+quote F)(if(equal(head a)(head b))(equal(tail a)(tail b))(quote F)))))(
+map lambda(f l)(if(atom l)l(cons(f(head l))(map f(tail l)))))(head' lambda
+(c)(if(atom c)(quote Error)(head c)))(tail' lambda(c)(if(atom c)(quote Error
+)(tail c)))(assoclist' lambda(l)(if(atom l)(quote NIL)(if(atom(head l))
+(assoclist'(tail l))(if(atom(head(head l)))(cons(head l)(assoclist'(tail
+l)))(assoclist'(tail l))))))(isvariable lambda(v)(if(atom v)(quote F)(eq
+(head v)(quote VariableTag))))(makevariable lambda(v)(cons(quote VariableTag
+)v))(isfunction lambda(f)(if(atom f)(quote F)(eq(head f)(quote FunctionTag
+))))(makefunction lambda(formals body n v)(cons(quote FunctionTag)(cons
+(cons formals body)(cons n v))))(reserved lambda(a)(if(eq a(quote FunctionTag
+))(quote T)(eq a(quote VariableTag)))))

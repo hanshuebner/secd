@@ -1,0 +1,26 @@
+(letrec(letrec(lambda(input)(librarian(head input)(tail input)predefined
+))(comment quote((S-expression librarian)(Geraint Jones, PRG, Oxford)(last
+changed 29 March 1983)))(predefined quote NIL)(librarian lambda(expression
+input assoclist)(letrec(if(eq includes(quote NIL))(append finalprompt(output
+expression input))(append prompts(librarian(instance expression bindings
+)restofinput bindings)))(includes requirements expression)(do_bindings bind_names
+includes input assoclist)(prompts 1 do_bindings)(restofinput 2 do_bindings
+)(bindings 3 do_bindings)(finalprompt quote(Type 'end' to finish, anything
+else to print result))))(requirements lambda(expression)(if(atom expression
+)(quote NIL)(if(isinclude expression)(cons(filename expression)(quote NIL
+))(append(requirements(head expression))(requirements(tail expression))
+))))(instance lambda(expression assoclist)(if(atom expression)expression
+(if(isinclude expression)(associate(filename expression)assoclist)(cons
+(instance(head expression)assoclist)(instance(tail expression)assoclist
+)))))(output lambda(result input)(if(eq(head input)(quote end))(quote(Exit
+librarian))(cons result(output result(tail input)))))(bind_names lambda
+(namelist input assoclist)(letrec(if(eq namelist(quote NIL))(list(quote
+NIL)input assoclist)(if(defined(head namelist)assoclist)(bind_names(tail
+namelist)input assoclist)(list(append(1 bind_head)(1 bind_tail))(2 bind_tail
+)(3 bind_tail))))(bind_head bind_new(head namelist)(head input))(bind_new
+lambda(name definition)(list(cons name(cons(quote =)(sequence definition
+(quote NIL))))name definition))(bind_tail bind_names(tail namelist)(tail
+input)(bind(2 bind_head)(3 bind_head)assoclist)))))(isinclude lambda(e)
+(unless(atom e)(and(eq(head e)(quote include))(unless(atom(tail e))(and
+(atom(head(tail e)))(eq(tail(tail e))(quote NIL)))))))(filename lambda(
+e)(head(tail e))))

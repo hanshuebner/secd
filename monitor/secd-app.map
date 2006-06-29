@@ -1,0 +1,54 @@
+ASxxxx Linker V04.10,  page 1.
+Hexidecimal  [16-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+.  .ABS.                   0000        0000 =           0. bytes (ABS,OVR,CSEG)
+
+   Value  Global      Value  Global      Value  Global      Value  Global   
+   -----  ------      -----  ------      -----  ------      -----  ------   
+    0000  l__DATA  |   0000  l__CODE  |   0000  s__DATA  |   0000  s__CODE 
+    0000  .__.ABS. |   0000  s_sysrom |   0163  l_sysrom |   E000  _acia_co
+    E001  _acia_da |   E0E0  _led     |   E0F0  _lcd     |   E140  _secd_st
+    E141  _secd_ad |   E200  _secd_me
+ASxxxx Linker V04.10,  page 2.
+Hexidecimal  [16-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+sysrom                     0000        0163 =         355. bytes (REL,CON,CSEG)
+
+   Value  Global      Value  Global      Value  Global      Value  Global   
+   -----  ------      -----  ------      -----  ------      -----  ------   
+    0000  start    |   000A  _acia_pu |   0010  L2       |   001A  L3      
+    0023  _acia_ge |   0025  L5       |   002F  L6       |   0034  _acia_pu
+    003A  L8       |   004E  L7       |   0052  _blink   |   0058  L11     
+    0062  _clear_s |   006B  L14      |   007C  L17      |   0093  L16     
+    009B  L13      |   009F  _lcd_ini |   00A3  _lcd_put |   00B2  _lcd_put
+    00B8  L23      |   00CC  L22      |   00D0  _program |   0108  _setup_s
+    0111  L26      |   0133  L27      |   014E  _main   
+ASxxxx Linker V04.10,  page 3.
+
+Files Linked                              [ module(s) ]
+
+app-start                                 [  ]
+secd-app                                  [  ]
+
+ASxxxx Linker V04.10,  page 4.
+
+User Base Address Definitions
+
+sysrom = 0x0000
+ASxxxx Linker V04.10,  page 5.
+
+User Global Definitions
+
+_acia_control = 0xe000
+_acia_data = 0xe001
+_led = 0xe0e0
+_lcd = 0xe0f0
+_secd_status = 0xe140
+_secd_address_high = 0xe141
+_secd_mem = 0xe200
+
+

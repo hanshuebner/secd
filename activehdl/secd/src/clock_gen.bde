@@ -1,0 +1,756 @@
+SCHM0103
+
+HEADER
+{
+ FREEID 95
+ VARIABLES
+ {
+  #ARCHITECTURE="my_clock_gen"
+  #BLOCKTABLE_FILE="#HDL2DIAGRAM.bde"
+  #ENTITY="clock_gen"
+  #LANGUAGE="VHDL"
+  AUTHOR="Hans Hübner"
+  COMPANY="."
+  CREATIONDATE="03.06.2006"
+  SOURCE=".\\..\\..\\vhdl\\clock_gen.vhd"
+ }
+}
+
+PAGE ""
+{
+ PAGEHEADER
+ {
+  PAGESIZE (2401,1640)
+  MARGINS (200,200,200,200)
+  RECT (0,0,0,0)
+ }
+ 
+ BODY
+ {
+  VHDLDESIGNUNITHDR  1, 0, 0
+  {
+   LABEL "Design Unit Header"
+   TEXT 
+"library secd;\n"+
+"        use secd.secd_defs.all;\n"+
+"library ieee;\n"+
+"        use ieee.std_logic_1164.all;\n"+
+"        use ieee.numeric_std.all;\n"+
+"        use secd.secd_defs.all;"
+   RECT (220,260,620,571)
+   MARGINS (20,20)
+   MULTILINE
+   SYNTAXCOLORED
+   SHOWLABEL
+   SHOWTEXT
+   CORNER 10
+  }
+  ARCHITECTUREDECLARATIONS  2, 0, 0
+  {
+   LABEL "Architecture Declaration"
+   TEXT 
+"type state is (s_idle, s_read, s_alu, s_write, s_wait, s_next);\n"+
+""
+   RECT (220,571,620,750)
+   MARGINS (20,20)
+   MULTILINE
+   SYNTAXCOLORED
+   SHOWLABEL
+   SHOWTEXT
+   CORNER 10
+  }
+  PROCESS  3, 0, 0
+  {
+   LABEL "clock_gen"
+   TEXT 
+"clock_gen : process (current_state,ram_busy,alu_ins)\n"+
+"                       begin\n"+
+"                         phi_read <= '0';\n"+
+"                         phi_alu <= '0';\n"+
+"                         phi_write <= '0';\n"+
+"                         phi_next <= '0';\n"+
+"                         case current_state is \n"+
+"                           when s_idle => \n"+
+"                              next_state <= s_read;\n"+
+"                           when s_read => \n"+
+"                              phi_read <= '1';\n"+
+"                              if alu_ins = '0' then\n"+
+"                                 next_state <= s_write;\n"+
+"                              else \n"+
+"                                 next_state <= s_alu;\n"+
+"                              end if;\n"+
+"                           when s_alu => \n"+
+"                              phi_alu <= '1';\n"+
+"                              next_state <= s_write;\n"+
+"                           when s_write => \n"+
+"                              phi_write <= '1';\n"+
+"                              next_state <= s_next;\n"+
+"                           when s_next => \n"+
+"                              phi_next <= '1';\n"+
+"                              if ram_busy = '1' then\n"+
+"                                 next_state <= s_wait;\n"+
+"                              else \n"+
+"                                 next_state <= s_read;\n"+
+"                              end if;\n"+
+"                           when s_wait => \n"+
+"                              if ram_busy = '0' then\n"+
+"                                 next_state <= s_read;\n"+
+"                              end if;\n"+
+"                         end case;\n"+
+"                       end process;\n"+
+"                      "
+   RECT (1020,240,1421,640)
+   MARGINS (20,20)
+   SYNTAXCOLORED
+   SHOWTEXT
+   VTX (  39, 43, 51, 63, 67, 75, 79, 83 )
+   VARIABLES
+   {
+    #UPDATE_SENS_LIST="0"
+   }
+   LIST (  75, 79, 83 )
+  }
+  INSTANCE  4, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Input"
+    #LIBRARY="#terminals"
+    #REFERENCE="alu_ins"
+    #SYMBOL="Input"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (860,300)
+   VERTEXES ( (2,76) )
+  }
+  PROCESS  5, 0, 0
+  {
+   LABEL "set_next_state"
+   TEXT 
+"set_next_state : process (clk,next_state)\n"+
+"                       begin\n"+
+"                         if reset = '1' then\n"+
+"                            current_state <= s_idle;\n"+
+"                         elsif rising_edge(clk) then\n"+
+"                            current_state <= next_state;\n"+
+"                         end if;\n"+
+"                       end process;\n"+
+"                      "
+   RECT (1580,680,1981,1020)
+   MARGINS (20,20)
+   SYNTAXCOLORED
+   SHOWTEXT
+   VTX (  31, 35, 47, 71 )
+   VARIABLES
+   {
+    #UPDATE_SENS_LIST="0"
+   }
+   LIST (  35, 71 )
+  }
+  INSTANCE  6, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Input"
+    #LIBRARY="#terminals"
+    #REFERENCE="clk"
+    #SYMBOL="Input"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (860,700)
+   VERTEXES ( (2,36) )
+  }
+  INSTANCE  7, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Output"
+    #LIBRARY="#terminals"
+    #REFERENCE="phi_alu"
+    #SYMBOL="Output"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (1580,460)
+   VERTEXES ( (2,59) )
+  }
+  INSTANCE  8, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Output"
+    #LIBRARY="#terminals"
+    #REFERENCE="phi_next"
+    #SYMBOL="Output"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (1580,300)
+   VERTEXES ( (2,40) )
+  }
+  INSTANCE  9, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Output"
+    #LIBRARY="#terminals"
+    #REFERENCE="phi_read"
+    #SYMBOL="Output"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (1580,400)
+   VERTEXES ( (2,55) )
+  }
+  INSTANCE  10, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Output"
+    #LIBRARY="#terminals"
+    #REFERENCE="phi_write"
+    #SYMBOL="Output"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (1580,340)
+   VERTEXES ( (2,44) )
+  }
+  INSTANCE  11, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Input"
+    #LIBRARY="#terminals"
+    #REFERENCE="ram_busy"
+    #SYMBOL="Input"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (860,340)
+   VERTEXES ( (2,80) )
+  }
+  INSTANCE  12, 0, 0
+  {
+   VARIABLES
+   {
+    #COMPONENT="Input"
+    #LIBRARY="#terminals"
+    #REFERENCE="reset"
+    #SYMBOL="Input"
+    #VHDL_TYPE="std_logic"
+   }
+   COORD (860,740)
+   VERTEXES ( (2,48) )
+  }
+  TEXT  13, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (808,300,808,300)
+   ALIGN 6
+   PARENT 4
+  }
+  TEXT  14, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (808,700,808,700)
+   ALIGN 6
+   PARENT 6
+  }
+  TEXT  15, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (1632,460,1632,460)
+   ALIGN 4
+   PARENT 7
+  }
+  TEXT  16, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (1632,300,1632,300)
+   ALIGN 4
+   PARENT 8
+  }
+  TEXT  17, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (1632,400,1632,400)
+   ALIGN 4
+   PARENT 9
+  }
+  TEXT  18, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (1632,340,1632,340)
+   ALIGN 4
+   PARENT 10
+  }
+  TEXT  19, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (808,340,808,340)
+   ALIGN 6
+   PARENT 11
+  }
+  TEXT  20, 0, 0
+  {
+   TEXT "$#REFERENCE"
+   RECT (808,740,808,740)
+   ALIGN 6
+   PARENT 12
+  }
+  NET WIRE  21, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="alu_ins"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  22, 0, 0
+  {
+   VARIABLES
+   {
+    #INITIAL_VALUE="s_idle"
+    #NAME="current_state"
+    #VHDL_TYPE="state"
+   }
+  }
+  NET WIRE  23, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="phi_alu"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  24, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="phi_next"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  25, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="phi_read"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  26, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="phi_write"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  27, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="ram_busy"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  28, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="reset"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  29, 0, 0
+  {
+   VARIABLES
+   {
+    #NAME="clk"
+    #VHDL_TYPE="std_logic"
+   }
+  }
+  NET WIRE  30, 0, 0
+  {
+   VARIABLES
+   {
+    #INITIAL_VALUE="s_idle"
+    #NAME="next_state"
+    #VHDL_TYPE="state"
+   }
+  }
+  VTX  31, 0, 0
+  {
+   COORD (1981,700)
+  }
+  VTX  32, 0, 0
+  {
+   COORD (2060,700)
+  }
+  WIRE  33, 0, 0
+  {
+   NET 22
+   VTX 31, 32
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  34, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (2020,700,2020,700)
+   ALIGN 9
+   PARENT 33
+  }
+  VTX  35, 0, 0
+  {
+   COORD (1580,700)
+  }
+  VTX  36, 0, 0
+  {
+   COORD (860,700)
+  }
+  WIRE  37, 0, 0
+  {
+   NET 29
+   VTX 35, 36
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  38, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1220,700,1220,700)
+   ALIGN 9
+   PARENT 37
+  }
+  VTX  39, 0, 0
+  {
+   COORD (1421,300)
+  }
+  VTX  40, 0, 0
+  {
+   COORD (1580,300)
+  }
+  WIRE  41, 0, 0
+  {
+   NET 24
+   VTX 39, 40
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  42, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1500,300,1500,300)
+   ALIGN 9
+   PARENT 41
+  }
+  VTX  43, 0, 0
+  {
+   COORD (1421,340)
+  }
+  VTX  44, 0, 0
+  {
+   COORD (1580,340)
+  }
+  WIRE  45, 0, 0
+  {
+   NET 26
+   VTX 43, 44
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  46, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1500,340,1500,340)
+   ALIGN 9
+   PARENT 45
+  }
+  VTX  47, 0, 0
+  {
+   COORD (1580,740)
+  }
+  VTX  48, 0, 0
+  {
+   COORD (860,740)
+  }
+  WIRE  49, 0, 0
+  {
+   NET 28
+   VTX 47, 48
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  50, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1220,740,1220,740)
+   ALIGN 9
+   PARENT 49
+  }
+  VTX  51, 0, 0
+  {
+   COORD (1421,320)
+  }
+  VTX  52, 0, 0
+  {
+   COORD (1520,320)
+  }
+  WIRE  53, 0, 0
+  {
+   NET 25
+   VTX 51, 52
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  54, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1470,320,1470,320)
+   ALIGN 9
+   PARENT 53
+  }
+  VTX  55, 0, 0
+  {
+   COORD (1580,400)
+  }
+  VTX  56, 0, 0
+  {
+   COORD (1520,400)
+  }
+  WIRE  57, 0, 0
+  {
+   NET 25
+   VTX 55, 56
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  58, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1550,400,1550,400)
+   ALIGN 9
+   PARENT 57
+  }
+  VTX  59, 0, 0
+  {
+   COORD (1580,460)
+  }
+  VTX  60, 0, 0
+  {
+   COORD (1540,460)
+  }
+  WIRE  61, 0, 0
+  {
+   NET 23
+   VTX 59, 60
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  62, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1560,460,1560,460)
+   ALIGN 9
+   PARENT 61
+  }
+  VTX  63, 0, 0
+  {
+   COORD (1421,280)
+  }
+  VTX  64, 0, 0
+  {
+   COORD (1540,280)
+  }
+  WIRE  65, 0, 0
+  {
+   NET 23
+   VTX 63, 64
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  66, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1480,280,1480,280)
+   ALIGN 9
+   PARENT 65
+  }
+  VTX  67, 0, 0
+  {
+   COORD (1421,260)
+  }
+  VTX  68, 0, 0
+  {
+   COORD (1560,260)
+  }
+  WIRE  69, 0, 0
+  {
+   NET 30
+   VTX 67, 68
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  70, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1490,260,1490,260)
+   ALIGN 9
+   PARENT 69
+  }
+  VTX  71, 0, 0
+  {
+   COORD (1580,720)
+  }
+  VTX  72, 0, 0
+  {
+   COORD (1560,720)
+  }
+  WIRE  73, 0, 0
+  {
+   NET 30
+   VTX 71, 72
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  74, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1570,720,1570,720)
+   ALIGN 9
+   PARENT 73
+  }
+  VTX  75, 0, 0
+  {
+   COORD (1020,300)
+  }
+  VTX  76, 0, 0
+  {
+   COORD (860,300)
+  }
+  WIRE  77, 0, 0
+  {
+   NET 21
+   VTX 75, 76
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  78, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (940,300,940,300)
+   ALIGN 9
+   PARENT 77
+  }
+  VTX  79, 0, 0
+  {
+   COORD (1020,340)
+  }
+  VTX  80, 0, 0
+  {
+   COORD (860,340)
+  }
+  WIRE  81, 0, 0
+  {
+   NET 27
+   VTX 79, 80
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  82, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (940,340,940,340)
+   ALIGN 9
+   PARENT 81
+  }
+  VTX  83, 0, 0
+  {
+   COORD (1020,320)
+  }
+  VTX  84, 0, 0
+  {
+   COORD (1000,320)
+  }
+  WIRE  85, 0, 0
+  {
+   NET 22
+   VTX 83, 84
+   VARIABLES
+   {
+    #NAMED="1"
+   }
+  }
+  TEXT  86, 0, 1
+  {
+   TEXT "$#NAME"
+   RECT (1010,320,1010,320)
+   ALIGN 9
+   PARENT 85
+  }
+  VTX  87, 0, 0
+  {
+   COORD (2060,220)
+  }
+  VTX  88, 0, 0
+  {
+   COORD (1000,220)
+  }
+  WIRE  89, 0, 0
+  {
+   NET 22
+   VTX 87, 88
+  }
+  WIRE  90, 0, 0
+  {
+   NET 22
+   VTX 87, 32
+  }
+  WIRE  91, 0, 0
+  {
+   NET 22
+   VTX 88, 84
+  }
+  WIRE  92, 0, 0
+  {
+   NET 23
+   VTX 64, 60
+  }
+  WIRE  93, 0, 0
+  {
+   NET 25
+   VTX 52, 56
+  }
+  WIRE  94, 0, 0
+  {
+   NET 30
+   VTX 68, 72
+  }
+ }
+ 
+}
+

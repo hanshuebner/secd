@@ -1,0 +1,63 @@
+(letrec(letrec(interpreter(quote muFP)eval mufp_lib)(interpreter lambda
+(name eval predefined)(letrec(lambda(kb)(append(list name(quote Interpreter
+))(interpret kb(quote NIL))))(interpret lambda(kb env)(letrec(append(list
+newline(quote >))(if(eq first(quote end))(list(quote Exit)name(quote Interpreter
+))(if(eq first(quote vars))(append(map head env)irest)(if(eq first(quote
+dump))(append(reduce append(cons(quote NIL)(map(lambda(x)(list(showdef(
+head x))newline))env)))irest)(if(atom first)irest(if(eq(head first)(quote
+def))(interpret(tail kb)(update env(el(quote 2)first)(el(quote 3)first)
+))(if(eq(head first)(quote show))(cons(pretty(showdef(el(quote 2)first)
+))irest)(if(eq(head first)(quote cancel))(interpret(tail kb)(unbind(el(
+quote 2)first)env))(if(eq(head first)(quote run))(append(run(el(quote 2
+)first)(untilend(tail kb)))(interpret(afterend kb)env))(if(eq(head first
+)(quote edit))(let(append(edit_output e)(interpret(afterend kb)(update env
+(el(quote 2)first)(edit_file e))))(e edit(associate(el(quote 2)first)env
+)(untilend(tail kb))))irest))))))))))(showdef lambda(n)(list(quote def)
+n(associate n env)))(irest interpret(tail kb)env)(first head kb)(run lambda
+(exp input)(letrec((eval exp realenv)input)(realenv append(map(lambda(x
+)(cons(head x)(eval(tail x)realenv)))env)predefined)))))))(eval lambda(
+exp env)(fp_eval((mufp_eval(lambda(a)(defined a mufp_lib)))exp)env))(mufp_eval
+lambda(infp)(letrec mufp_eval(mufp_eval lambda(e)(let(if(atom e)(if(infp
+e)stateless e)(if(eq(head e)(quote select))stateless(if(eq(head e)(quote
+constant))stateless(if(eq(head e)(quote alpha))(list(quote compose)(quote
+zip)(list(quote alpha)(mufp_eval(el(quote 2)e)))(quote zip))(if(eq(head
+e)(quote slash))(list(quote compose)(list(quote slash)(list(quote compose
+)(mufp_eval(el(quote 2)e))(quote zip)))(quote zip))(if(eq(head e)(quote
+construct))(list(quote compose)(quote zip)(cons(quote construct)(map mufp_eval
+(tail e))))(if(eq(head e)(quote if))(list(quote compose)(quote(alpha(if
+(select 1)(select 2)(select 3))))(quote zip)(cons(quote construct)(map mufp_eval
+(tail e))))(if(eq(head e)(quote mu))(list(quote loop)(list(quote compose
+)(quote zip)(mufp_eval(el(quote 2)e))(quote zip))(el(quote 3)e))(if(eq(
+head e)(quote compose))(cons(quote compose)(map mufp_eval(tail e)))(quote
+**synerr**))))))))))(stateless list(quote alpha)e)))))(fp_eval lambda(exp
+env)(letrec(fp_eval exp)(fp_eval lambda(f)(if(atom f)(if(defined f env)
+(associate f env)(lambda(y)(quote **liberr**)))(if(eq(head f)(quote select
+))(lambda(x)(el(el(quote 2)f)x))(if(eq(head f)(quote compose))(reduce(lambda
+(x y)(lambda(z)(x(y z))))(map fp_eval(tail f)))(if(eq(head f)(quote construct
+))(construct(map fp_eval(tail f)))(if(eq(head f)(quote alpha))(let(lambda
+(x)(map g x))(g fp_eval(el(quote 2)f)))(if(eq(head f)(quote slash))(let
+(lambda(x)(reduce(lambda(x y)(g(list x y)))x))(g fp_eval(el(quote 2)f))
+)(if(eq(head f)(quote constant))(lambda(x)(el(quote 2)f))(if(eq(head f)
+(quote loop))(let(lambda(i)(letrec(el(quote 1)p)(p g(list i(cons(el(quote
+3)f)(el(quote 2)p))))))(g fp_eval(el(quote 2)f)))(if(eq(head f)(quote if
+))(let(lambda(x)(let(if(eq y(quote 1))(b x)(if(eq y(quote 0))(c x)(quote
+**iferr**)))(y a x)))(a fp_eval(el(quote 2)f))(b fp_eval(el(quote 3)f))
+(c fp_eval(el(quote 4)f)))(lambda(x)(quote **synerror**))))))))))))))(mufp_lib
+list(cons(quote appendl)(lambda(x)(cons(head x)(el(quote 2)x))))(cons(quote
+appendr)(lambda(x)(append(head x)(list(el(quote 2)x)))))(cons(quote hd)
+head)(cons(quote tl)tail)(cons(quote distl)(lambda(x)(map(lambda(y)(list
+(head x)y))(el(quote 2)x))))(cons(quote distr)(lambda(x)(map(lambda(y)(
+list y(el(quote 2)x)))(head x))))(cons(quote id)(lambda(x)x))(cons(quote
+zip)(letrec zip(zip lambda(a)(if(atom a)a(if(atom(head a))(head a)(let(
+cons(map head a')(zip(map tail a')))(a' map(lambda(x)(if(atom x)(quote(
+**ziperr**.**ziperr**))x))a)))))))(cons(quote eq)(lambda(x)(if(eq(el(quote
+1)x)(el(quote 2)x))(quote 1)(quote 0))))(cons(quote null)(lambda(x)(if(
+eq x(quote NIL))(quote 1)(quote 0))))(cons(quote add)(lambda(x)(add(el(
+quote 1)x)(el(quote 2)x))))(cons(quote sub)(lambda(x)(sub(el(quote 1)x)
+(el(quote 2)x))))(cons(quote mul)(lambda(x)(mul(el(quote 1)x)(el(quote 2
+)x))))(cons(quote div)(lambda(x)(div(el(quote 1)x)(el(quote 2)x))))(cons
+(quote rem)(lambda(x)(rem(el(quote 1)x)(el(quote 2)x))))))(reduce lambda
+(f l)(if(atom(tail l))(head l)(f(head l)(reduce f(tail l)))))(el lambda
+(n l)(if(atom l)(quote **elerr**)(if(eq n(quote 1))(head l)(el(sub n(quote
+1))(tail l)))))(construct lambda(l)(if(atom l)(lambda(x)l)(let(lambda(x
+)(cons(f x)(g x)))(f head l)(g construct(tail l))))))

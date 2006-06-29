@@ -1,0 +1,51 @@
+[Project]
+Current Flow=Multivendor
+VCS=0
+version=1
+Current Config=compile
+
+[Configurations]
+compile=fmf
+
+[Settings]
+LANGUAGE=VHDL
+FLOW_TYPE=Schematic
+FAMILY=
+SYNTH_TOOL=<none>
+IMPL_TOOL=<none>
+REFRESH_FLOW=1
+
+[Library]
+fmf=.\fmf.LIB
+
+[$LibMap$]
+fmf=.
+
+[Files]
+/h:\fpga\secd\fmf\gen_utils.vhd=-1
+/h:\fpga\secd\fmf\memory.vhd=-1
+/h:\fpga\secd\fmf\ff_package.vhd=-1
+/h:\fpga\secd\fmf\conversions.vhd=-1
+/h:\fpga\secd\fmf\ecl_utils.vhd=-1
+/h:\fpga\secd\fmf\state_tab_package.vhd=-1
+/h:\fpga\secd\fmf\switch_pkg.vhd=-1
+
+[Files.Data]
+h:\fpga\secd\fmf\gen_utils.vhd=VHDL Source Code
+h:\fpga\secd\fmf\memory.vhd=VHDL Source Code
+h:\fpga\secd\fmf\ff_package.vhd=VHDL Source Code
+h:\fpga\secd\fmf\conversions.vhd=VHDL Source Code
+h:\fpga\secd\fmf\ecl_utils.vhd=VHDL Source Code
+h:\fpga\secd\fmf\state_tab_package.vhd=VHDL Source Code
+h:\fpga\secd\fmf\switch_pkg.vhd=VHDL Source Code
+
+[Folders]
+Name3=Makefiles
+Directory3=h:\fpga\secd\fmf\fmf\
+Extension3=mak
+Name4=Memory
+Directory4=h:\fpga\secd\fmf\fmf\src
+Extension4=mem;mif;hex
+Name5=Dll Libraries
+Directory5=h:\fpga\secd\fmf\fmf\
+Extension5=dll

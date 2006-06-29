@@ -1,0 +1,4 @@
+(letrec(p(n(quote 2)))(p lambda(l)(cons(head l)(p((s(head l))(tail l)))
+))(s lambda(p)(letrec sp(sp lambda(l)(if(eq(rem(head l)p)(quote 0))(sp(
+tail l))(cons(head l)(sp(tail l)))))))(n lambda(x)(cons x(n(add x(quote
+1))))))

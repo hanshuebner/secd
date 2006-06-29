@@ -1,0 +1,82 @@
+(letrec(lambda(kb)(append(quote(LispKit interpreter: type end to finish
+))(interact kb(quote(patience))(quote((quote 50)))(quote NotDefined))))
+(comment quote((LispKit lisp interpreter)(Geraint Jones, PRG Oxford)(Last
+changed 29 March 1983)))(interact lambda(kb global_n global_v it)(letrec
+(cons newline(cons(quote >)line))(line if(eq tag(quote exit))(quote(Exit
+interpreter))(if(eq tag(quote message))(append message(interact(tail kb
+)new_global_n new_global_v it))(if(eq tag(quote evaluation))(append(print
+expression)(interact(tail kb)global_n global_v expression))(if(eq tag(quote
+restore))(interact(append file(let(if(eq(head t)(quote >))(tail t)t)(t tail
+kb)))global_n global_v it)(cons(quote Error)(interact(tail kb)global_n global_v
+it))))))(tag 1 result)(message 2 result)(expression 2 result)(file 2 result
+)(new_global_n 3 result)(new_global_v 4 result)(result loop(head kb)global_n
+global_v it)(print letrec(lambda(s)(first patience(flatten s)))(first lambda
+(n l)(if(eq l(quote NIL))(quote NIL)(if(eq n(quote 0))(let(list stop stop
+stop)(stop chr(quote 46)))(cons(head l)(first(sub n(quote 1))(tail l)))
+)))(patience evaluate(quote patience)global_n global_v it)(flatten lambda
+(s)(letrec(if(isfunction s)(symbol(quote function)(flatten(showfunction
+s)))(if(iscode s)(symbol(quote code)(flatten(showcode s)))(if(atom s)(list
+s)(cons open(append(flatten(head s))(tailpart r))))))(symbol lambda(type
+rep)(cons open(cons point(cons type(cons point(tailpart rep))))))(tailpart
+lambda(r)(if(eq(head r)(quote NIL))(list close)(if(eq(head r)open)(tail
+r)(cons point(append r(list close))))))(r flatten(tail s))(open chr(quote
+40))(close chr(quote 41))(point chr(quote 46)))))))(loop lambda(command
+global_n global_v it)(letrec(if(atom command)(if(eq command(quote end))
+exit(if(eq command(quote save))(save global_n global_n global_v)(if(eq command
+(quote vars))(message global_n global_n global_v)(evaluation expression
+))))(if(eq keyword(quote def))(if(eq name(quote Error))error(if(atom name
+)(message(cons name(quote(defined)))(cons name global_n)(cons value global_v
+))error))(if(eq keyword(quote cancel))(if(member name global_n)(message
+(cons name(quote(cancelled)))(remove name global_n global_n)(remove name
+global_n global_v))error)(if(eq keyword(quote save))(save(tail command)
+global_n global_v)(if(eq keyword(quote restore))(restore(tail command))
+(evaluation expression))))))(keyword head command)(name head'(tail' command
+))(value head'(tail'(tail' command)))(expression evaluate command global_n
+global_v it)(remove lambda(a t l)(if(eq a(head t))(tail l)(cons(head l)
+(remove a(tail t)(tail l)))))(exit list(quote exit))(message lambda(m n
+v)(list(quote message)m n v))(evaluation lambda(e)(list(quote evaluation
+)e))(error message(quote(Error))global_n global_v)(save lambda(l global_n
+global_v)(letrec(message(list(cons(quote restore)(deflist l global_n global_v
+(quote NIL))))global_n global_v)(deflist lambda(l n v d)(if(eq n(quote NIL
+))d(deflist l(tail n)(tail v)(if(member(head n)l)(cons(list(quote def)(
+head n)(head v))d)d))))))(restore lambda(f)(list(quote restore)f))))(evaluate
+letrec(lambda(e global_n global_v it)(letrec(eval e n v)(n cons(cons(quote
+it)global_n)(quote NIL))(v cons(cons it(listeval global_v n v))(quote NIL
+))))(eval lambda(e n v)(letrec(if(atom e)(associate e n v)(if(eq keyword
+(quote quote))(letrec(secure text1)(secure lambda(l)(let(if(atom l)l(cons
+(if(atom h)(if(reserved h)(quote Error)h)(secure h))(secure(tail l))))(
+h head l))))(if(eq keyword(quote atom))(atom argument1)(if(eq keyword(quote
+head))(if(indivisible argument1)(quote Error)(head argument1))(if(eq keyword
+(quote tail))(if(indivisible argument1)(quote Error)(tail argument1))(if
+(eq keyword(quote cons))(cons(if(reserved argument1)(quote Error)argument1
+)argument2)(if(eq keyword(quote eq))(eq argument1 argument2)(if(eq keyword
+(quote leq))(arithmetic(leq argument1 argument2))(if(eq keyword(quote add
+))(arithmetic(add argument1 argument2))(if(eq keyword(quote sub))(arithmetic
+(sub argument1 argument2))(if(eq keyword(quote mul))(arithmetic(mul argument1
+argument2))(if(eq keyword(quote div))(arithmetic(if(eq argument2(quote 0
+))(quote Error)(div argument1 argument2)))(if(eq keyword(quote rem))(arithmetic
+(if(eq argument2(quote 0))(quote Error)(rem argument1 argument2)))(if(eq
+keyword(quote if))(if argument1 argument2 argument3)(if(eq keyword(quote
+lambda))(makefunction text1 text2 n v)(if(eq keyword(quote let))(let(eval
+text1 newn newv)(newn cons(variables definitions)n)(newv cons(listeval(
+values definitions)n v)v))(if(eq keyword(quote letrec))(letrec(eval text1
+newn newv)(newn cons(variables definitions)n)(newv cons(listeval(values
+definitions)newn newv)v))(if(eq keyword(quote chr))(if(number argument1
+)(chr argument1)(quote Error))(if(eq keyword(quote exec))(if(atom argument1
+)(quote Error)(makecode argument1))(letrec(if(isfunction applicand)(eval
+body newn newv)(if(iscode applicand)(apply function arguments)(quote Error
+)))(body tail(head function))(newn cons(head(head function))(head(tail function
+)))(newv cons arguments(tail(tail function)))(function tail applicand)(
+applicand eval(head e)n v)))))))))))))))))))))(keyword head e)(arguments
+listeval texts n v)(argument1 head' arguments)(argument2 head'(tail' arguments
+))(argument3 head'(tail'(tail' arguments)))(arithmetic lambda(result)(if
+(and(number argument1)(number argument2))result(quote Error)))(definitions
+assoclist'(tail' texts))(texts tail e)(text1 head' texts)(text2 head'(tail'
+texts))))(listeval let(lambda(l n v)(map(e n v)l))(e lambda(n v)(lambda
+(x)(eval x n v))))(associate letrec(lambda(a n v)(if(eq n(quote NIL))(quote
+NotDefined)(if(member a(head n))(locate a(head n)(head v))(associate a(
+tail n)(tail v)))))(locate lambda(a n v)(if(atom v)(quote Error)(if(eq a
+(head n))(head v)(locate a(tail n)(tail v))))))(variables let(lambda(d)
+(map v d))(v lambda(b)(head b)))(values let(lambda(d)(map v d))(v lambda
+(b)(tail b)))(indivisible lambda(c)(or(atom c)(or(isfunction c)(iscode c
+))))))

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="website.xsl" ?>
+ <page name="capability-based" title="Capabilty based hardware"
+       author="Thomas F. Knight, Jr." email="tk@csail.mit.edu">
+  <p>
+   Thomas F. Knight has been researching capability based systems for
+   a long time.  Some of the papers he published are referenced below.
+   He specifically refers to his article in the "Lisp and Functional
+   Programming" Conference held in 1986.
+  </p>
+  <links>
+   <group name="Papers">
+    <link title="An architecture for mostly functional languages" href="mofl.pdf">
+    </link>
+    <link title="A capability representation with embedded address and nearly-exact object bounds" href="ARIES-05.pdf">
+    </link>
+    <link title="A Hardware Mechanism to Reduce the Cost of Forwarding Pointer Aliasing" href="ARIES-08.pdf">
+    </link>
+    <link title="A Minimal TrustedComputing Base for Dynamically Ensuring Secure Information Flow" href="ARIES-15.pdf">
+    </link>
+   </group>
+  </links>
+ </page>

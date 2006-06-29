@@ -1,0 +1,3 @@
+(letrec(lambda(kb)(map_until(load_code(head kb))(tail kb)))(map_until lambda
+(f l)(if(eq(head l)(quote end))(quote NIL)(cons(f(head l))(cons newline
+(map_until f(tail l)))))))

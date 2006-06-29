@@ -1,0 +1,4 @@
+(letrec(lambda(keyboard)(stream(c(head keyboard)(lambda(x)x)(tail keyboard
+))))(stream lambda(s)(cons s(quote NIL)))(c lambda(n f l)(if(eq n(quote
+0))(f(head l))(c(sub n(quote 1))(lambda(x)(f((load_code(head l))x)))(tail
+l)))))

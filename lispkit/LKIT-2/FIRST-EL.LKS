@@ -1,0 +1,7 @@
+(LETREC FIRST
+  (FIRST LAMBDA (X)
+    (IF (EQ X (QUOTE NIL)) (QUOTE NIL)
+        (IF (EQ (CAR X) (QUOTE NIL)) (QUOTE NIL)
+            (IF (ATOM X) (QUOTE NIL)
+                (CONS (CAR (CAR X)) (FIRST (CDR X))))))))&
+            

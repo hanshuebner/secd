@@ -1,0 +1,257 @@
+ASxxxx Assembler V04.10  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+
+
+                              1 	; extern	_acia_control
+                              2 	; extern	_acia_data
+                              3 	.area sysrom
+                              4 	.globl _acia_putchar
+   0000                       5 _acia_putchar:
+   0000 34 40                 6 	pshs	u	;push register set
+   0002 32 7F                 7 	leas	-1,s	;subhi: R:s = R:s + -1
+   0004 E7 5F                 8 	stb	-1,u	;movqi: R:b -> -1,u
+   0006                       9 L2:
+   0006 F6s00r00             10 	ldb	_acia_control	;movqi: _acia_control -> R:b
+   0009 C4 02                11 	andb	#2	;andqi: R:b &= #2
+   000B 5D                   12 	tstb		;tstqi: R:b
+   000C 26 02                13 	bne	L3	;length = 2
+   000E 20 F6                14 	bra	L2	;length = 2
+   0010                      15 L3:
+   0010 E6 5F                16 	ldb	-1,u	;movqi: -1,u -> R:b
+   0012 F7s00r00             17 	stb	_acia_data	;movqi: R:b -> _acia_data
+   0015 32 61                18 	leas	1,s	;addhi: R:s = R:s + #1
+   0017 35 C0                19 	puls	u,pc	;pop register set
+                             20 	.globl _acia_getchar
+   0019                      21 _acia_getchar:
+   0019 34 40                22 	pshs	u	;push register set
+   001B                      23 L5:
+   001B F6s00r00             24 	ldb	_acia_control	;movqi: _acia_control -> R:b
+   001E C4 01                25 	andb	#1	;andqi: R:b &= #1
+   0020 5D                   26 	tstb		;tstqi: R:b
+   0021 26 02                27 	bne	L6	;length = 2
+   0023 20 F6                28 	bra	L5	;length = 2
+   0025                      29 L6:
+   0025 F6s00r00             30 	ldb	_acia_data	;movqi: _acia_data -> R:b
+   0028 35 C0                31 	puls	u,pc	;pop register set
+                             32 	.globl _acia_puts
+   002A                      33 _acia_puts:
+   002A 34 60                34 	pshs	y,u	;push register set
+   002C 32 7E                35 	leas	-2,s	;subhi: R:s = R:s + -2
+   002E AF 5E                36 	stx	-2,u	;movhi: R:x -> -2,u
+   0030                      37 L8:
+   0030 6D D8 FE             38 	tst	[-2,u]	;tstqi: MEM:[-2,u]
+   0033 27 0F                39 	beq	L7	;length = 2
+   0035 31 5E                40 	leay	-2,u	;addhi: R:y = R:u + #-2
+   0037 AE A4                41 	ldx	,y	;movhi: ,y -> R:x
+   0039 E6 84                42 	ldb	,x	;movqi: ,x -> R:b
+   003B 30 01                43 	leax	1,x	;addhi: R:x = R:x + #1
+   003D AF A4                44 	stx	,y	;movhi: R:x -> ,y
+   003F BDs00r00             45 	jsr	_acia_putchar	;CALL: (VOIDmode) _acia_putchar (0 bytes)
+   0042 20 EC                46 	bra	L8	;length = 2
+   0044                      47 L7:
+   0044 32 62                48 	leas	2,s	;addhi: R:s = R:s + #2
+   0046 35 E0                49 	puls	y,u,pc	;pop register set
+                             50 	; extern	_led
+                             51 	.globl _blink
+   0048                      52 _blink:
+   0048 34 40                53 	pshs	u	;push register set
+   004A 32 7F                54 	leas	-1,s	;subhi: R:s = R:s + -1
+   004C 6F 5F                55 	clr	-1,u	;movqi: ZERO -> R:-1,u
+ASxxxx Assembler V04.10  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+
+
+   004E                      56 L11:
+   004E 7Fs00r00             57 	clr	_led	;movqi: ZERO -> R:_led
+   0051 C6 01                58 	ldb	#1	;movqi: #1 -> R:b
+   0053 F7s00r00             59 	stb	_led	;movqi: R:b -> _led
+   0056 20 F6                60 	bra	L11	;length = 2
+                             61 	; extern	_secd_address_high
+                             62 	; extern	_secd_mem
+                             63 	.globl _clear_secd_memory
+   0058                      64 _clear_secd_memory:
+   0058 34 40                65 	pshs	u	;push register set
+   005A 32 7C                66 	leas	-4,s	;subhi: R:s = R:s + -4
+   005C 8E 00 00             67 	ldx	#0	;movhi: #0 -> R:x
+   005F AF 5E                68 	stx	-2,u	;movhi: R:x -> -2,u
+   0061                      69 L14:
+   0061 AE 5E                70 	ldx	-2,u	;movhi: -2,u -> R:x
+   0063 8C 00 FF             71 	cmpx	#255	;cmphi:
+   0066 22 29                72 	bhi	L13	;length = 2
+   0068 EC 5E                73 	ldd	-2,u	;movhi: -2,u -> R:d
+   006A F7s00r00             74 	stb	_secd_address_high	;movqi: R:b -> _secd_address_high
+   006D 8E 00 00             75 	ldx	#0	;movhi: #0 -> R:x
+   0070 AF 5C                76 	stx	-4,u	;movhi: R:x -> -4,u
+   0072                      77 L17:
+   0072 AE 5C                78 	ldx	-4,u	;movhi: -4,u -> R:x
+   0074 8C 00 FF             79 	cmpx	#255	;cmphi:
+   0077 22 10                80 	bhi	L16	;length = 2
+   0079 AE 5C                81 	ldx	-4,u	;movhi: -4,u -> R:x
+   007B 30 89s00r00          82 	leax	_secd_mem,x	;addhi: R:x = R:x + #_secd_mem
+   007F 6F 84                83 	clr	,x	;movqi: ZERO -> R:,x
+   0081 AE 5C                84 	ldx	-4,u	;movhi: -4,u -> R:x
+   0083 30 01                85 	leax	1,x	;addhi: R:x = R:x + #1
+   0085 AF 5C                86 	stx	-4,u	;movhi: R:x -> -4,u
+   0087 20 E9                87 	bra	L17	;length = 2
+   0089                      88 L16:
+   0089 AE 5E                89 	ldx	-2,u	;movhi: -2,u -> R:x
+   008B 30 01                90 	leax	1,x	;addhi: R:x = R:x + #1
+   008D AF 5E                91 	stx	-2,u	;movhi: R:x -> -2,u
+   008F 20 D0                92 	bra	L14	;length = 2
+   0091                      93 L13:
+   0091 32 64                94 	leas	4,s	;addhi: R:s = R:s + #4
+   0093 35 C0                95 	puls	u,pc	;pop register set
+                             96 	.globl _lcd_init
+   0095                      97 _lcd_init:
+   0095 34 40                98 	pshs	u	;push register set
+   0097 35 C0                99 	puls	u,pc	;pop register set
+                            100 	; extern	_lcd
+                            101 	.globl _lcd_putc
+   0099                     102 _lcd_putc:
+   0099 34 40               103 	pshs	u	;push register set
+   009B 32 7F               104 	leas	-1,s	;subhi: R:s = R:s + -1
+   009D E7 5F               105 	stb	-1,u	;movqi: R:b -> -1,u
+   009F E6 5F               106 	ldb	-1,u	;movqi: -1,u -> R:b
+   00A1 F7s00r00            107 	stb	_lcd	;movqi: R:b -> _lcd
+   00A4 32 61               108 	leas	1,s	;addhi: R:s = R:s + #1
+   00A6 35 C0               109 	puls	u,pc	;pop register set
+                            110 	.globl _lcd_puts
+ASxxxx Assembler V04.10  (Motorola 6809), page 3.
+Hexidecimal [16-Bits]
+
+
+
+   00A8                     111 _lcd_puts:
+   00A8 34 60               112 	pshs	y,u	;push register set
+   00AA 32 7E               113 	leas	-2,s	;subhi: R:s = R:s + -2
+   00AC AF 5E               114 	stx	-2,u	;movhi: R:x -> -2,u
+   00AE                     115 L23:
+   00AE 6D D8 FE            116 	tst	[-2,u]	;tstqi: MEM:[-2,u]
+   00B1 27 0F               117 	beq	L22	;length = 2
+   00B3 31 5E               118 	leay	-2,u	;addhi: R:y = R:u + #-2
+   00B5 AE A4               119 	ldx	,y	;movhi: ,y -> R:x
+   00B7 E6 84               120 	ldb	,x	;movqi: ,x -> R:b
+   00B9 30 01               121 	leax	1,x	;addhi: R:x = R:x + #1
+   00BB AF A4               122 	stx	,y	;movhi: R:x -> ,y
+   00BD BDs00r99            123 	jsr	_lcd_putc	;CALL: (VOIDmode) _lcd_putc (0 bytes)
+   00C0 20 EC               124 	bra	L23	;length = 2
+   00C2                     125 L22:
+   00C2 32 62               126 	leas	2,s	;addhi: R:s = R:s + #2
+   00C4 35 E0               127 	puls	y,u,pc	;pop register set
+                            128 	.globl _program
+   00C6                     129 _program:
+   00C6 00                  130 	.byte	0
+   00C7 00                  131 	.byte	0
+   00C8 00                  132 	.byte	0
+   00C9 20                  133 	.byte	32
+   00CA 01                  134 	.byte	1
+   00CB 00                  135 	.byte	0
+   00CC 00                  136 	.byte	0
+   00CD 20                  137 	.byte	32
+   00CE 02                  138 	.byte	2
+   00CF 00                  139 	.byte	0
+   00D0 00                  140 	.byte	0
+   00D1 20                  141 	.byte	32
+   00D2 0D                  142 	.byte	13
+   00D3 00                  143 	.byte	0
+   00D4 00                  144 	.byte	0
+   00D5 30                  145 	.byte	48
+   00D6 15                  146 	.byte	21
+   00D7 00                  147 	.byte	0
+   00D8 00                  148 	.byte	0
+   00D9 30                  149 	.byte	48
+   00DA 00                  150 	.byte	0
+   00DB 00                  151 	.byte	0
+   00DC 01                  152 	.byte	1
+   00DD 00                  153 	.byte	0
+   00DE 05                  154 	.byte	5
+   00DF C0                  155 	.byte	-64
+   00E0 00                  156 	.byte	0
+   00E1 00                  157 	.byte	0
+   00E2 01                  158 	.byte	1
+   00E3 00                  159 	.byte	0
+   00E4 00                  160 	.byte	0
+   00E5 30                  161 	.byte	48
+   00E6 02                  162 	.byte	2
+   00E7 00                  163 	.byte	0
+   00E8 00                  164 	.byte	0
+   00E9 30                  165 	.byte	48
+ASxxxx Assembler V04.10  (Motorola 6809), page 4.
+Hexidecimal [16-Bits]
+
+
+
+   00EA 00                  166 	.byte	0
+   00EB 00                  167 	.byte	0
+   00EC 02                  168 	.byte	2
+   00ED 00                  169 	.byte	0
+   00EE 09                  170 	.byte	9
+   00EF C0                  171 	.byte	-64
+   00F0 01                  172 	.byte	1
+   00F1 00                  173 	.byte	0
+   00F2 00                  174 	.byte	0
+   00F3 80                  175 	.byte	-128
+   00F4 02                  176 	.byte	2
+   00F5 00                  177 	.byte	0
+   00F6 00                  178 	.byte	0
+   00F7 C0                  179 	.byte	-64
+   00F8 02                  180 	.byte	2
+   00F9 00                  181 	.byte	0
+   00FA 0C                  182 	.byte	12
+   00FB 80                  183 	.byte	-128
+   00FC 01                  184 	.byte	1
+   00FD 00                  185 	.byte	0
+                            186 	.globl _setup_secd_program
+   00FE                     187 _setup_secd_program:
+   00FE 34 40               188 	pshs	u	;push register set
+   0100 32 7C               189 	leas	-4,s	;subhi: R:s = R:s + -4
+   0102 7Fs00r00            190 	clr	_secd_address_high	;movqi: ZERO -> R:_secd_address_high
+   0105 6F 5F               191 	clr	-1,u	;movqi: ZERO -> R:-1,u
+   0107                     192 L26:
+   0107 E6 5F               193 	ldb	-1,u	;movqi: -1,u -> R:b
+   0109 C1 37               194 	cmpb	#55	;cmpqi:
+   010B 22 1C               195 	bhi	L27	;length = 2
+   010D E6 5F               196 	ldb	-1,u	;zero_extendqihi: -1,u -> R:d
+   010F 4F                  197 	clra
+   0110 1F 01               198 	tfr	d,x	;movhi: R:d -> R:x
+   0112 E6 89s00rC6         199 	ldb	_program,x	;movqi: _program,x -> R:b
+   0116 E7 5E               200 	stb	-2,u	;movqi: R:b -> -2,u
+   0118 E6 5F               201 	ldb	-1,u	;zero_extendqihi: -1,u -> R:d
+   011A 4F                  202 	clra
+   011B ED 5C               203 	std	-4,u	;movhi: R:d -> -4,u
+   011D E6 5E               204 	ldb	-2,u	;movqi: -2,u -> R:b
+   011F AE 5C               205 	ldx	-4,u	;movhi: -4,u -> R:x
+   0121 E7 89s00r00         206 	stb	_secd_mem,x	;movqi: R:b -> _secd_mem,x
+   0125 6C 5F               207 	inc	-1,u	;addqi: -1,u ++
+   0127 20 DE               208 	bra	L26	;length = 2
+   0129                     209 L27:
+   0129 C6 FF               210 	ldb	#-1	;movqi: #-1 -> R:b
+   012B F7s00r00            211 	stb	_secd_address_high	;movqi: R:b -> _secd_address_high
+   012E C6 FF               212 	ldb	#-1	;movqi: #-1 -> R:b
+   0130 F7s00rFC            213 	stb	_secd_mem+252	;movqi: R:b -> _secd_mem+252
+   0133 C6 7F               214 	ldb	#127	;movqi: #127 -> R:b
+   0135 F7s00rFD            215 	stb	_secd_mem+253	;movqi: R:b -> _secd_mem+253
+   0138 C6 03               216 	ldb	#3	;movqi: #3 -> R:b
+   013A F7s00rFE            217 	stb	_secd_mem+254	;movqi: R:b -> _secd_mem+254
+   013D 7Fs00rFF            218 	clr	_secd_mem+255	;movqi: ZERO -> R:_secd_mem+255
+   0140 32 64               219 	leas	4,s	;addhi: R:s = R:s + #4
+   0142 35 C0               220 	puls	u,pc	;pop register set
+ASxxxx Assembler V04.10  (Motorola 6809), page 5.
+Hexidecimal [16-Bits]
+
+
+
+                            221 	; extern	_secd_status
+                            222 	.globl _main
+   0144                     223 _main:
+   0144 34 40               224 	pshs	u	;push register set
+   0146 C6 01               225 	ldb	#1	;movqi: #1 -> R:b
+   0148 F7s00r00            226 	stb	_secd_status	;movqi: R:b -> _secd_status
+   014B BDs00rFE            227 	jsr	_setup_secd_program	;CALL: (VOIDmode) _setup_secd_program (0 bytes)
+   014E C6 02               228 	ldb	#2	;movqi: #2 -> R:b
+   0150 F7s00r00            229 	stb	_secd_status	;movqi: R:b -> _secd_status
+   0153 BDs00r48            230 	jsr	_blink	;CALL: (VOIDmode) _blink (0 bytes)
+   0156 5F                  231 	clrb		;movqi: ZERO -> R:b
+   0157 35 C0               232 	puls	u,pc	;pop register set

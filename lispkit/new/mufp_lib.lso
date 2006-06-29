@@ -1,0 +1,7 @@
+(def and(if(select 1)(select 2)(constant 0)))(def or(if(select 1)(constant
+1)(select 2)))(def not(if id(constant 0)(constant 1)))(def xor(compose and
+(construct or(compose not and))))(def half-adder(construct xor and))(def
+full-adder(compose(construct(compose(select 1)(select 1))(compose or(construct
+(compose(select 2)(select 1))(select 2))))(construct(compose half-adder
+(construct(compose(select 1)(select 1))(select 2)))(compose(select 2)(select
+1)))(construct half-adder(select 3))))

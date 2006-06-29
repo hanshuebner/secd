@@ -1,0 +1,4 @@
+((John(loves Mary Logic)(isa Male Programmer))(Mary(loves John Logic Whiskey
+)(isa Female Programmer))(Giving1(isa Giving)(giver John)(givee Mary)(given
+Book))(Giving2(isa Giving)(giver John)(givee Mary)(given Flowers))(Giving3
+(isa Giving)(giver Mary)(givee John)(given Kiss)))

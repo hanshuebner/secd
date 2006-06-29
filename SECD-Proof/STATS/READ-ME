@@ -1,0 +1,44 @@
+This directory contains some tools to take some superficial statistics
+from the .log files of the SECD proof.  It tallies the number of 
+"Intermediate theorems generated:" recorded by the proof (this records
+the number of calls to "mk_thm").  
+
+This is achieved first by grep'ing for the occurrence of this string
+in all of the .log files, compiling these into groups :
+
+types.sum	 abstract_mem_types, cu_types, dp_types
+defs.sum	 rt_CU/_DP/_PADS/_SECD/_SYS, modulo_ops, 
+		 microcode, val_defs,interface, top_SECD
+axio.sum	 val_theorems
+constr.sum	 constraints
+mabs.sum	 mem_abs
+
+expands.sum	 CU_/Inc9_/CU_wordn_/DP_/SECD_/SYS_proofs
+phase.sum	 phase_lemmas1-7
+mu.sum-prog	 loop_proofs, mu-prog_sr/_init/_LD1/_LD2/_LD/_ADD...proofs
+liveness.sum	 liveness
+correcntness.sum correctness_*, correctness
+
+To build these files, simply execute:
+	tally
+
+
+Next, compiling this into counts for each group can be done by
+executing:
+	sumup > SUMMARY
+
+This generates a file "SUMMARY" (note: this name MUST be used)
+with the breakdown for each group, plus a total for the entire proof,
+excluding the "wordn" and "buses" subdirectories.
+
+
+NOTE: inaccuracies
+
+The results of grep'ing for 'Intermediate theorems generated:' include
+figures for theorems generated when the theory file is closed,
+printing out the theory file, and a summary figure for the theory.  
+To provide a proper count of the number of primitive inferences, these
+numbers should be deleted.  No automatic way of achieving this is
+obvious, and the files seems to need manual editing.  Notice that
+there will be 2 or 3 deletions for each '.log' file, depending on
+whether any theorems are contained in the theory --- I think.

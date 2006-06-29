@@ -1,0 +1,10 @@
+grep 'Intermediate theorems generated:' ../abstract_mem_type.log ../cu_types.log ../dp_types.log > types.sum
+grep 'Intermediate theorems generated:' ../rt_*.log ../modulo_ops.log ../microcode.log ../val_defs.log ../interface.log ../top_SECD.log  > defs.sum
+grep 'Intermediate theorems generated:' ../val_theorems.log > axio.sum
+grep 'Intermediate theorems generated:' ../constraints.log > constr.sum
+grep 'Intermediate theorems generated:' ../mem_abs.log > mabs.sum
+grep 'Intermediate theorems generated:' ../CU_proofs.log ../Inc9_proofs.log ../CU_wordn_proofs.log ../DP_proofs.log ../SECD_proofs.log ../SYS_proofs.log > expands.sum
+grep 'Intermediate theorems generated:' ../phase_lemmas*.log > phase.sum
+grep 'Intermediate theorems generated:' ../loop_proofs.log ../mu-prog*.log > mu-prog.sum
+grep 'Intermediate theorems generated:' ../live*.log > liveness.sum
+grep 'Intermediate theorems generated:' ../correctness*.log > correctness.sum

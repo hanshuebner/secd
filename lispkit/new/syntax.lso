@@ -1,0 +1,1 @@
+(lambda(kb)(printerrors(syntax(head kb))))

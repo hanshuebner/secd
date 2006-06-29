@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="website.xsl" ?>
+ <page name="secd" title="Reimplementing the SECD microprocessor"
+       author="Hans Hübner" email="hans.huebner@gmail.com">
+  <p>
+   In order to have an achievable goal which will lead in the
+   direction of the ultimate dynamic machine, I have been working on a
+   reimplementation of the <a
+   href="http://en.wikipedia.org/wiki/SECD_machine"
+   target="_new">SECD</a> microprocessor during the last months.  SECD
+   is an abstract machine invented by Peter J. Landin which has been
+   used as a basis for various implementations of functional
+   programming languages.  It has traditionally been implemented in
+   software.
+  </p>
+  <p>
+   The SECD Microprocessor has been developed at the University of
+   Calgary in 1980 as part of a microprocessor verification project.
+   The results of this projects are available and well documented, so
+   it gives a good starting point for working with hardware for
+   dynamic programming.
+  </p>
+  <p>
+   When the SECD microprocessor was developed, VLSI design was in it's
+   infancy.  Standardized hardware description languages were
+   unavailable and it was common practice to write software tools for
+   chip design while working at the target implementation - especially
+   when it came to research topics like CPUs for functional
+   programming.  Still, there have been two physical versions of the
+   SECD microprocessor, but it took a year to get the first version of
+   the chip actually produced.  When it arrived in the hands of the
+   researchers, it contained production faults that totally prevented
+   it from working.  The second version of the chip worked (in that it
+   was able to execute some programs), but it also had design defects
+   that prevented it from being excercised fully.  The high cost and
+   long turnaround times for chip production prevented the SECD
+   Microprocessor from being fully debugged.
+  </p>
+  <p>
+   Today, VLSI design is a field that is commonplace and well
+   understood.  Standardized hardware description languages exist, and
+   simulators are available that make it possible to exercise designs
+   early in the development cycle - long before they hit the silicon.
+   Furthermore, the availability of low-priced, high density field
+   programmable gate arrays (FPGAs) radically shorten the
+   design-implement-test-cycle for hardware from months and years to
+   hours and minutes.
+  </p>
+  <p>
+   The papers about the SECD microprocessor mostly look at it from the
+   perspective of proving the correctness of a CPU.  The discussion of
+   the processor and its design is not going very deep, as the concern
+   of the research group was formally proving the correctness of the
+   CPU design, not describing all the implementation details.  Yet,
+   the documentation details the register architecture, clocking
+   scheme, chip interfacing and microcode.  The full microcode for the
+   CPU is available as part of the proof, which could be converted to
+   a readable microcode listing.  Working from the microcode listing,
+   a synthesizable VHDL model of the SECD microprocessor was created.
+  </p>
+  <p>
+   The SECD reengineering project is thought as a exercise to gain
+   working knowledge of current IC design tools in the context of
+   dynamic programming languages.  Therefore, it is a goal to preserve
+   the original SECD microprocessor design and concentrate on
+   converting it to current technology.
+  </p>
+  <p>
+   During the process, it was found that some of the basic design
+   decisions where unsuitable to be directly converted to an FPGA
+   based design.  In particular, the datapath of the CPU was latch
+   based.  Latch-based designs are not well supported by current FPGAs
+   because flip flops built into their basic design blocks are D-type
+   flip flops which are intended to be driven by a limited number of
+   clock signals.  RS-flip flops can only be emulated on a limited
+   scale.  Also, the design tool in use could not properly handle the
+   large latch-based data path.  Thus, the architecture needed some
+   tactical changes in order to be implemented on the FPGA technology
+   available.
+  </p>
+  <p>
+   Converting the design from latches to clocked flip flops also
+   required changing the microcode.  In the original design, the
+   garbage collector uses generic ALU operations to iterate over the
+   address space and manipulate the garbage collection bits of the
+   data words.  This usage of the ALU is non-orthogonal to the rest of
+   the ALU usage, making it harder to implement a clocking scheme in
+   the datapath.  Therefore, the garbage collection arithmetic was
+   seperated from the user arithmetic.
+  </p>
+  <p>
+   The current version of the VHDL model of the SECD CPU synthesizes
+   to about 90.000 gate equivalent using Xilinx WebPack ISE 8.1
+   targeted at a Spartan-3 FPGA.  Thus, it does fit well into one of
+   the current low-cost FPGA development boards.  In fact, even the
+   lower-density chips provide 200.000 gate equivalents, so there is
+   enough room for application specific logic to be added to the
+   model.  The free version of the ISE synthesis tools support
+   Spartan-3 FPGAs up to 1 Million gate equivalents, so even versions
+   of the CPU which have multiple evaluators will fit into the
+   low-cost devices available.
+  </p>
+  <p>
+   Performance was a non-goal for the design of the SECD
+   microprocessor, and as such it is expected that the FPGA based SECD
+   will not be very fast.  Two major limiting factors for the
+   limited performance of the CPU are believed to be:
+   <ul>
+    <li>
+     <strong>
+      List-based storage with inefficient traversal of the list
+      structures.
+     </strong>
+     All memory is organized as lists, which makes all memory
+     operations expensive.
+    </li>
+    <li>
+     <strong>
+      Variable-lookup in the environment through numeric indices.
+     </strong>
+     In order to lookup a variable in a given environment, a numeric
+     index is used.  The CPU traverses the memory lists until the
+     numbered data item is found.
+    </li>
+   </ul>
+   It is clear that these two design decisions have severe influences
+   on the overall performance of the processor.  Yet, the high clock
+   rates that can be achieved with current silicon may be able to
+   compensate at least for some of the low performance of the design.
+   Final performance analysis will need to be done at a later stage,
+   and there are several optimization strategies available for SECD
+   based systems that can be implemented in order to enhance the
+   performance of the processor.
+  </p>
+  <p>
+   The usefulness of the original SECD microprocessor is limited by
+   the fact that it solely supports a recursive functional execution
+   model.  There are no destructive operations, and the processor is
+   designed as a coprocessor to a conventional CPU.  The host CPU sets
+   up the memory image for the SECD CPU.  The SECD CPU evaluates the
+   top-level expression and halts once the evaluation is complete.
+   The host CPU then reads the resulting memory image which is the
+   result of the evaluation.  In order to make the SECD CPU useful for
+   stand-alone applications, some form of non-recursive looping is
+   needed.  The LispMe Scheme system can be used as a model for
+   extending the SECD ISA to support the features needed for running
+   Scheme.
+  </p>
+  <p>
+   The reimplementation of SECD is written in VHDL and targeted to
+   Xilinx Spartan-3 FPGA.  A <a
+   href="http://trenz-electronic.de/prod/prodde21.htm">Retrocomputing
+   Base Board</a> by <a href="http://trenz-electronic/">trenz
+   electronic</a> is used for peripherals.  As of now, only the SRAM
+   of the base board is used.  The host CPU, which downloads the
+   program to the SECD CPU's RAM and displays back the result, is also
+   implemented within the FPGA and based on the <a
+   href="http://members.optushome.com.au/jekent/system09/index.html">System09</a>
+   SoC.
+  </p>
+  <p>
+   The current version of the VHDL implementation can be checked out
+   of the Subversion repository at svn://1blu.huebner.org/trunk/secd
+   for reference.  There will be a formal release once the hardware
+   synthesis has been completed and tested.  For the time being,
+   the Subversion repository is a work in progress and may or may
+   not work at any point in time.
+  </p>
+  <p>
+   I have to thank <a href="http://www.evision-systems.de/">eVision
+   Systems GmbH</a> and <a href="http://aldec.com/">Aldec</a> for
+   letting me use their excellent <a
+   href="http://aldec.com/products/active%2Dhdl/">Active-HDL</a> VHDL
+   design tool for free.  Without Active-HDL, I would have been stuck
+   early in the process.  Using the Perl API of Active-HDL, I was able
+   to programmatically examine the simulated SECD's memory and
+   compare the memory state to that produced by a software SECD.
+   This was an unvaluable tool to find several bugs.
+  </p>
+  <links>
+   <group name="SECD">
+    <link title="SECD Mania" href="http://skelet.ludost.net/sec/">
+     is a page dedicated to the SECD virtual machine.  It
+     points to various implementations of the SECD VM as well as other
+     useful information.
+    </link>
+    <link title="LispMe SECD based Scheme Interpreter" href="http://lispme.de/lispme/">
+     The LispMe Scheme system is a SECD based Scheme system for PalmOS.
+    </link>
+    <link title="HOL proof for the SECD microprocessor" href="http://www.ftp.cl.cam.ac.uk/ftp/hvg/hol88/contrib/SECD/">
+     Formal verification of the correctness of the
+     SECD microprocessor.  It contains, in theorem form, the microcode
+     of the CPU as well as other useful information for recreating the
+     CPU.
+    </link>
+    <link title="The SECD Microprocessor papers at University of Calgary" href="http://pharos.cpsc.ucalgary.ca/Dienst/UI/2.0/Query/?title=secd&amp;authority=ncstrl.ucalgary_cs">
+     describe various aspects of the SECD microprocessor,
+     focusing on the formal correctness proof.  They are the primary
+     source for the reimplementation of the CPU.
+    </link>
+    <link title="LispKit Port to GNU Pascal" href="http://lispkit.members.beeb.net/">
+     is a port of the original LispKit source, which is a software
+     implementation of SECD with a LispKit compiler written in
+     LispKit.  The distributions contains the virtual machine
+     implementation as well as several LispKit programs, both
+     in compiled and (scrambled) source form.
+    </link>
+   </group>
+   <group name="FPGA based CPUs">
+    <link title="R16: a New Transputer for FPGAs" href="http://wotug.org/paperdb/send_file.php?num=151">
+     details the architecture of the FPGA based R16 transputer system.
+     It adresses many issues that are relevant to the design of a LISP
+     system, in particular with respect to the design of the memory
+     system.
+    </link>
+    <link title="Design of a Transputer Core and its Implementation in an FPGA" href="http://www.wotug.org/paperdb/send_file.php?num=125">
+     describes the implementation of a Inmos Transputer work-alike on
+     an FPGA.
+    </link>
+    <link title="OpenCores" href="http://opencores.org/">
+     is a website that focuses on promoting the use of free IP cores.
+     A number of CPU IP cores is available from here, as well as
+     numerous other peripheral IP cores.
+    </link>
+   </group>
+   <group name="Classic Designs">
+    <link title="The SCHEME-79 Chip" href="http://www.bitsavers.org/pdf/mit/ai/aim/AIM-559.pdf">
+     is a chip designed to execute scheme.  The paper
+     describes the general design of the chip and contains a microcode
+     listing.
+    </link>
+    <link title="Konzeption, Entwurf und Realisierung eines Prozessors für die funktionale Programmiersprache Scheme als VLSI-Chip in Standard- und Makrozellentechnik"
+          href="http://tams-www.informatik.uni-hamburg.de/paper/1990/lohse-diss/dissertation_lohse.ps.Z">
+     is the doctoral thesis of Jörg Lohse in which he describes the
+     SCHEME-1 CPU that he designed and implemented.  The CPU worked as
+     a coprocessor to an Atari ST and used some 70.000 transistors
+     (german).
+    </link>
+    <link title="The Scheme Machine" href="http://www.cs.indiana.edu/pub/techreports/TR413.pdf">
+     Is another design for a machine executing compiled Scheme.
+    </link>
+    <link title="Jaap Weel's LISP Machine Page" href="http://www.ugcs.caltech.edu/~weel/lispm.html">
+     contains a comprehensive collection of links to
+     LISP machine related information.
+    </link>
+    <link title="The Mushroom Project" href="http://www.wolczko.com/mushroom/index.html">
+     aimed at creating a machine to execute
+     Smalltalk.  It's architecture shared several of the features LISP
+     machines provide.
+    </link>
+    <link title="The LMI K-Machine" href="http://home.comcast.net/~prunesquallor/kmachine.htm">
+     was the last machine developed by Lisp Machines Incorporated.
+    </link>
+   </group>
+   <group name="Hardware">
+    <link title="Plastic Cell Architecture (PCA)" href="http://www.cis.nagasaki-u.ac.jp/labs/oguri/">
+     is a
+     Sea-of-Gates-Style reconfigurable hardware architecture with a 
+     regular layout and fine-grained reconfigurability.
+    </link>
+    <link title="Xilinx XC6200" href="http://www.dcs.gla.ac.uk/~nicholas/ca4/dsheet.pdf">
+     FPGA architecture supporting fast incremental reconfiguration
+     by a host computer through a parallel interface.  No longer in
+     production.
+    </link>
+    <link title="Spartan-3E Starter Kit" href="http://www.xilinx.com/s3estarter/">
+     - a low-cost (~$150) development for
+     Xilinx Spartan-3E FPGAs.  The kit contains a 500K gate FPGA as well
+     as a large number of peripherals that make it useful for SoC
+     designs.  It comes bundled with development software media and
+     Xilinx provides several real-world example designs.
+    </link>
+    <link title="Trenz Electronic Spartan-3 Micromodule" href="http://www.trenz-electronic.de/prod/proden18.htm">
+      + Retrocomputing base board
+     make an inexpensive development solution providing for a high
+     density FPGA (1 Mio gates) and a number of useful peripherals.
+    </link>
+   </group>
+   <group name="Books">
+    <book title="The Architecture of Symbolic Computers"
+          author="Peter M. Kogge"
+          isbn="0070355967"
+          year="1990">
+     This book describes a number of symbolic computer architectures
+     targeted at functional and logic programming.  It details the
+     underlying mathematical principles as well as implementations in
+     real hardware.
+    </book>
+    <book title="The SECD Microprocessor - A Verification Case Study"
+          author="Brian T. Graham"
+          isbn="0792392450"
+          year="1992">
+     This book describes the hardware verification project in which
+     the correctness of the SECD microprocessor was partially
+     verified.
+    </book>
+   </group>
+  </links>
+ </page>

@@ -1,0 +1,5 @@
+(LETREC CHOICE
+  (CHOICE LAMBDA (N)
+    (IF (LEQ N (QUOTE 1)) (QUOTE 1)
+        (OR (CHOICE (SUB N (QUOTE 1))) N))))&
+        

@@ -1,0 +1,24 @@
+(let(lambda(input)((expert(head input))(tail input)))(expert lambda(database
+)(letrec(lambda(kb)(sysq kb(quote init)(quote NIL)(quote NIL)))(sysq lambda
+(kb stq kn v)(if(eq stq(quote end))(quote NIL)(let(sys kb(sect nstq database
+)kn v nstq)(nstq if(eq stq(quote *))v stq))))(sys lambda(kb st kn v stq
+)(if(eq st(quote NIL))(sysq kb stq kn v)(let(if(eq key(quote goto))(sysq
+kb(head arg)kn v)(if(eq key(quote say))(append(ch arg v)(cons newline(sys
+kb(tail st)kn v stq)))(if(eq key(quote note))(sys kb(tail st)(newkn kn(
+head arg)(head(tail arg)))v stq)(if(eq key(quote getval))(sys kb(tail st
+)kn(lookup(head arg)kn stq))(if(eq key(quote enq))(enq kb(tail st)kn(lookup
+(head arg)kn)(head arg)(ch(tail arg)v)stq)(if(eq key(quote ask))(enq kb
+(tail st)kn(quote NIL)(head arg)(ch(tail arg)v)stq)(if(eq key(quote if)
+)(if(match(head arg)v)(sysq kb(head(tail arg))kn v)(sys kb(tail st)kn v
+stq))(if(eq key(quote ifn))(if(match(head arg)v)(sys kb(tail st)kn v stq
+)(sysq kb(head(tail arg))kn v))(cons key(quote ?????))))))))))(key head
+(head st))(arg tail(head st)))))(ch lambda(s v)(if(eq(head s)(quote *))
+v s))(match lambda(a b)(if(atom a)(or(eq a(quote ?))(eq a b))(unless(atom
+b)(and(match(head a)(head b))(match(tail a)(tail b))))))(lookup lambda(
+x kn)(if(eq kn(quote NIL))(quote NIL)(if(eq(head(head kn))x)(tail(head kn
+))(lookup x(tail kn)))))(enq lambda(kb st kn lup nam str stq)(if(eq lup
+(quote NIL))(append str(sys(tail kb)st(newkn kn nam(head kb))(head kb)stq
+))(sys kb st kn lup stq)))(sect lambda(q d)(if(eq q(head(head d)))(tail
+(head d))(sect q(tail d))))(newkn lambda(kn x v)(if(eq kn(quote NIL))(cons
+(cons x v)(quote NIL))(if(eq x(head(head kn)))(cons(cons x v)(tail kn))
+(cons(head kn)(newkn(tail kn)x v))))))))

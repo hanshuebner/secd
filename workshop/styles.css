@@ -1,0 +1,216 @@
+/* general styles */
+
+body {
+	font-family: Georgia, 'Times New Roman', serif;
+	background-color: #ffffff;
+}
+
+/* cms styles */
+
+body.cms h1 {
+	font-size: 140%;
+}
+
+body.cms h2 {
+	font-size: 110%;
+}
+
+body.cms h3 {
+	font-size: 100%;
+}
+
+body.cms p {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+body.cms div.navi {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+body.cms .cmslink {
+	background-color: #bfbfbf;
+	color: #000000;
+	border: thin solid #000000;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-decoration: none;
+}
+
+body.cms .cmslink:hover {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+body.cms #session-info {
+	font-size: 80%;
+}
+
+/* website styles */
+
+div#banner {
+	position: relative;
+	border-width: 1px;
+	background-color: #e0e0e0;
+	padding: 8px;
+	padding-top: 0px;
+	padding-bottom: 30px;
+	-moz-border-radius: 8px;
+	border: 1px solid #000000;
+	min-width: 750px;
+	z-index: 1;
+	margin-bottom: 10px;
+}
+
+div#banner div#title {
+	position: relative;
+	text-decoration: bold;
+	top: 10px;
+	width: 70%;
+	font-size: 170%;
+}
+
+div#banner div#subtitle {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	width: 30%;
+	text-align: right;
+	font-size: 80%;
+}
+
+div#banner div#logo {
+	position: relative;
+	float: right;
+	top: -55px;
+	right: 0px;
+}
+
+div#body {
+}
+
+div#body div#system-column {
+	position: absolute;
+	left: 0px;
+	width: 170px;
+}
+
+div#login {
+	color: #000000;
+	background-color: #e0e0e0;
+	padding: 5px;
+	padding-bottom: 0px;
+	-moz-border-radius: 8px;
+	border: 1px solid #000000;
+	z-index: 2;
+}
+
+div#login div#logfail {
+	color: #ff0000;
+}
+
+div#login form input {
+	font-size: 10px;
+	width: 95%;
+}
+
+div#login form button {
+	font-size: 10px;
+}
+
+div#system-column div {
+	margin-bottom: 10px;
+}
+
+div.site-menu {
+	position: relative;
+        margin-left: 10px;
+	color: #000000;
+	background-color: #ffffff;
+	-moz-border-radius: 8px;
+	border: 1px solid #000000;
+	padding: 5px;
+	z-index: 2;
+}
+
+div.site-menu a {
+	text-decoration: none;
+	color: #0000ff;
+	background-color: #ffffff;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+div.site-menu a:active {
+	color: #0000ff;
+	background-color: #ffffff;
+}
+
+div.site-menu a:inactive {
+	text-decoration: none;
+}
+
+div.site-menu-active {
+	border-width: 1px;
+	color: #0000ff;
+	background-color: #d0d0d0;
+	-moz-border-radius: 4px;
+	border: 1px solid #000000;
+}
+
+div.site-menu div {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div#body div#content {
+	position: absolute;
+        height: 100%;
+	left: 180px;
+}
+
+body h1 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+body h2 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+body h3 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+body th {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #dddddd;
+}
+
+body td {
+	vertical-align: top;
+}
+
+body p {
+/*	padding-left: 5%; */
+}
+
+body a {
+	color: #0000ff;
+}
+
+body h1 {
+	font-size: 150%;
+}
+
+body h2 {
+	font-size: 120%;
+}
+
+body h3 {
+	font-size: 110%;
+}
+
+pre {
+	font-family: Times, serif;
+}

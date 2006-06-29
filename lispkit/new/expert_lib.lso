@@ -1,0 +1,38 @@
+((init(say Kelloggs Delegging Machine(Model A)service routine)(goto presbut
+))(tagain(say Try again:)(goto presbut))(presbut(ask q Is the button pressable?
+)(if yes legoff)(if no isbut))(isbut(enq qisbut Is there a button?)(if yes
+dedcoy)(note butret tagain)(if no newbut))(newbut(say Fit a new button assembly
+(part no #765/wy/35454y/z2))(note qisbut yes)(note button new)(getval butret
+)(goto *))(dedcoy(getval qdedcoy)(if done infkel)(note qdedcoy done)(say
+Remove any dead coypu or empty cornflake packets from the)(say button assembly
+)(goto tagain))(infkel(say Inspect the ablative distending grommet for signs
+of infestation)(say by kelp or other southern Atlantic seaweeds ---)(enq
+qinfkel is it clear?)(if no solsoak)(getval button)(if new dealer)(note
+butret tagain)(goto newbut))(solsoak(note qinfkel yes)(say Soak in Kelloggs
+Patent Marine Solvent for three days)(goto tagain))(pagain(say Press the
+button again)(goto legoff))(legoff(ask q Do all the legs fall off?)(if yes
+isclen)(if no anylof))(anylof(getval qalof)(if yes insflegs)(ask qalof Do
+any of the legs fall off?)(if no anylegs)(note butquery no)(if yes insflegs
+))(anylegs(enq qanylegs Are there any legs?)(if no nolegs)(note butquery
+yes)(if yes insflegs))(nolegs(note qanylegs yes)(say Fix new legs(part no
+#7576/e/7yeyr/5ww/p))(goto pagain))(insflegs(getval despr)(if yes noglue
+)(say Inspect the non-departed legs:)(enq nailedon Have they been nailed
+on?)(if yes remnails)(if no lookglue))(remnails(note nailedon no)(say Remove
+all nails from the legs)(goto pagain))(lookglue(note despr yes)(enq isglue
+Is there any sign of glue?)(if yes remglue)(if no noglue))(remglue(note
+isglue no)(say Soak legs in paradi-chloro-phenyl-pentanoic acid)(goto pagain
+))(noglue(getval butquery)(if no tryone)(getval button)(if new tryone)(
+note butret pagain)(goto newbut))(tryone(getval qone)(if done trytwo)(note
+qone done)(say Replace the pelargonium extraction unit)(say(part no #-2081070112gf-yu4
+))(goto pagain))(trytwo(getval qtwo)(if done dealer)(note qtwo done)(say
+Try inserting a secondary positron acidifier in the benign)(say matriculating
+quadrille)(goto pagain))(dealer(say OK, I give up)(say Go to your nearest
+authorised dealer)(goto end))(isclen(ask q Is the machine clean and shiny?
+)(if yes nofault)(if no trysoap))(nofault(say Your Kelloggs Delegging Machine
+(Model A))(say is now in perfect working order)(goto end))(trysoap(getval
+qsoap)(if done tryboil)(note qsoap done)(say Sponge the machine with warm
+soapy water,)(say taking care not to wet the expeditionary telephone emulator
+)(say or the cold air intake conduit)(goto isclen))(tryboil(getval qboil
+)(if done filthy)(note qboil done)(say Boil the machine for 30 mins in deionised
+water)(goto isclen))(filthy(say Your machine is incurable filthy, I can
+do nothing for it)(goto end)))

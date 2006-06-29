@@ -1,0 +1,7 @@
+(LETREC PERM
+  (PERM LAMBDA (L)
+    (IF (EQ L (QUOTE NIL)) (QUOTE NIL)
+        (INSERT (CAR L) (PERM (CDR L)))))
+  (INSERT LAMBDA (X A)
+    (IF (EQ A (QUOTE NIL)) (CONS X (QUOTE NIL))
+        (OR (CONS X A) (CONS (CAR A) (INSERT X (CDR A)))))))&

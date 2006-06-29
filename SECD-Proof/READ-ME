@@ -1,0 +1,152 @@
+% --------------------------------------------------------------------- %
+% DIRECTORY: SECD                                                       %
+%                                                                       %
+% DESCRIPTION: The SECD microprocessor specification and verification.  %
+%                                                                       %
+% AUTHOR: Brian Graham                                                  %
+%                                                                       %
+% ADDRESS: University of Cambridge                                      %
+%          Computer Laboratory                                          %
+%          New Museums Site                                             %
+%          Pembroke Street                                              %
+%          Cambridge, CB2 3QG                                           %
+%          England                                                      %
+%                                                                       %
+%          email: btg@cl.cam.ac.uk                                      %
+%                                                                       %
+% DATE:    27.02.92                                                     %
+% Revised: 06.01.93 - updated to version 2.1                            %
+% --------------------------------------------------------------------- %
+This directory contains all of the sources for the SECD microprocessor
+study.  The sources are compatible with HOL version 2.1.
+
+The only changes necessary to build this proof at any other location
+are believed to be the following:
+
+  1. Change the absolute pathname for Hol in the first line of each of
+     the files:
+	 ./Makefile
+	 ./wordn/Makefile
+	 ./buses/Makefile
+
+The files in this directory consist of the following:
+
+  Makefile		the top level makefile
+
+  wordn/		a library directory containing the definition and
+   			partial axiomatization of a nonempty finite size
+			word data type (written by Tom Melham - tfm@cl.cam.ac.uk)
+
+  buses/		a set of theorems and tactics to help with proofs
+                        of concerning objects of the underlying type upon
+                        which the wordn type is build
+
+  TACTICS/		a directory with an assortment of specialized tactics 
+			used in the proof
+
+  hol-init.ml		the initialization file for hol, containing
+			definitions required for the execution of the
+                        sources, and setting up the search path as needed
+ 
+  modulo_ops.ml		defines modulo arithmetic operations, and develops
+			the theory of the operations
+
+  val_defs.ml		defines the abstraction functions from bus'es to
+                        num's and int's
+
+  cu_types.ml		defines the wordn data types used in the control
+                        unit, as well as subfield selector functions, and
+                        an increment function on word9 
+
+  dp_types.ml		defines the wordn data types used in the
+			datapath, as well as wordn constants, subfield
+        		selector functions, and wordn constructor functions
+
+  abstract_mem_type.ml 	defines an abstract data type to represent the
+			state of lisp structures in memories, and a
+			set of primitive operations thereon
+
+  interface.ml		defines a one_asserted property, used by both the
+			control unit and datapath sections
+
+  io.ml			defines i/o functions for reading the file "intermediate"
+			(written by John VanTassel: jvt@cl.cam.ac.uk)
+
+  intermediate		a compiled intermediate form of the microcode
+			program, used to generate a rom function definition
+  
+  rt_CU.ml ,rt_DP.ml, rt_PADS.ml, rt_SECD.ml, rt_SYS.ml
+  			register transfer level definitions of the system
+			hierarchy 
+
+  top_SECD.ml		top level definition of the system
+
+  val_theorems.ml	develops theorems about the val abstractions
+
+  Inc9_proofs.ml	develops a full suite of theorems about the
+			incrementation of word9 values
+
+  CU_wordn_proofs.ml 	proves some equality and inequalities of wordn constants
+
+  CU_proofs.ml, DP_proofs.ml, SECD_proofs.ml, SYS_proofs.ml
+			unfolding of definitions, and simplifications to the 
+			rt level of description
+
+  constraints.ml	defines the constraints on the correctness proof
+
+  when.ml		temporal abstraction predicates (written by Inder S.
+			Dhingra - esd@cl.caam.ac.uk)
+
+  mem_abs.ml		defines an abstraction between low level and abstract
+			memories 
+
+  phase_template.ml	a template for substitution used by phase_proof_fcn
+
+  phase_proof_fcn.ml	a function for proving the "phase" level theorems
+
+  phase_lemmas1.ml ... phase_lemmas7.ml
+			develops theorems about the effect of execution of 
+			individual microinstructions
+
+  mu-prog_level.ml	proves theorems used in the microprogramming level
+
+  loop_proofs.ml	develops a number of theorems about val abstractions and
+			iterations used in proving the effect of computing while
+			loops 
+
+  mu-prog_proof_fcn.ml  a function for proving "microprogramming" level theorems
+  mu-prog_proof0.ml	proves that under given constraints, the system initially 
+			reaches the idle state
+
+  mu-prog_init_proofs.ml proves the top level finite state machine transition
+			sequences, except for the machine instruction exectutions
+
+  mu-prog_sr_proofs.ml proves theorems about the effect of executing subroutines
+
+  mu-prog_ADD.ml ... mu-prog_SUB.ml
+			develops theorems about the effect of execution of 
+			microinstruction sequences for each machine instruction.
+			This is the microprogramming level.
+
+  simplify.ml		converts theorems from the microprogramming stage to 
+			more readable forms by use of let bindings.  This part
+			is not used subsequently in the proof, but was useful to
+			examine intermediate results for planning later stages
+			of the proof.
+
+  liveness.ml		proves that under given constraints, the system has a
+			"liveness" property
+
+  correctness_misc.ml	develops results about the invariance of data structures
+			under primitive operations and constraints.
+
+  correctness_init.ml	proves the correspondence of the top level fsm
+			transitions (aside from machine instruction exectution)
+			at the rtl and top levels.
+
+  correctness_ADD.ml ... correctness_SUB.ml
+			proves the correspondence of the rtl and top level 
+			transitions for each machine instruction
+
+  correctness.ml	proves the correspondence of the rtl and top level
+			systems under given constraints

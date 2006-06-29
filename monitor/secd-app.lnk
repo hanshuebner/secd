@@ -1,0 +1,13 @@
+-mxsuj
+secd-app
+app-start
+secd-app
+-g _acia_control = 0xe000
+-g _acia_data = 0xe001
+-g _led = 0xe0e0
+-g _lcd = 0xe0f0
+-g _secd_status = 0xe140
+-g _secd_address_high = 0xe141
+-g _secd_mem = 0xe200
+-b sysrom = 0x0000
+-e

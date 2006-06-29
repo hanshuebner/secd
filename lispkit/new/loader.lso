@@ -1,0 +1,12 @@
+(letrec(run_and_halt load_go_loop)(load_go_loop letrec(application load_go
+(quote NIL))(load_go lambda NIL(consume(output(execute(input)))))(consume
+letrec(lambda(s)(application step(list s)))(step lambda(s)(if(atom s)(sequence
+(print_item newline)load_go_loop)(sequence(print_item(head s))(consume(
+tail s))))))(output lambda(s)(if(atom s)(if(eq s(quote NIL))(quote NIL)
+(cons s(quote NIL)))(flatten(head s)(output(tail s)))))(execute lambda(
+in_stream)(if(letrec(or(atom closure)(or(atom code)(not(number first_op
+))))(closure head in_stream)(code head closure)(first_op head code))(quote
+(input is not a closure))((load_code(head in_stream))(tail in_stream)))
+)(input lambda NIL(letrec(stream item(input))(stream lambda(a b)(sequence
+a(cons a b)))(item read_item))))(application lambda(f e)(strict_cons f e
+)))

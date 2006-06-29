@@ -1,0 +1,34 @@
+% --------------------------------------------------------------------- %
+% DIRECTORY: TACTICS                                                    %
+%                                                                       %
+% DESCRIPTION: A set of tactics used in the SECD microprocessor         %
+%              specification and verification.                          %
+%                                                                       %
+% AUTHOR: Brian Graham                                                  %
+%                                                                       %
+% ADDRESS: University of Cambridge                                      %
+%          Computer Laboratory                                          %
+%          New Museums Site                                             %
+%          Pembroke Street                                              %
+%          Cambridge, CB2 3QG                                           %
+%          England                                                      %
+%                                                                       %
+%          email: btg@cl.cam.ac.uk                                      %
+%                                                                       %
+% DATE: 92.02.27                                                        %
+% --------------------------------------------------------------------- %
+
+Contains the following files:
+
+  ABBREV_TAC.ml
+  BINDER_EQ_TAC.ml
+  COND_CASES_THEN.ml
+  CONJUNCTS_TAC.ml
+  EXISTS_PERM_LIST.ml
+  MOVE_EXISTS_OUT_CONV.ml
+  RATOR_RAND_CONV.ml
+  SELECT_UNIQUE.ml
+  SPLIT_CONJUNCTS.ml
+  SYM.ml
+
+  load_all.ml		defines functions to load items from theories

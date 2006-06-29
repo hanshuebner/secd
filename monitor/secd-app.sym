@@ -1,0 +1,33 @@
+ASxxxx Assembler V04.10  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.ABS.       =   0000 G   |     .__.CPU.       =   0000 
+  2 L11                004E GR  |   2 L13                0091 GR
+  2 L14                0061 GR  |   2 L16                0089 GR
+  2 L17                0072 GR  |   2 L2                 0006 GR
+  2 L22                00C2 GR  |   2 L23                00AE GR
+  2 L26                0107 GR  |   2 L27                0129 GR
+  2 L3                 0010 GR  |   2 L5                 001B GR
+  2 L6                 0025 GR  |   2 L7                 0044 GR
+  2 L8                 0030 GR  |     _acia_control      **** GX
+    _acia_data         **** GX  |   2 _acia_getchar      0019 GR
+  2 _acia_putchar      0000 GR  |   2 _acia_puts         002A GR
+  2 _blink             0048 GR  |   2 _clear_secd_me     0058 GR
+    _lcd               **** GX  |   2 _lcd_init          0095 GR
+  2 _lcd_putc          0099 GR  |   2 _lcd_puts          00A8 GR
+    _led               **** GX  |   2 _main              0144 GR
+  2 _program           00C6 GR  |     _secd_address_     **** GX
+    _secd_mem          **** GX  |     _secd_status       **** GX
+  2 _setup_secd_pr     00FE GR
+ASxxxx Assembler V04.10  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 sysrom           size  159   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0

@@ -1,0 +1,17 @@
+(in-package :cl-user)
+
+(defun compare-traces (file1 file2)
+  (with-open-file (file1 file1)
+    (with-open-file (file2 file2)
+      (let ((line-number 1))
+        (handler-case 
+            (loop for line1 = (read-line file1)
+                  for line2 = (read-line file2)
+                  for colon = (position #\: line1)
+                  for data1 = (read-from-string (subseq line1 (1+ colon)))
+                  for data2 = (read-from-string (subseq line2 (1+ colon)))
+                  do (unless (equal data1 data2)
+                       (format t "mismatch in line ~A~%~A~%~A~%" line-number line1 line2))
+                  do (incf line-number))
+          (error (e)
+            (error "line ~A: ~A" line-number e)))))))

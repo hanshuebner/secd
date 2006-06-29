@@ -1,0 +1,3 @@
+(letrec compile(comment quote((Compiler generating closures from lambda
+expressions)(Geraint Jones, PRG Oxford, 25 March 1983)))(compile lambda
+(e)(cons(comp e(quote NIL)RTN_seq)(quote NIL))))

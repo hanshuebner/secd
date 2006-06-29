@@ -1,0 +1,420 @@
+V 000039 11 239 1151526054108 char_rom
+E char_rom VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P cs _in std_logic
+P rw _in std_logic
+P addr _in std_logic_vector[10:0]
+P rdata _out std_logic_vector[7:0]
+P wdata _in std_logic_vector[7:0]
+X char_rom
+V 000040 11 301 1151610924002 clock_gen
+E clock_gen VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P reset _in std_logic
+P clk _in std_logic
+P alu_ins _in std_logic
+P ram_busy _in std_logic
+P phi_read _out std_logic
+P phi_alu _out std_logic
+P phi_write _out std_logic
+P phi_next _out std_logic
+P stop _in std_logic
+P stopped _out std_logic
+X clock_gen
+V 000046 11 211 1151526054448 clock_synthesis
+E clock_synthesis VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P CLKIN_IN _in std_logic
+P CLKFX_OUT _out std_logic
+P CLKIN_IBUFG_OUT _out std_logic
+P CLK0_OUT _out std_logic
+P LOCKED_OUT _out std_logic
+X clock_synthesis
+V 000043 11 406 1151610924457 control_unit
+E control_unit VHDL
+L IEEE;SECD;
+U ieee.std_logic_1164;secd.secd_defs;
+P clk _in std_logic
+P reset _in std_logic
+P phi_next _in std_logic
+P button _in std_logic
+P opcode _in std_logic_vector[8:0]
+P flags _in flagsunit
+P read_sel _out std_logic_vector[4:0]
+P write_sel _out std_logic_vector[4:0]
+P alu_sel _out std_logic_vector[4:0]
+P alu_ins _out std_logic
+P stop_instruction _out std_logic
+X control_unit
+V 000036 11 348 1151526055750 cpu09
+E cpu09 VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P rw _out std_logic
+P vma _out std_logic
+P address _out std_logic_vector[15:0]
+P data_in _in std_logic_vector[7:0]
+P data_out _out std_logic_vector[7:0]
+P halt _in std_logic
+P hold _in std_logic
+P irq _in std_logic
+P firq _in std_logic
+P nmi _in std_logic
+X cpu09
+V 000039 11 566 1151610923863 datapath
+E datapath VHDL
+L IEEE;SECD;
+U ieee.std_logic_1164;secd.secd_defs;
+P clk _in std_logic
+P reset _in std_logic
+P phi_read _in std_logic
+P phi_alu _in std_logic
+P phi_write _in std_logic
+P read_sel _in std_logic_vector[4:0]
+P alu_sel _in std_logic_vector[4:0]
+P write_sel _in std_logic_vector[4:0]
+P ram_in _in std_logic_vector[31:0]
+P ram_out _out std_logic_vector[31:0]
+P ram_addr _out std_logic_vector[13:0]
+P ram_read _out std_logic
+P ram_write _out std_logic
+P opcode _out std_logic_vector[8:0]
+P flags _out flagsunit
+P state _out std_logic_vector[1:0]
+X datapath
+V 000041 11 3706 1151526154552 idt71v416
+E idt71v416 VHDL
+L IEEE;STD;
+U ieee.vital_timing;STD.STANDARD;ieee.std_logic_1164;
+G tipd_OENeg VitalDelayType01 = VitalZeroDelay01
+G tipd_WENeg VitalDelayType01 = VitalZeroDelay01
+G tipd_CENeg VitalDelayType01 = VitalZeroDelay01
+G tipd_BHENeg VitalDelayType01 = VitalZeroDelay01
+G tipd_BLENeg VitalDelayType01 = VitalZeroDelay01
+G tipd_D0 VitalDelayType01 = VitalZeroDelay01
+G tipd_D1 VitalDelayType01 = VitalZeroDelay01
+G tipd_D2 VitalDelayType01 = VitalZeroDelay01
+G tipd_D3 VitalDelayType01 = VitalZeroDelay01
+G tipd_D4 VitalDelayType01 = VitalZeroDelay01
+G tipd_D5 VitalDelayType01 = VitalZeroDelay01
+G tipd_D6 VitalDelayType01 = VitalZeroDelay01
+G tipd_D7 VitalDelayType01 = VitalZeroDelay01
+G tipd_D8 VitalDelayType01 = VitalZeroDelay01
+G tipd_D9 VitalDelayType01 = VitalZeroDelay01
+G tipd_D10 VitalDelayType01 = VitalZeroDelay01
+G tipd_D11 VitalDelayType01 = VitalZeroDelay01
+G tipd_D12 VitalDelayType01 = VitalZeroDelay01
+G tipd_D13 VitalDelayType01 = VitalZeroDelay01
+G tipd_D14 VitalDelayType01 = VitalZeroDelay01
+G tipd_D15 VitalDelayType01 = VitalZeroDelay01
+G tipd_A0 VitalDelayType01 = VitalZeroDelay01
+G tipd_A1 VitalDelayType01 = VitalZeroDelay01
+G tipd_A2 VitalDelayType01 = VitalZeroDelay01
+G tipd_A3 VitalDelayType01 = VitalZeroDelay01
+G tipd_A4 VitalDelayType01 = VitalZeroDelay01
+G tipd_A5 VitalDelayType01 = VitalZeroDelay01
+G tipd_A6 VitalDelayType01 = VitalZeroDelay01
+G tipd_A7 VitalDelayType01 = VitalZeroDelay01
+G tipd_A8 VitalDelayType01 = VitalZeroDelay01
+G tipd_A9 VitalDelayType01 = VitalZeroDelay01
+G tipd_A10 VitalDelayType01 = VitalZeroDelay01
+G tipd_A11 VitalDelayType01 = VitalZeroDelay01
+G tipd_A12 VitalDelayType01 = VitalZeroDelay01
+G tipd_A13 VitalDelayType01 = VitalZeroDelay01
+G tipd_A14 VitalDelayType01 = VitalZeroDelay01
+G tipd_A15 VitalDelayType01 = VitalZeroDelay01
+G tipd_A16 VitalDelayType01 = VitalZeroDelay01
+G tipd_A17 VitalDelayType01 = VitalZeroDelay01
+G tpd_BLENeg_D0 VitalDelayType01Z = UnitDelay01Z
+G tpd_OENeg_D0 VitalDelayType01Z = UnitDelay01Z
+G tpd_CENeg_D0 VitalDelayType01Z = UnitDelay01Z
+G tpd_A0_D0 VitalDelayType01 = UnitDelay01
+G tpw_WENeg_negedge VitalDelayType = UnitDelay
+G tsetup_BLENeg_WENeg VitalDelayType = UnitDelay
+G tsetup_D0_WENeg VitalDelayType = UnitDelay
+G tsetup_D0_CENeg VitalDelayType = UnitDelay
+G thold_D0_WENeg VitalDelayType = UnitDelay
+G thold_D0_CENeg VitalDelayType = UnitDelay
+G InstancePath STRING = DefaultInstancePath
+G TimingChecksOn BOOLEAN = DefaultTimingChecks
+G MsgOn BOOLEAN = DefaultMsgOn
+G XOn BOOLEAN = DefaultXOn
+G SeverityMode SEVERITY_LEVEL = WARNING
+G TimingModel STRING = DefaultTimingModel
+P A0 _in std_ulogic = 'U'
+P A1 _in std_ulogic = 'U'
+P A2 _in std_ulogic = 'U'
+P A3 _in std_ulogic = 'U'
+P A4 _in std_ulogic = 'U'
+P A5 _in std_ulogic = 'U'
+P A6 _in std_ulogic = 'U'
+P A7 _in std_ulogic = 'U'
+P A8 _in std_ulogic = 'U'
+P A9 _in std_ulogic = 'U'
+P A10 _in std_ulogic = 'U'
+P A11 _in std_ulogic = 'U'
+P A12 _in std_ulogic = 'U'
+P A13 _in std_ulogic = 'U'
+P A14 _in std_ulogic = 'U'
+P A15 _in std_ulogic = 'U'
+P A16 _in std_ulogic = 'U'
+P A17 _in std_ulogic = 'U'
+P D0 _inout std_ulogic = 'U'
+P D1 _inout std_ulogic = 'U'
+P D2 _inout std_ulogic = 'U'
+P D3 _inout std_ulogic = 'U'
+P D4 _inout std_ulogic = 'U'
+P D5 _inout std_ulogic = 'U'
+P D6 _inout std_ulogic = 'U'
+P D7 _inout std_ulogic = 'U'
+P D8 _inout std_ulogic = 'U'
+P D9 _inout std_ulogic = 'U'
+P D10 _inout std_ulogic = 'U'
+P D11 _inout std_ulogic = 'U'
+P D12 _inout std_ulogic = 'U'
+P D13 _inout std_ulogic = 'U'
+P D14 _inout std_ulogic = 'U'
+P D15 _inout std_ulogic = 'U'
+P BHENeg _in std_ulogic = 'U'
+P BLENeg _in std_ulogic = 'U'
+P OENeg _in std_ulogic = 'U'
+P WENeg _in std_ulogic = 'U'
+P CENeg _in std_ulogic = 'U'
+X idt71v416
+V 000039 11 216 1151526055550 kbug_ram
+E kbug_ram VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P dout _out std_logic_vector[7:0]
+P din _in std_logic_vector[7:0]
+P addr _in std_logic_vector[10:0]
+P en _in std_logic
+P we _in std_logic
+P clk _in std_logic
+X kbug_ram
+V 000037 11 234 1151526056594 key_b4
+E key_b4 VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P cs _in std_logic
+P rw _in std_logic
+P addr _in std_logic_vector[8:0]
+P rdata _out std_logic_vector[7:0]
+P wdata _in std_logic_vector[7:0]
+X key_b4
+V 000039 11 307 1151526058210 keyboard
+E keyboard VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P cs _in std_logic
+P rw _in std_logic
+P addr _in std_logic
+P data_in _in std_logic_vector[7:0]
+P data_out _out std_logic_vector[7:0]
+P irq _out std_logic
+P kbd_clk _inout std_logic
+P kbd_data _inout std_logic
+X keyboard
+V 000044 11 175 1151526057262 microcode_rom
+E microcode_rom VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P en _in std_logic
+P addr _in std_logic_vector[8:0]
+P data _out std_logic_vector[27:0]
+X microcode_rom
+V 000039 11 398 1151526057913 miniuart
+E miniUART VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P cs _in std_logic
+P rw _in std_logic
+P irq _out std_logic
+P Addr _in std_logic
+P DataIn _in std_logic_vector[7:0]
+P DataOut _out std_logic_vector[7:0]
+P RxC _in std_logic
+P TxC _in std_logic
+P RxD _in std_logic
+P TxD _out std_logic
+P DCD_n _in std_logic
+P CTS_n _in std_logic
+P RTS_n _out std_logic
+X miniUART
+V 000038 11 164 1151526055472 mon_rom
+E mon_rom VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P cs _in std_logic
+P addr _in std_logic_vector[10:0]
+P rdata _out std_logic_vector[7:0]
+X mon_rom
+V 000053 11 500 1151526057725 ps2_keyboard_interface
+E ps2_keyboard_interface VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P reset _in std_logic
+P ps2_clk _inout std_logic
+P ps2_data _inout std_logic
+P rx_extended _out std_logic
+P rx_released _out std_logic
+P rx_shift_key_on _out std_logic
+P rx_ascii _out std_logic_vector[7:0]
+P rx_data_ready _out std_logic
+P rx_read _in std_logic
+P tx_data _in std_logic_vector[7:0]
+P tx_write _in std_logic
+P tx_write_ack _out std_logic
+P tx_error_no_keyboard_ack _out std_logic
+X ps2_keyboard_interface
+V 000037 11 235 1151526056491 ram_2k
+E ram_2k VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P rst _in std_logic
+P cs _in std_logic
+P rw _in std_logic
+P addr _in std_logic_vector[10:0]
+P rdata _out std_logic_vector[7:0]
+P wdata _in std_logic_vector[7:0]
+X ram_2k
+V 000037 11 357 1151526056361 rxunit
+E RxUnit VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P Clk _in std_logic
+P Reset _in std_logic
+P ReadD _in std_logic
+P WdFmt _in std_logic_vector[2:0]
+P BdFmt _in std_logic_vector[1:0]
+P RxClk _in std_logic
+P RxDat _in std_logic
+P FRErr _out std_logic
+P ORErr _out std_logic
+P PAErr _out std_logic
+P DARdy _out std_logic
+P DAOut _out std_logic_vector[7:0]
+X RxUnit
+V 000039 11 490 1150387812214 secd_ram
+E secd_ram VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P read_data _out std_logic_vector[31:0]
+P write_data _in std_logic_vector[31:0]
+P address _in std_logic_vector[13:0]
+P read_en _in std_logic
+P write_en _in std_logic
+P clk _in std_logic
+P reset _in std_logic
+P busy _out std_logic
+P ram_oen _out std_logic
+P ram_cen _out std_logic
+P ram_wen _out std_logic
+P ram_io _inout std_logic_vector[15:0]
+P ram_a _out std_logic_vector[20:0]
+P ram_bhen _out std_logic
+P ram_blen _out std_logic
+X secd_ram
+V 000050 11 702 1151526057613 secd_ram_controller
+E secd_ram_controller VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P reset _in std_logic
+P din32 _in std_logic_vector[31:0]
+P dout32 _out std_logic_vector[31:0]
+P addr32 _in std_logic_vector[13:0]
+P read32_enable _in std_logic
+P write32_enable _in std_logic
+P busy8 _out std_logic
+P din8 _in std_logic_vector[7:0]
+P dout8 _out std_logic_vector[7:0]
+P addr8 _in std_logic_vector[15:0]
+P read8_enable _in std_logic
+P write8_enable _in std_logic
+P busy32 _out std_logic
+P ram_oen _out std_logic
+P ram_cen _out std_logic
+P ram_wen _out std_logic
+P ram_io _inout std_logic_vector[15:0]
+P ram_a _out std_logic_vector[20:0]
+P ram_bhen _out std_logic
+P ram_blen _out std_logic
+X secd_ram_controller
+V 000042 11 398 1151610924634 secd_system
+E secd_system VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P clk _in std_logic
+P reset _in std_logic
+P button _in std_logic
+P ram_read _out std_logic
+P ram_in _in std_logic_vector[31:0]
+P ram_write _out std_logic
+P ram_out _out std_logic_vector[31:0]
+P ram_a _out std_logic_vector[13:0]
+P ram_busy _in std_logic
+P stop _in std_logic
+P stopped _out std_logic
+P state _out std_logic_vector[1:0]
+X secd_system
+V 000037 11 285 1151526056915 txunit
+E TxUnit VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P Clk _in std_logic
+P Reset _in std_logic
+P LoadD _in std_logic
+P DAIn _in std_logic_vector[7:0]
+P WdFmt _in std_logic_vector[2:0]
+P BdFmt _in std_logic_vector[1:0]
+P TxClk _in std_logic
+P TxDat _out std_logic
+P TBE _out std_logic
+X TxUnit
+V 000039 11 216 1151526056684 user_ram
+E user_ram VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P dout _out std_logic_vector[7:0]
+P din _in std_logic_vector[7:0]
+P addr _in std_logic_vector[13:0]
+P en _in std_logic
+P we _in std_logic
+P clk _in std_logic
+X user_ram
+V 000034 11 435 1151526057052 vdu
+E vdu VHDL
+L IEEE;
+U ieee.std_logic_1164;
+P vdu_clk_in _in std_logic
+P cpu_clk_out _out std_logic
+P vdu_rst _in std_logic
+P vdu_cs _in std_logic
+P vdu_rw _in std_logic
+P vdu_addr _in std_logic_vector[2:0]
+P vdu_data_in _in std_logic_vector[7:0]
+P vdu_data_out _out std_logic_vector[7:0]
+P vga_red_o _out std_logic
+P vga_green_o _out std_logic
+P vga_blue_o _out std_logic
+P vga_hsync_o _out std_logic
+P vga_vsync_o _out std_logic
+X vdu

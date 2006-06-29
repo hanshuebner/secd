@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu name="main">
+ <item url="home" title="Home" />
+ <item url="secd" title="SECD" />
+ <item url="capability-based" title="Capability Based Hardware" />
+ <item url="contact" title="Contact" />
+</menu>

@@ -1,0 +1,28 @@
+(letrec(lambda(kb)(execute(untilend(tail kb))(head kb)))(execute lambda
+(c db)(if(eq c(quote NIL))(quote NIL)(if(isadd(head c))(execute(tail c)
+(addset db(eval(arg1(head c))db)(mkatom(arg2(head c)))(eval(arg3(head c
+))db)))(if(isdb(head c))(cons db(execute(tail c)db))(cons(eval(head c)db
+)(execute(tail c)db))))))(eval lambda(e db)(if(isunion e)(union(eval(arg1
+e)db)(eval(arg2 e)db))(if(isinter e)(intersection(eval(arg1 e)db)(eval(
+arg2 e)db))(if(isdiff e)(difference(eval(arg1 e)db)(eval(arg2 e)db))(if
+(isim e)(imageset(eval(arg1 e)db)(mkatom(arg2 e))db)(if(isinvim e)(invimage
+(eval(arg2 e)db)(mkatom(arg1 e))db)(if(isatomlist e)e emptyset)))))))(imageset
+lambda(nodeset attr db)(reduce union(map(lambda(n)(image n attr db))nodeset
+)emptyset))(image lambda(node attr db)(if(defined node db)(let(if(defined
+attr a)(associate attr a)emptyset)(a associate node db))emptyset))(invimage
+lambda(nodeset attr db)(filter(lambda(n)(not(eq(intersection(image n attr
+db)nodeset)emptyset)))(domain db)))(addset lambda(db ns1 attr ns2)(reduce
+(lambda(n db)(addel n attr ns2 db))ns1 db))(addel lambda(node attr nodeset
+db)(let(let(update db node(update a attr(union nodeset s)))(s if(defined
+attr a)(associate attr a)emptyset))(a if(defined node db)(associate node
+db)(quote NIL))))(isunion lambda(e)(and(not(atom e))(eq(head e)(quote union
+))))(isinter lambda(e)(and(not(atom e))(eq(head e)(quote inter))))(isdiff
+lambda(e)(and(not(atom e))(eq(head e)(quote diff))))(isim lambda(e)(and
+(not(atom e))(eq(head e)(quote im))))(isinvim lambda(e)(and(not(atom e)
+)(eq(head e)(quote inv))))(isadd lambda(e)(and(not(atom e))(eq(head e)(
+quote add))))(isdb lambda(e)(eq e(quote db)))(isatomlist lambda(e)(or(eq
+e(quote NIL))(and(not(atom e))(and(atom(head e))(isatomlist(tail e)))))
+)(arg1 lambda(e)(if(leq(quote 2)(length e))(head(tail e))(quote NIL)))(
+arg2 lambda(e)(if(leq(quote 3)(length e))(head(tail(tail e)))(quote NIL
+)))(arg3 lambda(e)(if(leq(quote 4)(length e))(head(tail(tail(tail e))))
+(quote NIL)))(mkatom lambda(x)(if(atom x)x(quote NIL))))

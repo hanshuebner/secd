@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="website.xsl" ?>
+ <page name="home" title="Home">
+  <p>
+   The Breakout group "Reclaim the Hardware Design Space!" on the <a
+   href="http://lisp-ecoop.bknr.net">3rd European Lisp Workshop</a> is
+   about creating hardware that is suited to dynamic programming
+   languages in general, and LISP in particular.  We will be
+   investigating current hardware technologies to find out what they
+   have to offer for systems that are dynamic from the ground up.
+  </p>
+  <p>
+   The breakout group is meant to provide a meeting point for
+   researchers and practitioners working on hardware implementation
+   techniques for dynamic languages.  To participate, you should know
+   something about the implementation of dynamic languages, about
+   hardware, or both.  You are not required to actually have created a
+   LISP machine yourself, but you should be aware of some of the
+   associated issues in order to take part in the discussion.
+  </p>
+  <p>
+   Some of the topics of interest are:
+   <ul>
+    <li>Implementation of LISP-friendly CPUs in hardware</li>
+    <li>Hardware assisted garbage collection</li>
+    <li>Self-Synthesis and Hardware/Software Co-Design</li>
+    <li>LISP based ASLs for hardware description and synthesis</li>
+    <li>Techniques for CPU implementation on FPGAs</li>
+    <li>Reengineering ancient CPUs in software or hardware</li>
+   </ul>
+  </p>
+  <p>
+   In the breakout group, time will be provided for researchers to
+   demonstrate their achivements and position.  If you have something
+   to present, please <a href="contact.xml">let us know</a> and we
+   will provide you with presentation time.  You may also publish
+   information on this web site in order to let participants get some
+   idea of what you are working on in advance.
+   <strong>
+    The number of workshop participants is limited!  If you want to
+    attend, it is mandatory that you first contact <a
+    href="mailto:pc@p-cos.net">Pascal Costanza</a>
+    before registering through the ECOOP06 web site.
+   </strong>
+  </p>
+  <p>
+   We hope that the breakout group will help in advancing dynamic
+   hardware and provide for a place for researchers and practitioners
+   to work together.
+  </p>
+ </page>

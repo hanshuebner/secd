@@ -1,0 +1,11 @@
+awk -F: '{s += $3} END {print "types sum is        ", s}' types.sum 
+awk -F: '{s += $3} END {print "defs sum is         ", s}' defs.sum 
+awk -F: '{s += $2} END {print "axio sum is          ", s}' axio.sum 
+awk -F: '{s += $2} END {print "constr sum is       ", s}' constr.sum 
+awk -F: '{s += $2} END {print "mabs sum is         ", s}' mabs.sum 
+awk -F: '{s += $3} END {print "expands sum is     ", s}' expands.sum 
+awk -F: '{s += $3} END {print "phase sum is      ", s}' phase.sum 
+awk -F: '{s += $3} END {print "mu-prog sum is     ", s}' mu-prog.sum 
+awk -F: '{s += $2} END {print "liveness sum is       ", s}' liveness.sum 
+awk -F: '{s += $3} END {print "correctness sum is ", s}' correctness.sum 
+awk '{s += $4} END {print "total is          ", s}' SUMMARY 

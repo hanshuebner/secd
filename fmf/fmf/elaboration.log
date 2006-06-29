@@ -1,0 +1,16 @@
+elbread.dll ver. 1.0.5.375 Wed Jun 21 20:18:42 2006
+
+
+---------------------------------
+Entity   | Architecture | Library
+---------------------------------
+tri_buf  | behavior     | fmf
+---------------------------------
+
+-------------------------
+Package         | Library
+-------------------------
+standard        | std
+std_logic_1164  | ieee
+switch_pkg      | fmf
+-------------------------

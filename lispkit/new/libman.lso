@@ -1,0 +1,79 @@
+(letrec (lambda (i)
+          (append (quote (LispKit Librarian))
+                  (librarian (head i)
+                             (freevars
+                              (head i))
+                             (tail i))))
+        (librarian lambda (e u i)
+                   (letrec (if (eq missing (quote
+                                            NIL))
+                               (write (bind_operators e u)
+                                      i)
+                               (cons newline (append missing (if (eq (head
+                                                                      i)
+                                                                     (quote end))
+                                                                 (write e (tail i))
+                                                                 (if (eq (head i)
+                                                                         (quote abort))
+                                                                     (quote NIL)
+                                                                     (
+                                                                      librarian e' u' (tail i)))))))
+                           (missing difference u operators)
+                           (e' head next)
+                           (u' tail next)
+                           (next bind e u (head i))
+                           (write lambda (e i)
+                                  (cons newline (append
+                                                 (quote (Type anything to print result))
+                                                 (sequence (head i)
+                                                           (cons e (quote NIL))))))))
+        (bind lambda (e u a)
+              (letrec (cons (if (eq defs (quote NIL))
+                                e (cons (quote
+                                         letrec)
+                                        (cons e defs)))
+                            (difference u' (map (lambda (d)
+                                                  (head d))
+                                                a)))
+                      (defs filter
+                          (lambda (d)
+                            (member (head d)
+                                    u'))
+                        a)
+                      (u' close (lambda (v)
+                                  (reduce (lambda (d l)
+                                            (if
+                                             (member (head d)
+                                                     v)
+                                             ( (tail d)
+                                               l)
+                                             l))
+                                          a' v))
+                          u)
+                      (a' map (lambda (d)
+                                (cons (head d)
+                                      (lambda
+                                          (l)
+                                        (union (freevars (tail d))
+                                               l))))
+                          a)))
+        (bind_operators lambda (e u)
+                        (letrec (
+                                 if (eq u (quote NIL))
+                                 e (cons (quote let)
+                                         (cons e (append (map (define (quote 1))
+
+                                                              (intersection u monadic_ops))
+                                                         (append (map (define (quote 2))
+                                                                      (intersection u
+                                                                                    diadic_ops))
+                                                                 (map (define (quote 3))
+                                                                      (intersection u triadic_ops)))))))
+                                (define
+                                    lambda (arity)
+                                  (lambda (name)
+                                    (let (list name (quote lambda)
+                                               arguments (cons name
+                                                           arguments))
+                                      (arguments first arity (quote (arg1 arg2 arg3)))))))))
+

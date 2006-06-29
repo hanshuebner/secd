@@ -1,0 +1,124 @@
+(* CPS conversion function *)
+(* 
+val fName = "/zaphod1/Giam/Courses/DPL Folder/Fall 2001/ML Code/CPS";
+use(fName);
+*)
+
+type Variable   = string;      (* type abbreviation           *)
+type FuncSymbol = string;      (* type abbreviation           *)
+type Location   = int;         (* static distance of variable *)
+
+datatype LambdaExp =
+    Var of Variable             |
+    Fun of FuncSymbol           |
+    Abs of Variable * LambdaExp |
+    App of LambdaExp*LambdaExp  |
+    Cond of LambdaExp*LambdaExp*LambdaExp;
+    
+(* Examples of Lambda Expressions *)
+
+val ex1 = Abs("x", Abs("y", App(Var "x", Var "y")));
+val ex2 = App(Abs("x", Var "x"), App(Fun "f", Fun "a"));
+val ex3 = App(App(Abs("x", Fun "b"), Fun "c"), App(Fun "f", Abs("y", Fun "c")));
+val ex4 = Abs("x", Var "x");
+val ex5 = App(Abs("x", Var "x"), Fun "1");
+
+
+(* creating new variables - just NEVER use NVIddd as a variable name in
+   the code you write *)
+val NVIndex = ref 0;
+load("Int");
+fun NewVar() = 
+        (NVIndex := !NVIndex + 1;
+         concat(["NVI", Int.toString(!NVIndex)]));
+
+(* Conversion to CPS *)    
+fun 
+    Convert(App(Fun f, a), k) =
+        let
+          val v = NewVar();
+        in
+          Convert(a, Abs(v, App(k, App(Fun f, Var v))))
+        end
+|
+    Convert(App(f, a), k) =
+        let
+          val w = NewVar();
+          val u = NewVar();
+        in
+          Convert(f, Abs(w, Convert(a, Abs(u, App(App(Var w, k), Var u)))))
+        end
+|
+    Convert(Abs(v, b), k) =
+        let
+          val w = NewVar();
+        in
+          App(k, Abs(w, Abs(v, Convert(b, Var w))))
+        end
+|
+    Convert(Cond(b, t, e), k) =
+        let
+          val u = NewVar();
+        in
+          Convert(b, Abs(u, Cond(Var u, Convert(t, k), Convert(e, k))))
+        end
+|
+    Convert(exp, k) = App(k, exp);
+
+
+(* The CPS compiler and virtual machine *)
+datatype Command =
+    ldv of Location                      |
+    ldf of Command list                  |
+    ldc of FuncSymbol                    |
+    tlr                                  | (* tail application *)
+    rmr of Command list                  | (* execute this code later *)
+    rtn                                  |
+    sel of (Command list)*(Command list);  (* conditional construct *)
+
+datatype Result =
+    Closure of (Command list * Result list) |
+    Result of LambdaExp                     ;
+
+
+fun Position(v, env) =  (* Compute static distance *)
+    if v = hd(env) then 0 else 1 + Position(v, tl env);
+
+fun
+    exec (s, e,  ldv(l)::c, d)              = ((List.nth(e, l))::s, e, c, d)|
+    exec (s, e, ldf(c')::c, d)              =  (Closure (c', e)::s, e, c, d)|
+    exec (s, e,  ldc(f)::c, d)              =  (  Result(Fun f)::s, e, c, d)|
+    exec (Closure(c', e')::a::s, _, tlr::nil, d)         = (s, a::e', c', d)|
+    exec(s, e, rmr(c')::c, d)                           =  (s, e, c, c'::d)|
+    exec(s, e, rtn::nil, c::d)                           =      (s, e, c, d)|
+    exec(Result(Fun "true")::s, e, sel(c1, c2)::nil, d)  =     (s, e, c1, d)|
+    exec(Result(Fun "false")::s, e, sel(c1, c2)::nil, d) =   (s, e, c2, d);
+
+fun
+    Compile(Var v, env, cont)             = ldv(Position(v, env))::cont       |
+    Compile(Fun f, env, cont)             = (ldc f)::cont                     |
+    Compile(Abs(v, b), env, cont)         = 
+        ldf(Compile(b, v::env,[rtn]))::cont                                   |
+    Compile(App(f, a), env, rtn::nil)     = 
+        Compile(a, env, Compile(f, env, [tlr]))                               |
+    Compile(App(f, a), env, tlr::nil)     =
+        Compile(a, env, (rmr[tlr])::Compile(f, env, [tlr]))                   |
+    Compile(Cond(b, t, e), env, rtn::nil) =
+        Compile(b, env, [sel(Compile(t, env, [rtn]), Compile(e, env, [rtn]))])|
+    Compile(Cond(b, t, e), env, cont)     =
+        Compile(b, env, 
+          (rmr cont)::[sel(Compile(t, env, [rtn]), Compile(e, env, [rtn]))])  ;
+    
+fun machine (s, e, c, d) =
+    let val (s', e', c', d') = exec(s, e, c, d)
+    in
+        if null(c') then hd(s') else machine(s', e', c', d')
+    end;
+    
+(*
+val cex5 = Convert(ex5, Abs("y", Var "y"));
+val CEX5 = Compile(cex5, [], [rtn]);
+Convert(ex5, Fun "f");
+Convert(ex1, Fun "f");
+val cex4 = Convert(ex4, Var "z");
+*)

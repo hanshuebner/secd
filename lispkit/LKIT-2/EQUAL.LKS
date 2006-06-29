@@ -1,0 +1,5 @@
+(LETREC EQUAL (EQUAL LAMBDA (X Y)
+  (IF (ATOM X) (EQ X Y)
+      (IF (ATOM Y) (EQ X Y)
+          (IF (EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))
+		      (QUOTE F))))))&

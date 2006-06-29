@@ -1,0 +1,26 @@
+% --------------------------------------------------------------------- %
+% DIRECTORY: buses                                                      %
+%                                                                       %
+% DESCRIPTION: A set of theorems and tactics to extend the theory of    %
+%              buses used in the SECD microprocessor specification      %
+%              and verification.                                        %
+%                                                                       %
+% AUTHOR: Brian Graham                                                  %
+%                                                                       %
+% ADDRESS: University of Cambridge                                      %
+%          Computer Laboratory                                          %
+%          New Museums Site                                             %
+%          Pembroke Street                                              %
+%          Cambridge, CB2 3QG                                           %
+%          England                                                      %
+%                                                                       %
+%          email: btg@cl.cam.ac.uk                                      %
+%                                                                       %
+% DATE: 92.02.27                                                        %
+% --------------------------------------------------------------------- %
+
+Contains the following files:
+  Makefile
+  hol-init.ml        - initialization file (abbrev's and search path)
+  mk_bus_theorems.ml - theorems about the bus datatype
+  bus_theorems.ml    - tactics for use on proofs about bus objects

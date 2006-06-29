@@ -1,0 +1,34 @@
+(letrec(lambda(kb)(cons(quote Editor)(cons(quote ready)(edit(head kb)(tail
+kb)))))(comment quote((S-expression editor)(P Henderson and S B Jones PRG
+Oxford August 1982)))(edit lambda(f c)(editloop c f(quote NIL)f))(editloop
+lambda(c f s pf)(letrec(if(eq(first t)exit)(quote(Exit editor))(if(eq(first
+t)continue)rest(cons(second t)rest)))(rest editloop(tail c)(third t)(fourth
+t)(fifth t))(t editstep(head c)f s pf)))(editstep lambda(c f s pf)(if(atom
+c)(if(eq c(quote end))(tuple exit nothing f s pf)(if(eq c(quote h))(if(
+atom f)(tuple error error f s pf)(tuple continue nothing(head f)(cons(lambda
+(x)(cons x(tail f)))s)(head f)))(if(eq c(quote t))(if(atom f)(tuple error
+error f s pf)(tuple continue nothing(tail f)(cons(lambda(x)(cons(head f
+)x))s)(tail f)))(if(eq c(quote u))(if(atom s)(tuple error error f s pf)
+(tuple continue nothing((head s)f)(tail s)((head s)f)))(if(eq c(quote p
+))(tuple prompt(dump(quote 2)f)f s pf)(if(eq c(quote top))(let(tuple continue
+nothing topf(quote NIL)topf)(topf top f s))(if(eq c(quote undo))(tuple continue
+nothing pf s f)(tuple error error f s pf))))))))(if(eq(head c)(quote c)
+)(let(if(eq m(quote NIL))(tuple error error f s pf)(tuple continue nothing
+(subst m(shead(stail(tail c))))s f))(m match(shead(tail c))f))(if(eq(head
+c)(quote r))(tuple continue nothing(shead(tail c))s f)(if(eq(head c)(quote
+p))(if(eq(shead(tail c))(quote all))(tuple prompt f f s pf)(tuple prompt
+(dump(shead(tail c))f)f s pf))(tuple error error f s pf))))))(shead lambda
+(x)(if(atom x)x(head x)))(stail lambda(x)(if(atom x)x(tail x)))(match lambda
+(p s)(if(eq p(quote NIL))(quote NIL)(if(atom p)(cons(cons p s)(quote NIL
+))(if(atom s)(quote NIL)(append(match(head p)(head s))(match(tail p)(tail
+s)))))))(append lambda(x y)(if(eq x(quote NIL))y(cons(head x)(append(tail
+x)y))))(assoc lambda(x a)(if(eq a(quote NIL))x(if(eq(head(head a))x)(tail
+(head a))(assoc x(tail a)))))(subst lambda(a p)(if(atom p)(assoc p a)(cons
+(subst a(head p))(subst a(tail p)))))(dump lambda(n x)(if(atom x)x(if(eq
+n(quote 0))(quote *)(cons(dump(sub n(quote 1))(head x))(dump n(tail x))
+))))(top lambda(f s)(if(eq s(quote NIL))f(top((head s)f)(tail s))))(tuple
+lambda(a b c d e)(cons a(cons b(cons c(cons d e)))))(first lambda(x)(head
+x))(second lambda(x)(head(tail x)))(third lambda(x)(head(tail(tail x)))
+)(fourth lambda(x)(head(tail(tail(tail x)))))(fifth lambda(x)(tail(tail
+(tail(tail x)))))(prompt quote Prompt)(error quote Error)(exit quote Exit
+)(continue quote Continue)(nothing quote Nothing))

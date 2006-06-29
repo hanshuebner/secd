@@ -1,0 +1,16 @@
+(letrec(lambda(places terms)(makepi places terms(makestart terms)))(makepi
+lambda(m n l)(letrec(if(eq m(quote 0))(makeoutput n l)(makepi(sub m(quote
+1))n(makedigit n(cons(quote 0)l))))(makeoutput lambda(n l)(if(eq n(quote
+0))(cons(quote 3)(cons(chr(quote 46))l))(makeoutput(sub n(quote 1))(tail
+l))))(makedigit lambda(n l)(letrec(if(eq n(quote 0))(put(head l)(tail l
+))(cons(rem z(add(add n n)(quote 1)))(makedigit(sub n(quote 1))(cons(div
+z(add(add n n)(quote 1)))(tail(tail l))))))(put lambda(d l)(if(eq l(quote
+NIL))(cons d(quote NIL))(cons(head l)(put d(tail l)))))(z add(mul(head(
+tail l))(quote 10))(head l))))))(makestart lambda(n)(letrec(makeseries n
+n(maketwos n))(makeseries lambda(n p l)(letrec(if(eq p(quote 1))l(makeseries
+n(sub p(quote 1))(makemult p n(add n(quote 1))(cons(quote 0)l))))(makemult
+lambda(p q r l)(if(eq(sub p(quote 1))q)(cons(add(head l)(head(tail l)))
+(tail(tail l)))(cons(rem(add(mul(head(tail l))p)(head l))r)(makemult p(
+sub q(quote 1))(sub(add q q)(quote 1))(cons(div(add(mul(head(tail l))p)
+(head l))r)(tail(tail l)))))))))(maketwos lambda(n)(if(eq n(quote 1))(quote
+(-1))(cons(quote 2)(maketwos(sub n(quote 1)))))))))
