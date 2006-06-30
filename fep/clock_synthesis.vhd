@@ -55,11 +55,11 @@ architecture BEHAVIORAL of clock_synthesis is
   -- Period Jitter with noise (Peak-to-Peak) for block DCM_INST = 0.86 ns
   component DCM
     generic( CLK_FEEDBACK : string :=  "1X";
-             CLKDV_DIVIDE : real :=  3.000000;
+             CLKDV_DIVIDE : real :=  2.000000;
              CLKFX_DIVIDE : integer :=  1;
-             CLKFX_MULTIPLY : integer := 5;
+             CLKFX_MULTIPLY : integer := 4;
              CLKIN_DIVIDE_BY_2 : boolean :=  FALSE;
-             CLKIN_PERIOD : real :=  30.000000;
+             CLKIN_PERIOD : real :=  10.000000;
              CLKOUT_PHASE_SHIFT : string :=  "NONE";
              DESKEW_ADJUST : string :=  "SYSTEM_SYNCHRONOUS";
              DFS_FREQUENCY_MODE : string :=  "LOW";

@@ -155,9 +155,9 @@ begin
   clock_stimulus : process
   begin
     clk <= '1';
-    wait for 100 ns;
+    wait for 10 ns;
     clk <= '0';
-    wait for 100 ns;
+    wait for 10 ns;
   end process;
 
   stimulus : process

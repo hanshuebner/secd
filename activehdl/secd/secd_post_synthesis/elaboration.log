@@ -1,4 +1,4 @@
-elbread.dll ver. 1.0.5.375 Thu Jun 22 23:14:00 2006
+elbread.dll ver. 1.0.5.375 Fri Jun 30 13:01:48 2006
 
 
 ----------------------------------------------------------------------------
@@ -7,25 +7,24 @@ Entity                    | Architecture               | Library
 secd_fep_trenz            | structure                  | secd_post_synthesis
 gnd                       | gnd_v                      | unisim
 vcc                       | vcc_v                      | unisim
+fd                        | fd_v                       | unisim
+fde                       | fde_v                      | unisim
+fde_1                     | fde_1_v                    | unisim
 ld                        | ld_v                       | unisim
-lde                       | lde_v                      | unisim
-ld_1                      | ld_1_v                     | unisim
-fdp                       | fdp_v                      | unisim
-fdc                       | fdc_v                      | unisim
+fdce                      | fdce_v                     | unisim
 ramb16_s9                 | ramb16_s9_v                | unisim
 ramb16_s1                 | ramb16_s1_v                | unisim
 fdr_1                     | fdr_1_v                    | unisim
-fdc_1                     | fdc_1_v                    | unisim
+fdc                       | fdc_v                      | unisim
 muxcy                     | muxcy_v                    | unisim
 xorcy                     | xorcy_v                    | unisim
 bufg                      | bufg_v                     | unisim
 ibufg                     | ibufg_v                    | unisim
 dcm                       | dcm_v                      | unisim
-fdce                      | fdce_v                     | unisim
-fde                       | fde_v                      | unisim
 fdpe                      | fdpe_v                     | unisim
+fdp                       | fdp_v                      | unisim
+lut2                      | lut2_v                     | unisim
 fdce_1                    | fdce_1_v                   | unisim
-fde_1                     | fde_1_v                    | unisim
 fdrse_1                   | fdrse_1_v                  | unisim
 fdre_1                    | fdre_1_v                   | unisim
 fd_1                      | fd_1_v                     | unisim
@@ -33,15 +32,16 @@ ramb4_s8                  | ramb4_s8_v                 | unisim
 fds_1                     | fds_1_v                    | unisim
 lut4                      | lut4_v                     | unisim
 lut3                      | lut3_v                     | unisim
-lut2                      | lut2_v                     | unisim
-ramb16_s36                | ramb16_s36_v               | unisim
-mult18x18                 | mult18x18_v                | unisim
 muxf5                     | muxf5_v                    | unisim
 muxf6                     | muxf6_v                    | unisim
-fdp_1                     | fdp_1_v                    | unisim
-fdpe_1                    | fdpe_1_v                   | unisim
+ramb16_s36                | ramb16_s36_v               | unisim
+fdc_1                     | fdc_1_v                    | unisim
 fdcp_1                    | fdcp_1_v                   | unisim
 fdcpe_1                   | fdcpe_1_v                  | unisim
+fdpe_1                    | fdpe_1_v                   | unisim
+fdr                       | fdr_v                      | unisim
+mult18x18                 | mult18x18_v                | unisim
+fdp_1                     | fdp_1_v                    | unisim
 ibuf                      | ibuf_v                     | unisim
 iobuf                     | iobuf_v                    | unisim
 obuf                      | obuf_v                     | unisim
@@ -49,12 +49,12 @@ fdrs_1                    | fdrs_1_v                   | unisim
 fdse_1                    | fdse_1_v                   | unisim
 lut1                      | lut1_v                     | unisim
 inv                       | inv_v                      | unisim
+lut3_d                    | lut3_d_v                   | unisim
 lut4_d                    | lut4_d_v                   | unisim
 lut4_l                    | lut4_l_v                   | unisim
 lut3_l                    | lut3_l_v                   | unisim
-lut2_l                    | lut2_l_v                   | unisim
 lut2_d                    | lut2_d_v                   | unisim
-lut3_d                    | lut3_d_v                   | unisim
+lut2_l                    | lut2_l_v                   | unisim
 dcm_clock_divide_by_2     | dcm_clock_divide_by_2_v    | unisim
 dcm_maximum_period_check  | dcm_maximum_period_check_v | unisim
 dcm_clock_lost            | dcm_clock_lost_v           | unisim

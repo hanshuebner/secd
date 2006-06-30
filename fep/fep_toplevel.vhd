@@ -60,10 +60,6 @@ entity secd_fep_trenz is
     ram_wen     : out std_logic;
 
     -- Compact flash
-    cf_we       : out std_logic;
-    cf_rew      : out std_logic;
-    cf_cs0      : out std_logic;
-    cf_cs1      : out std_logic;
     cf_reset    : out std_logic;
     cf_irq      : in std_logic;
     cf_iord     : out std_logic;
@@ -82,10 +78,27 @@ end secd_fep_trenz;
 -------------------------------------------------------------------------------
 -- Architecture for System09
 -------------------------------------------------------------------------------
-architecture syn of secd_fep_trenz is
+architecture rtl of secd_fep_trenz is
+
+  -----------------------------------------------------------------------------
+  -- Configurable components
+  -----------------------------------------------------------------------------
+
+  component user_ram
+    port (
+      clk: IN std_logic;
+      din: IN std_logic_VECTOR(7 downto 0);
+      addr: IN std_logic_VECTOR(13 downto 0);
+      en: IN std_logic;
+      we: IN std_logic;
+      dout: OUT std_logic_VECTOR(7 downto 0)
+      );
+  end component;
+
   -----------------------------------------------------------------------------
   -- Signals
   -----------------------------------------------------------------------------
+
   -- BOOT ROM
   signal rom_cs        : Std_logic;
   signal rom_data_out  : Std_Logic_Vector(7 downto 0);
@@ -93,8 +106,8 @@ architecture syn of secd_fep_trenz is
   -- RAM
   signal int_ram_we    : std_logic;
 
-  -- We have three different internal RAM areas.  One for the KBUG9 monitor
-  -- mapped from $F000 to $F7FF (2K) and a user area mapped from $0000 (16K)
+  -- We have two internal RAM areas.  One for the KBUG9 monitor mapped
+  -- from $F000 to $F7FF (2K) and a user area mapped from $0000 (16K)
   signal user_ram_en   : std_logic;
   signal kbug_ram_en   : std_logic;
   signal user_ram_dout : std_logic_vector(7 downto 0);
@@ -147,6 +160,7 @@ architecture syn of secd_fep_trenz is
 
   -- LED register select
   signal led_cs       : std_logic;
+  signal led_reg      : std_logic_vector(7 downto 0) := (others => '0');
 
   -- Joystick buffer
   signal joystick     : std_logic_vector(7 downto 0);
@@ -162,7 +176,7 @@ architecture syn of secd_fep_trenz is
   signal secd_stop        : std_logic := '1';
   signal secd_stopped     : std_logic;
   signal secd_state       : std_logic_vector(1 downto 0);
-  signal secd_ram_addr_hi : std_logic_vector(7 downto 0) := (others => '0');
+  signal secd_ram_addr8   : std_logic_vector(15 downto 0) := (others => '0');
   signal secd_ram_addr_cs : std_logic := '0';
   signal secd_control_cs  : std_logic := '0';
 
@@ -225,7 +239,7 @@ begin
   --
   -----------------------------------------------------------------------------
 
-  my_user_ram : entity user_ram port map (
+  my_user_ram : user_ram port map (
     clk   => cpu_clk,
     en    => user_ram_en,
     we    => int_ram_we,
@@ -374,8 +388,7 @@ begin
     -- 6809 interface
     din8                => cpu_data_out,
     dout8               => secd_ram_dout8,
-    addr8(15 downto 8)  => secd_ram_addr_hi,
-    addr8(7 downto 0)   => cpu_addr(7 downto 0),
+    addr8               => secd_ram_addr8,
     read8_enable        => secd_ram_read8,
     write8_enable       => secd_ram_write8,
 
@@ -404,7 +417,7 @@ begin
                         joystick,
                         vdu_data_out,
                         cpu_data_out,
-                        secd_state, secd_stopped, secd_ram_dout8, secd_ram_addr_hi )
+                        secd_state, secd_stopped, secd_ram_dout8, secd_ram_addr8 )
 
   begin
     user_ram_en      <= '0';
@@ -487,7 +500,7 @@ begin
               -- $E141 -> SECD Address High
               when X"1" =>
                 secd_ram_addr_cs <= cpu_vma;
-                cpu_data_in      <= secd_ram_addr_hi;
+                cpu_data_in      <= secd_ram_addr8(15 downto 8);
 
               when others =>
                 null;
@@ -496,7 +509,7 @@ begin
           -- SECD Mapped Memory Page - $E2XX
           when "010" =>
             if cpu_rw = '1' then
-              secd_ram_read8  <= cpu_vma;
+              secd_ram_read8 <= cpu_vma;
               cpu_data_in <= secd_ram_dout8;
             else
               secd_ram_write8 <= cpu_vma;
@@ -509,8 +522,6 @@ begin
 
       -- Everything else is RAM
       when others =>
-
-        int_ram_we <= not cpu_rw;
 
         if cpu_addr(15 downto 11) = "11110" then
           cpu_data_in <= kbug_ram_dout;
@@ -565,7 +576,7 @@ begin
   lcd_control : process(lcd_cs, cpu_clk, cpu_data_out)
   begin
     if falling_edge(cpu_clk) then
-      if lcd_cs = '1' then
+      if lcd_cs = '1' and cpu_rw = '0' then
         lcd_d     <= cpu_data_out(3 downto 0);
         lcd_e     <= cpu_data_out(4);
         lcd_rw    <= cpu_data_out(5);
@@ -577,13 +588,17 @@ begin
   --
   -- LED write register
   --
-  led_control : process(led_cs, cpu_clk, cpu_data_out)
+  led_control : process(led_reg, led_cs, cpu_clk, cpu_data_out)
   begin
     if falling_edge(cpu_clk) then
-      if led_cs = '1' then
-        led    <= cpu_data_out(3 downto 0);
+      if led_cs = '1' and cpu_rw = '0' then
+        led_reg(3 downto 0) <= cpu_data_out(3 downto 0);
+      else
+        led_reg <= led_reg;
       end if;
     end if;
+
+    led <= led_reg(3 downto 0);
   end process;
 
   -- SECD control register
@@ -591,7 +606,7 @@ begin
   secd_control : process(secd_control_cs, cpu_clk, cpu_data_out)
   begin
     if falling_edge(cpu_clk) then
-      if secd_control_cs = '1' then
+      if secd_control_cs = '1' and cpu_rw = '0' then
         secd_stop   <= cpu_data_out(0);
         secd_button <= cpu_data_out(1);
       end if;
@@ -601,15 +616,18 @@ begin
   --
   -- SECD RAM Adressing
   --
-  secd_ram_addressing : process(led_cs, cpu_clk, cpu_data_out, secd_ram_addr_hi)
+  secd_ram_addressing : process(cpu_clk, secd_ram_addr_cs, cpu_rw, cpu_data_out, secd_ram_addr8)
   begin
     if falling_edge(cpu_clk) then
-      if secd_ram_addr_cs = '1' then
-        secd_ram_addr_hi <= cpu_data_out;
+      secd_ram_addr8(7 downto 0) <= cpu_addr(7 downto 0);
+
+      if secd_ram_addr_cs = '1' and cpu_rw = '0' then
+        secd_ram_addr8(15 downto 8) <= cpu_data_out;
+      else
+        secd_ram_addr8(15 downto 8) <= secd_ram_addr8(15 downto 8);
       end if;
     end if;
   end process;
-    
 
   --
   -- Joystick register
@@ -635,8 +653,10 @@ begin
       blink_count <= (others => '0');
     elsif rising_edge(sysclk) then
       blink_count <= blink_count + 1;
-      mm_led <= blink_count(25);
     end if;
+
+    mm_led <= blink_count(25);
+
   end process;
 
 -- Set UART DCD to always true
@@ -655,13 +675,11 @@ begin
   fpga_b(1) <= blue;
   fpga_b(2) <= blue;
 
-  cf_cs0 <= sysclk;
-  cf_cs1 <= cpu_clk;
-
   -- set USB PHY to 16 bit mode so that it generates a 30 Mhz Clock
   utmi_databus16_8 <= '1';
 
   aud_out <= (others => '0');
+  int_ram_we <= not cpu_rw;
 
-end syn; --===================== End of architecture =======================--
+end;
 

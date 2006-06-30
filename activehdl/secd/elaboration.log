@@ -1,60 +1,31 @@
-elbread.dll ver. 1.0.5.375 Thu Jun 29 22:13:42 2006
+elbread.dll ver. 1.0.5.375 Fri Jun 30 22:59:07 2006
 
 
-----------------------------------------------------------------
-Entity                    | Architecture               | Library
-----------------------------------------------------------------
-secd_fep_trenz            | syn                        | secd
-cpu09                     | cpu_arch                   | secd
-mon_rom                   | rtl                        | secd
-user_ram                  | sim                        | secd
-kbug_ram                  | internal_ram               | secd
-miniuart                  | uart                       | secd
-keyboard                  | my_keyboard                | secd
-vdu                       | arch                       | secd
-clock_synthesis           | behavioral                 | secd
-secd_system               | my_secd_system             | secd
-secd_ram_controller       | external_ram               | secd
-ramb16_s9                 | ramb16_s9_v                | unisim
-rxunit                    | behaviour                  | secd
-txunit                    | behaviour                  | secd
-ps2_keyboard_interface    | my_ps2_keyboard            | secd
-key_b4                    | rtl                        | secd
-ramb4_s8                  | ramb4_s8_v                 | unisim
-char_rom                  | rtl                        | secd
-ram_2k                    | rtl                        | secd
-bufg                      | bufg_v                     | unisim
-ibufg                     | ibufg_v                    | unisim
-dcm                       | dcm_v                      | unisim
-dcm_clock_divide_by_2     | dcm_clock_divide_by_2_v    | unisim
-dcm_maximum_period_check  | dcm_maximum_period_check_v | unisim
-dcm_clock_lost            | dcm_clock_lost_v           | unisim
-datapath                  | datapath_arch              | secd
-control_unit              | my_control_unit            | secd
-clock_gen                 | my_clock_gen               | secd
-microcode_rom             | syn                        | secd
-----------------------------------------------------------------
+---------------------------------------------------
+Entity                  | Architecture    | Library
+---------------------------------------------------
+secd_ram_controller_tb  | tb_architecture | secd
+idt71v416               | vhdl_behavioral | secd
+secd_ram_controller     | external_ram    | secd
+---------------------------------------------------
 
 -----------------------------
 Package             | Library
 -----------------------------
 standard            | std
 std_logic_1164      | ieee
-std_logic_arith     | ieee
-std_logic_unsigned  | ieee
 numeric_std         | ieee
+std_logic_arith     | ieee
 textio              | std
-vcomponents         | unisim
-secd_defs           | secd
 vital_timing        | ieee
-secd_ram_defs       | secd
-microcode_rom_defs  | secd
+conversions         | fmf
 vital_primitives    | ieee
-vpkg                | unisim
+std_logic_unsigned  | ieee
+gen_utils           | fmf
 -----------------------------
 
-------------------------
-Configuration  | Library
-------------------------
-synth          | secd
-------------------------
+--------------------------------------------
+Configuration                      | Library
+--------------------------------------------
+testbench_for_secd_ram_controller  | secd
+--------------------------------------------

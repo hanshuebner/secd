@@ -2,7 +2,7 @@
 NET "reset_sw"	LOC = "R16" | PULLUP;
 
 #led on micromodule
-#NET "mm_led"  LOC = "N6"  ;
+NET "mm_led"  LOC = "N6"  ;
 
 #mandatory umti signals to get a clock
 NET "utmi_clkout"  LOC = "D9"  ;
@@ -48,10 +48,10 @@ NET "led<2>"  LOC = "T12"  ;
 NET "led<3>"  LOC = "R11"  ;
 
 #audio
-#NET "aud_out<1>"  LOC = "D10";
-#NET "aud_out<2>"  LOC = "E10";
-#NET "aud_out<3>"	LOC = "D11";
-#NET "aud_out<4>"	LOC = "D12";
+NET "aud_out<1>"  LOC = "D10";
+NET "aud_out<2>"  LOC = "E10";
+NET "aud_out<3>"	LOC = "D11";
+NET "aud_out<4>"	LOC = "D12";
 
 #lcd
 NET "lcd_d<3>"	LOC = "M1";

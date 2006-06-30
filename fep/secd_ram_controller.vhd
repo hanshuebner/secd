@@ -48,6 +48,7 @@ architecture external_ram of secd_ram_controller is
                  read32_high, read32_low, write32_high, write32_low,
                  read8, write8,
                  wait_deselect);
+
   signal current_state, next_state: state;
 
   signal selected: std_logic;
@@ -63,7 +64,6 @@ begin
     if reset = '1' then
       ram_cen <= '1';
       ram_oen <= '1';
-      ram_wen <= '1';
       ram_a <= (others => '0');
       ram_io <= (others => 'Z');
       busy8 <= '0';
@@ -80,7 +80,6 @@ begin
         busy32 <= '0';
         ram_cen <= '1';
         ram_oen <= '1';
-        ram_wen <= '1';
         ram_blen <= '1';
         ram_bhen <= '1';
         ram_io <= (others => 'Z');
@@ -125,18 +124,12 @@ begin
           ram_blen <= '0';
           ram_bhen <= '0';
           ram_cen <= '0';
-          ram_wen <= '0';
           ram_io(15 downto 0) <= din32(15 downto 0);
           busy32 <= '1';
           next_state <= write32_low;
         end if;
 
       when read8 =>
-        if addr8(0) = '0' then
-          dout8 <= ram_io(7 downto 0);
-        else
-          dout8 <= ram_io(15 downto 8);
-        end if;
         if selected = '1' then
           next_state <= wait_deselect;
         else
@@ -144,7 +137,6 @@ begin
         end if;
 
       when write8 =>
-        ram_wen <= '0';
         if selected = '1' then
           next_state <= wait_deselect;
         else
@@ -152,12 +144,10 @@ begin
         end if;
 
       when read32_low =>
-        dout32(15 downto 0) <= ram_io;
         ram_a(0) <= '1';
         next_state <= read32_high;
 
       when read32_high =>
-        dout32(31 downto 16) <= ram_io;
         if selected = '1' then
           next_state <= wait_deselect;
         else
@@ -165,12 +155,10 @@ begin
         end if;
 
       when write32_low =>
-        ram_wen <= '1';
         ram_a(0) <= '1';
         next_state <= write32_high;
 
       when write32_high =>
-        ram_wen <= '0';
         ram_io(15 downto 0) <= din32(31 downto 16);
         if selected = '1' then
           next_state <= wait_deselect;
@@ -203,5 +191,44 @@ begin
       current_state <= next_state;
     end if;
   end process;
+
+  process_port : process(clk, ram_io, current_state)
+  begin
+    if falling_edge(clk) then
+
+      ram_wen <= '1';
+
+      case current_state is
+
+        when read8 =>
+          if addr8(0) = '0' then
+            dout8 <= ram_io(7 downto 0);
+          else
+            dout8 <= ram_io(15 downto 8);
+          end if;
+
+        when write8 =>
+          ram_wen <= '0';
+
+        when read32_low =>
+          dout32(15 downto 0) <= ram_io;
+
+        when read32_high =>
+          dout32(31 downto 16) <= ram_io;
+
+        when write32_low =>
+          ram_wen <= '0';
+
+        when write32_high =>
+          ram_wen <= '0';
+
+        when others =>
+          null;
+
+      end case;
+
+    end if;
+  end process;
+
 end;
 
