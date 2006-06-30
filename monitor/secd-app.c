@@ -106,20 +106,38 @@ setup_secd_program()
   secd_mem[0xff] = 0x00;
 }
 
+void
+delay()
+{
+  volatile unsigned i, j;
+
+  for (i = 0; i < 254; i++) {
+    for (j = 0; j < 254; j++) {
+    }
+  }
+}
+
 int
 main()
 {
-  // acia_puts("SECD Monitor V1.0\n");
+  int x;
+  
+  acia_puts("SECD Monitor V1.0\n");
   // acia_puts("\xff\x00\xf0\x0f");
-
   secd_status = SECD_CONTROL_STOP;
 
+  for (;;) {
+    delay();
+    led = x++;
+  }
+
+#if 0
 /*   clear_secd_memory(); */
 
   setup_secd_program();
 
   secd_status = SECD_CONTROL_BUTTON;
-
+#endif
   blink();
 }
 
