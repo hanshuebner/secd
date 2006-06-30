@@ -1,11 +1,0 @@
-ASxxxx Assembler V04.10  (Motorola 6809), page 1.
-Hexidecimal [16-Bits]
-
-
-
-                              1 ;;; initialization code
-                              2         .area   sysrom
-   0000                       3 start:
-   0000 10 CE 3E 80           4         lds     #16000
-   0004 CE 3A 98              5         ldu     #15000
-   0007 7E 01 4E              6         jmp     _main

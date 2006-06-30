@@ -1,18 +1,0 @@
-ASxxxx Assembler V04.10  (Motorola 6809), page 1.
-Hexidecimal [16-Bits]
-
-Symbol Table
-
-    .__.ABS.       =   0000 G   |     .__.CPU.       =   0000 
-    _main              **** GX  |   2 start              0000 GR
-
-ASxxxx Assembler V04.10  (Motorola 6809), page 2.
-Hexidecimal [16-Bits]
-
-Area Table
-
-[_CSEG]
-   0 _CODE            size    0   flags C080
-   2 sysrom           size    A   flags  100
-[_DSEG]
-   1 _DATA            size    0   flags C0C0
