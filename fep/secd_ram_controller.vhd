@@ -44,12 +44,12 @@ end;
 
 architecture external_ram of secd_ram_controller is
 
-  type state is (idle,
-                 read32_high, read32_low, write32_high, write32_low,
-                 read8, write8,
-                 wait_deselect);
+  type state_type is (idle,
+                      read32_high, read32_low, write32_high, write32_low,
+                      read8, write8,
+                      wait_deselect);
 
-  signal current_state, next_state: state;
+  signal state: state_type;
 
   signal selected: std_logic;
 
@@ -68,11 +68,11 @@ begin
       ram_io <= (others => 'Z');
       busy8 <= '0';
       busy32 <= '0';
-      next_state <= idle;
+      state <= idle;
 
     elsif rising_edge(clk) then
 
-      case current_state is
+      case state is
 
       when idle =>
 
@@ -95,7 +95,7 @@ begin
             ram_bhen <= '0';
           end if;
           busy8 <= '1';
-          next_state <= read8;
+          state <= read8;
 
         elsif write8_enable = '1' then
           ram_a(14 downto 0) <= addr8(15 downto 1);
@@ -108,7 +108,7 @@ begin
             ram_bhen <= '0';
           end if;
           busy8 <= '1';
-          next_state <= write8;
+          state <= write8;
 
         elsif read32_enable = '1' then
           ram_a(14 downto 1) <= addr32;
@@ -117,7 +117,7 @@ begin
           ram_cen <= '0';
           ram_oen <= '0';
           busy32 <= '1';
-          next_state <= read32_low;
+          state <= read32_low;
 
         elsif write32_enable = '1' then
           ram_a(14 downto 1) <= addr32;
@@ -126,49 +126,56 @@ begin
           ram_cen <= '0';
           ram_io(15 downto 0) <= din32(15 downto 0);
           busy32 <= '1';
-          next_state <= write32_low;
+          state <= write32_low;
         end if;
 
       when read8 =>
         if selected = '1' then
-          next_state <= wait_deselect;
+          state <= wait_deselect;
         else
-          next_state <= idle;
+          state <= idle;
         end if;
 
       when write8 =>
         if selected = '1' then
-          next_state <= wait_deselect;
+          state <= wait_deselect;
         else
-          next_state <= idle;
+          state <= idle;
         end if;
 
       when read32_low =>
         ram_a(0) <= '1';
-        next_state <= read32_high;
+        state <= read32_high;
 
       when read32_high =>
         if selected = '1' then
-          next_state <= wait_deselect;
+          state <= wait_deselect;
         else
-          next_state <= idle;
+          state <= idle;
         end if;
 
       when write32_low =>
         ram_a(0) <= '1';
-        next_state <= write32_high;
+        state <= write32_high;
 
       when write32_high =>
         ram_io(15 downto 0) <= din32(31 downto 16);
         if selected = '1' then
-          next_state <= wait_deselect;
+          state <= wait_deselect;
         else
-          next_state <= idle;
+          state <= idle;
         end if;
 
       when wait_deselect =>
+
+        ram_cen <= '1';
+        ram_oen <= '1';
+        ram_blen <= '1';
+        ram_bhen <= '1';
+        ram_io <= (others => 'Z');
+
         if selected = '0' then
-          next_state <= idle;
+          state <= idle;
         end if;
       end case;
     end if;
@@ -183,22 +190,13 @@ begin
     end if;
   end process;
 
-  process_next_state : process(clk, reset, next_state)
-  begin
-    if reset = '1' then
-      current_state <= idle;
-    else
-      current_state <= next_state;
-    end if;
-  end process;
-
-  process_port : process(clk, ram_io, current_state)
+  process_port : process(clk, ram_io, state)
   begin
     if falling_edge(clk) then
 
       ram_wen <= '1';
 
-      case current_state is
+      case state is
 
         when read8 =>
           if addr8(0) = '0' then

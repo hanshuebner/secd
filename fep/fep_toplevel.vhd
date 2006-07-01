@@ -71,7 +71,9 @@ entity secd_fep_trenz is
     cf_cd2      : in std_logic;
     iois16      : in std_logic;
     cf_oe       : out std_logic;
-    cf_pwr_en   : out std_logic
+    cf_pwr_en   : out std_logic;
+    cf_cs0      : out std_logic;
+    cf_cs1      : out std_logic
     );
 end secd_fep_trenz;
 
@@ -172,13 +174,14 @@ architecture rtl of secd_fep_trenz is
   signal blink_count  : std_logic_vector(25 downto 0) := (others => '0');
   
   -- SECD interface
-  signal secd_button      : std_logic := '0';
-  signal secd_stop        : std_logic := '1';
-  signal secd_stopped     : std_logic;
-  signal secd_state       : std_logic_vector(1 downto 0);
-  signal secd_ram_addr8   : std_logic_vector(15 downto 0) := (others => '0');
-  signal secd_ram_addr_cs : std_logic := '0';
-  signal secd_control_cs  : std_logic := '0';
+  signal secd_button           : std_logic := '0';
+  signal secd_stop             : std_logic := '1';
+  signal secd_stopped          : std_logic;
+  signal secd_state            : std_logic_vector(1 downto 0);
+  signal secd_ram_addr8        : std_logic_vector(15 downto 0) := (others => '0');
+  signal secd_ram_addr_high_cs : std_logic := '0';
+  signal secd_ram_addr_low_cs  : std_logic := '0';
+  signal secd_control_cs       : std_logic := '0';
 
   -- SECD RAM Controller interface
 
@@ -430,9 +433,11 @@ begin
     led_cs           <= '0';
     secd_ram_read8   <= '0';
     secd_ram_write8  <= '0';
-    secd_ram_addr_cs <= '0';
     secd_control_cs  <= '0';
     cpu_data_in      <= X"00";
+
+    secd_ram_addr_high_cs <= '0';
+    secd_ram_addr_low_cs  <= '0';
 
     case cpu_addr(15 downto 11) is
 
@@ -491,29 +496,36 @@ begin
           when "001" =>
 
             case cpu_addr(3 downto 0) is
+
               -- $E140 -> SECD Status
               when X"0" =>
                 secd_control_cs         <= cpu_vma;
                 cpu_data_in(0)          <= secd_stopped;
                 cpu_data_in(2 downto 1) <= secd_state;
 
-              -- $E141 -> SECD Address High
+              -- $E141 -> SECD Address Low
               when X"1" =>
-                secd_ram_addr_cs <= cpu_vma;
-                cpu_data_in      <= secd_ram_addr8(15 downto 8);
+                secd_ram_addr_low_cs <= cpu_vma;
+                cpu_data_in          <= secd_ram_addr8(7 downto 0);
+
+              -- $E142 -> SECD Address High
+              when X"2" =>
+                secd_ram_addr_high_cs <= cpu_vma;
+                cpu_data_in           <= secd_ram_addr8(15 downto 8);
+
+              -- $E143 -> SECD DATA
+              when X"3" =>
+                if cpu_rw = '1' then
+                  secd_ram_read8 <= cpu_vma;
+                  cpu_data_in    <= secd_ram_dout8;
+                else
+                  secd_ram_write8 <= cpu_vma;
+                end if;
 
               when others =>
                 null;
-            end case;
 
-          -- SECD Mapped Memory Page - $E2XX
-          when "010" =>
-            if cpu_rw = '1' then
-              secd_ram_read8 <= cpu_vma;
-              cpu_data_in <= secd_ram_dout8;
-            else
-              secd_ram_write8 <= cpu_vma;
-            end if;
+            end case;
 
           when others =>
             null;
@@ -616,15 +628,19 @@ begin
   --
   -- SECD RAM Adressing
   --
-  secd_ram_addressing : process(cpu_clk, secd_ram_addr_cs, cpu_rw, cpu_data_out, secd_ram_addr8)
+  secd_ram_addressing : process(cpu_clk, cpu_rw, cpu_data_out,
+                                secd_ram_addr_high_cs, secd_ram_addr_high_cs,
+                                secd_ram_addr8)
   begin
     if falling_edge(cpu_clk) then
-      secd_ram_addr8(7 downto 0) <= cpu_addr(7 downto 0);
-
-      if secd_ram_addr_cs = '1' and cpu_rw = '0' then
-        secd_ram_addr8(15 downto 8) <= cpu_data_out;
+      if cpu_rw = '0' then
+        if secd_ram_addr_high_cs = '1' then
+          secd_ram_addr8(15 downto 8) <= cpu_data_out;
+        elsif secd_ram_addr_low_cs = '1' then
+          secd_ram_addr8(7 downto 0) <= cpu_data_out;
+        end if;
       else
-        secd_ram_addr8(15 downto 8) <= secd_ram_addr8(15 downto 8);
+        secd_ram_addr8 <= secd_ram_addr8;
       end if;
     end if;
   end process;
@@ -680,6 +696,9 @@ begin
 
   aud_out <= (others => '0');
   int_ram_we <= not cpu_rw;
+
+  cf_cs0 <= secd_ram_read8;
+  cf_cs1 <= secd_ram_write8;
 
 end;
 

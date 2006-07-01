@@ -168,6 +168,7 @@ begin
       addr8 <= addr;
       read8_enable <= '1';
       wait until busy8 = '1';
+      wait for 10 ns;
       read8_enable <= '0';
       wait until busy8 = '0';
       result := din8;
@@ -180,6 +181,7 @@ begin
       din8 <= data;
       write8_enable <= '1';
       wait until busy8 = '1';
+      wait for 10 ns;
       write8_enable <= '0';
       wait until busy8 = '0';
     end procedure;
@@ -191,6 +193,7 @@ begin
       addr32 <= addr(13 downto 0);
       read32_enable <= '1';
       wait until busy32 = '1';
+      wait for 10 ns;
       read32_enable <= '0';
       wait until busy32 = '0';
       result := din32;
@@ -204,6 +207,7 @@ begin
       din32 <= data;
       write32_enable <= '1';
       wait until busy32 = '1';
+      wait for 10 ns;
       write32_enable <= '0';
       wait until busy32 = '0';
     end procedure;

@@ -115,8 +115,8 @@ NET "ram_wen"  LOC = "G1"  ;
 #compact flash
 #NET "cf_we"	LOC = "D8";
 #NET "cf_reg"	LOC = "G5";
-#NET "cf_cs0"	LOC = "D7";
-#NET "cf_cs1"	LOC = "D5";
+NET "cf_cs0"	LOC = "D7";
+NET "cf_cs1"	LOC = "D5";
 #NET "cf_reset"	LOC = "E6";
 #NET "cf_irq"	LOC = "E4" | PULLUP;
 #NET "cf_iord"	LOC = "F4";
