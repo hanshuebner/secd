@@ -47,11 +47,12 @@ architecture external_ram of secd_ram_controller is
   type state_type is (idle,
                       read32_high, read32_low, write32_high, write32_low,
                       read8, write8,
-                      wait_deselect);
+                      deselect);
 
   signal state: state_type;
 
   signal read32_buf : std_logic_vector(31 downto 0);
+  signal read8_buf  : std_logic_vector(7 downto 0);
 
   signal selected: std_logic;
 
@@ -79,9 +80,6 @@ begin
 
       when idle =>
 
-        busy8 <= '0';
-        busy32 <= '0';
-        ram_cen <= '1';
         ram_oen <= '1';
         ram_blen <= '1';
         ram_bhen <= '1';
@@ -139,18 +137,10 @@ begin
         end if;
 
       when read8 =>
-        if selected = '1' then
-          state <= wait_deselect;
-        else
-          state <= idle;
-        end if;
+        state <= deselect;
 
       when write8 =>
-        if selected = '1' then
-          state <= wait_deselect;
-        else
-          state <= idle;
-        end if;
+        state <= deselect;
 
       when read32_low =>
         read32_buf(15 downto 0) <= ram_io;
@@ -159,11 +149,7 @@ begin
 
       when read32_high =>
         read32_buf(31 downto 16) <= ram_io;
-        if selected = '1' then
-          state <= wait_deselect;
-        else
-          state <= idle;
-        end if;
+        state <= deselect;
 
       when write32_low =>
         ram_a(0) <= '1';
@@ -171,25 +157,18 @@ begin
 
       when write32_high =>
         ram_io(15 downto 0) <= din32(31 downto 16);
-        if selected = '1' then
-          state <= wait_deselect;
-        else
-          state <= idle;
-        end if;
+        state <= deselect;
 
-      when wait_deselect =>
+      when deselect =>
 
         ram_cen <= '1';
-        ram_oen <= '1';
-        ram_blen <= '1';
-        ram_bhen <= '1';
-        ram_io <= (others => 'Z');
         busy8 <= '0';
         busy32 <= '0';
 
         if selected = '0' then
           state <= idle;
         end if;
+
       end case;
     end if;
   end process;
@@ -215,9 +194,9 @@ begin
           ram_wen <= '1';
 
           if addr8(0) = '0' then
-            dout8 <= ram_io(7 downto 0);
+            read8_buf <= ram_io(7 downto 0);
           else
-            dout8 <= ram_io(15 downto 8);
+            read8_buf <= ram_io(15 downto 8);
           end if;
 
         when others =>
@@ -229,6 +208,7 @@ begin
   end process;
 
   dout32 <= read32_buf;
+  dout8 <= read8_buf;
   
 end;
 

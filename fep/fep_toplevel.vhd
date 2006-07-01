@@ -375,7 +375,7 @@ begin
   ----------------------------------------
 
   my_secd_ram : entity secd_ram_controller port map (
-    clk                 => secd_ram_clk,
+    clk                 => cpu_clk,
     reset 		=> reset,
     busy8 		=> secd_ram_busy8,
     busy32 		=> secd_ram_busy32,
@@ -621,22 +621,22 @@ begin
   --
   -- SECD RAM Adressing
   --
-  secd_ram_addressing : process(cpu_clk, cpu_rw, cpu_data_out,
-                                secd_ram_addr_high_cs, secd_ram_addr_high_cs,
-                                secd_ram_addr8)
+
+  secd_ram_addressing_low : process(cpu_clk, cpu_rw, cpu_data_out, secd_ram_addr_low_cs)
+  begin
+    if falling_edge(cpu_clk) then
+      if cpu_rw = '0' and secd_ram_addr_low_cs = '1' then
+        secd_ram_addr8(7 downto 0) <= cpu_data_out;
+      end if;
+    end if;
+  end process;
+
+  secd_ram_addressing_high : process(cpu_clk, cpu_rw, cpu_data_out, secd_ram_addr_high_cs)
   begin
     if falling_edge(cpu_clk) then
       if cpu_rw = '0' and secd_ram_addr_high_cs = '1' then
         secd_ram_addr8(15 downto 8) <= cpu_data_out;
-        secd_ram_addr8(7 downto 0) <= secd_ram_addr8(7 downto 0);
-      elsif cpu_rw = '0' and  secd_ram_addr_low_cs = '1' then
-        secd_ram_addr8(15 downto 8) <= secd_ram_addr8(15 downto 8);
-        secd_ram_addr8(7 downto 0) <= cpu_data_out;
-      else
-        secd_ram_addr8 <= secd_ram_addr8;
       end if;
-    else
-      secd_ram_addr8 <= secd_ram_addr8;
     end if;
   end process;
 

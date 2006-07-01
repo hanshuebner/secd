@@ -25,3 +25,17 @@ extern volatile unsigned short lcd;
 #define LCD_E			0x10
 #define LCD_RW			0x20
 #define LCD_RS			0x40
+
+extern volatile unsigned short joystick;
+
+#define JOYSTICK_UP_MASK	0x01
+#define JOYSTICK_RIGHT_MASK	0x02
+#define JOYSTICK_DOWN_MASK	0x04
+#define JOYSTICK_LEFT_MASK	0x08
+#define JOYSTICK_FIRE_MASK	0x10
+
+extern volatile unsigned short vdu_char;
+extern volatile unsigned short vdu_color;
+extern volatile unsigned short vdu_hcursor;
+extern volatile unsigned short vdu_vcursor;
+extern volatile unsigned short vdu_voffset;
