@@ -319,7 +319,6 @@ begin
 
     -- Control Registers
     vdu_clk_in    => sysclk,					 -- pixel Clock
-    cpu_clk_out   => cpu_clk,					 -- memory access clock
     vdu_rst       => reset,
     vdu_cs        => vdu_cs,
     vdu_rw        => cpu_rw,
@@ -344,6 +343,7 @@ begin
   my_clock_synthesis : entity clock_synthesis port map (
     clkin_in        => utmi_clkout,
     clkfx_out       => sysclk,
+    clkdv_out       => cpu_clk,
     clkin_ibufg_out => open,
     locked_out      => open,
     clk0_out        => open);
@@ -633,14 +633,16 @@ begin
                                 secd_ram_addr8)
   begin
     if falling_edge(cpu_clk) then
+      secd_ram_addr8 <= secd_ram_addr8;
+
       if cpu_rw = '0' then
         if secd_ram_addr_high_cs = '1' then
           secd_ram_addr8(15 downto 8) <= cpu_data_out;
+          secd_ram_addr8(7 downto 0) <= secd_ram_addr8(7 downto 0);
         elsif secd_ram_addr_low_cs = '1' then
+          secd_ram_addr8(15 downto 8) <= secd_ram_addr8(15 downto 8);
           secd_ram_addr8(7 downto 0) <= cpu_data_out;
         end if;
-      else
-        secd_ram_addr8 <= secd_ram_addr8;
       end if;
     end if;
   end process;
