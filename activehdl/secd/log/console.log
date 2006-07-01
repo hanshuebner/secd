@@ -4201,4 +4201,714 @@ run 10 ns
 run 10 ns
 # KERNEL: stopped at time: 1280 ns
 run 10 ns
-# KERNEL: stopped at time
+# KERNEL: stopped at time: 1290 ns
+run 10 ns
+# KERNEL: stopped at time: 1300 ns
+run 10 ns
+# KERNEL: stopped at time: 1310 ns
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\secd_ram_controller.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\vhdl\secd_toplevel.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 4 error(s), 2 warning(s)
+# Checking if synthesis needs to be updated...
+acom $DSN/../../vhdl/secd_toplevel.vhd
+# Compile...
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# Error: COMP96_0019: secd_toplevel.vhd : (106, 6): Keyword "process" expected.
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../vhdl/secd_toplevel.vhd
+# Compile...
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# Error: COMP96_0078: secd_toplevel.vhd : (99, 57): Unknown identifier "stop_button".
+# Error: COMP96_0348: secd_toplevel.vhd : (99, 38): Name on sensitivity list must denote a signal.
+# Compile failure 2 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../vhdl/secd_toplevel.vhd
+# Compile...
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\vhdl\secd_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 1 error(s), 0 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:34, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 100ns
+# KERNEL: stopped at time: 100 ns
+run 200ns
+# KERNEL: stopped at time: 300 ns
+run 500ns
+# KERNEL: stopped at time: 800 ns
+run 500ns
+# KERNEL: stopped at time: 1300 ns
+run 500ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:36, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 50 ns
+# KERNEL: stopped at time: 50 ns
+run 50 ns
+# KERNEL: stopped at time: 100 ns
+run 50 ns
+# KERNEL: stopped at time: 150 ns
+run 50 ns
+# KERNEL: stopped at time: 200 ns
+run 50 ns
+# KERNEL: stopped at time: 250 ns
+run 50 ns
+# KERNEL: stopped at time: 300 ns
+run 50 ns
+# KERNEL: stopped at time: 350 ns
+run 50 ns
+# KERNEL: stopped at time: 400 ns
+# Warning: Synthesis: 0 errors, 57 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+run 50 ns
+# KERNEL: stopped at time: 450 ns
+run 50 ns
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.5 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:41, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 50 ns
+# KERNEL: stopped at time: 50 ns
+run 50 ns
+# KERNEL: stopped at time: 100 ns
+run 50 ns
+# KERNEL: stopped at time: 150 ns
+run 50 ns
+# KERNEL: stopped at time: 200 ns
+run 50 ns
+# KERNEL: stopped at time: 250 ns
+run 50 ns
+# KERNEL: stopped at time: 300 ns
+run 50 ns
+# KERNEL: stopped at time: 350 ns
+run 50 ns
+# KERNEL: stopped at time: 400 ns
+run 50 ns
+# KERNEL: stopped at time: 450 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:44, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 50 ns
+# KERNEL: stopped at time: 50 ns
+run 50 ns
+# KERNEL: stopped at time: 100 ns
+run 50 ns
+# KERNEL: stopped at time: 150 ns
+run 50 ns
+# KERNEL: stopped at time: 200 ns
+run 50 ns
+# KERNEL: stopped at time: 250 ns
+run 50 ns
+# KERNEL: stopped at time: 300 ns
+run 50 ns
+# KERNEL: stopped at time: 350 ns
+run 50 ns
+# KERNEL: stopped at time: 400 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:44, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 370 ns
+# KERNEL: stopped at time: 370 ns
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+run 50 ns
+# KERNEL: stopped at time: 430 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:45, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 370 ns
+# KERNEL: stopped at time: 370 ns
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:47, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 1us
+# KERNEL: stopped at time: 1 us
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  15:48, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 370ns
+# KERNEL: stopped at time: 370 ns
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:50, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 370ns
+# KERNEL: stopped at time: 370 ns
+run 50 ns
+# KERNEL: stopped at time: 420 ns
+run 50 ns
+# KERNEL: stopped at time: 470 ns
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:51, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 370ns
+# KERNEL: stopped at time: 370 ns
+run 50 ns
+# KERNEL: stopped at time: 420 ns
+run 50 ns
+# KERNEL: stopped at time: 470 ns
+run 50 ns
+# KERNEL: stopped at time: 520 ns
+run 50 ns
+# KERNEL: stopped at time: 570 ns
+run 50 ns
+# KERNEL: stopped at time: 620 ns
+run 50 ns
+# KERNEL: stopped at time: 670 ns
+run 50 ns
+# KERNEL: stopped at time: 720 ns
+run 50 ns
+# KERNEL: stopped at time: 770 ns
+run 50 ns
+# KERNEL: stopped at time: 820 ns
+run 50 ns
+# KERNEL: stopped at time: 870 ns
+run 50 ns
+# KERNEL: stopped at time: 920 ns
+run 50 ns
+# KERNEL: stopped at time: 970 ns
+run 50 ns
+# KERNEL: stopped at time: 1020 ns
+run 50 ns
+# KERNEL: stopped at time: 1070 ns
+run 50 ns
+# KERNEL: stopped at time: 1120 ns
+run 50 ns
+# KERNEL: stopped at time: 1170 ns
+run 50 ns
+# KERNEL: stopped at time: 1220 ns
+run 50 ns
+# KERNEL: stopped at time: 1270 ns
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\secd_ram_controller.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 57 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  16:13, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.2 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  16:19, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 50 ns
+# KERNEL: stopped at time: 50 ns
+run 50 ns
+# KERNEL: stopped at time: 100 ns
+run 50 ns
+# KERNEL: stopped at time: 150 ns
+run 50 ns
+# KERNEL: stopped at time: 200 ns
+run 50 ns
+# KERNEL: stopped at time: 250 ns
+run 50 ns
+# KERNEL: stopped at time: 300 ns
+run 50 ns
+# KERNEL: stopped at time: 350 ns
+run 50 ns
+# KERNEL: stopped at time: 400 ns
+run 50 ns
+# KERNEL: stopped at time: 450 ns
+run 50 ns
+# KERNEL: stopped at time: 500 ns
+run 50 ns
+# KERNEL: stopped at time: 550 ns
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  16:31, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 2033680 ps,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 2033680 ps.
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  16:32, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 2233720 ps,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 2233720 ps.
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Error: COMP96_0071: secd_ram_controller_TB.vhd : (255, 15): Operator "=" is not defined for such operands.
+# Error: COMP96_0104: secd_ram_controller_TB.vhd : (255, 15): Undefined type of expression.
+# Error: COMP96_0077: secd_ram_controller_TB.vhd : (255, 15): Assignment target incompatible with right side. Expected type "std_ulogic".
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile failure 3 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  16:43, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 50 ns
+# KERNEL: stopped at time: 50 ns
+run 50 ns
+# KERNEL: stopped at time: 100 ns
+run 50 ns
+# KERNEL: stopped at time: 150 ns
+run 50 ns
+# KERNEL: stopped at time: 200 ns
+run 50 ns
+# KERNEL: stopped at time: 250 ns
+run 50 ns
+# KERNEL: stopped at time: 300 ns
+run 50 ns
+# KERNEL: stopped at time: 350 ns
+run 50 ns
+# KERNEL: stopped at time: 400 ns
+run 50 ns
+# KERNEL: stopped at time: 450 ns
+run 50 ns
+# KERNEL: stopped at time: 500 ns
+run 50 ns
+# KERNEL: stopped at time: 550 ns
+run 50 ns
+# KERNEL: stopped at time: 600 ns
+run 50 ns
+# KERNEL: stopped at time: 650 ns
+run 50 ns
+# KERNEL: stopped at time: 700 ns
+run 50 ns
+# KERNEL: stopped at time: 750 ns
+run 50 ns
+# KERNEL: stopped at time: 800 ns
+run 50 ns
+# KERNEL: stopped at time: 850 ns
+run 50 ns
+# KERNEL: stopped at time: 900 ns
+run 50 ns
+# KERNEL: stopped at time: 950 ns
+run 50 ns
+# KERNEL: stopped at time: 1 us
+run 50 ns
+# KERNEL: stopped at time: 1050 ns
+run 50 ns
+# KERNEL: stopped at time: 1100 ns
+run 50 ns
+# KERNEL: stopped at time: 1150 ns
+run 50 ns
+# KERNEL: stopped at time: 1200 ns
+run 50 ns
+# KERNEL: stopped at time: 1250 ns
+run 50 ns
+# KERNEL: stopped at time: 1300 ns
+run 50 ns
+# KERNEL: stopped at time: 1350 ns
+run 50 ns
+# KERNEL: stopped at time: 1400 ns
+run 50 ns
+# KERNEL: stopped at time: 1450 ns
+run 50 ns
+# KERNEL: stopped at time: 1500 ns
+run 50 ns
+# KERNEL: stopped at time: 1550 ns
+run 50 ns
+# KERNEL: stopped at time: 1600 ns
+run 50 ns
+# KERNEL: stopped at time: 1650 ns
+run 50 ns
+# KERNEL: stopped at time: 1700 ns
+run 50 ns
+# KERNEL: stopped at time: 1750 ns
+run 50 ns
+# KERNEL: stopped at time: 1800 ns
+run 50 ns
+# KERNEL: stopped at time: 1850 ns
+run 50 ns
+# KERNEL: stopped at time: 1900 ns
+run 50 ns
+# KERNEL: stopped at time: 1950 ns
+run 50 ns
+# KERNEL: stopped at time: 2 us
+run 50 ns
+# KERNEL: stopped at time: 2050 ns
+run 50 ns
+# KERNEL: stopped at time: 2100 ns
+run 50 ns
+# KERNEL: stopped at time: 2150 ns
+run 50 ns
+# KERNEL: stopped at time: 2200 ns
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 1 error(s), 57 warning(s)
+# Checking if synthesis needs to be updated...
+acom $DSN/../../fep/clock_synthesis.vhd
+# Compile...
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.4 [s]
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\clock_synthesis.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 57 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\vhdl\secd_toplevel.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 57 warnin

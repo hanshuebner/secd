@@ -73,7 +73,8 @@ entity secd_fep_trenz is
     cf_oe       : out std_logic;
     cf_pwr_en   : out std_logic;
     cf_cs0      : out std_logic;
-    cf_cs1      : out std_logic
+    cf_cs1      : out std_logic;
+    cf_we       : out std_logic
     );
 end secd_fep_trenz;
 
@@ -185,9 +186,9 @@ architecture rtl of secd_fep_trenz is
   signal secd_control_cs       : std_logic := '0';
 
   -- SECD RAM Controller interface
-
-  signal secd_ram_busy8          : std_logic;
-  signal secd_ram_busy32         : std_logic;
+  signal secd_ram_clk           : std_logic;
+  signal secd_ram_busy8         : std_logic;
+  signal secd_ram_busy32        : std_logic;
 
   -- Interface signals for SECD
   signal secd_ram_din32         : std_logic_vector(31 downto 0);
@@ -343,6 +344,7 @@ begin
   my_clock_synthesis : entity clock_synthesis port map (
     clkin_in        => utmi_clkout,
     clkfx_out       => sysclk,
+    clk0_out        => secd_ram_clk,
     locked_out      => open);
   
   ----------------------------------------
@@ -373,7 +375,7 @@ begin
   ----------------------------------------
 
   my_secd_ram : entity secd_ram_controller port map (
-    clk                 => sysclk,
+    clk                 => secd_ram_clk,
     reset 		=> reset,
     busy8 		=> secd_ram_busy8,
     busy32 		=> secd_ram_busy32,
@@ -550,7 +552,6 @@ begin
     cpu_nmi   <= not joy_up;
     cpu_firq  <= uart_irq;
     cpu_halt  <= '0';
-    cpu_hold  <= '0';
   end process;
 
 --
@@ -693,6 +694,9 @@ begin
 
   cf_cs0 <= cpu_rw;
   cf_cs1 <= secd_ram_cs;
+  cf_we <= cpu_hold;
+
+  cpu_hold <= secd_ram_busy8;
   
 end;
 

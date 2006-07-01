@@ -95,16 +95,18 @@ begin
           busy8 <= '1';
 
           if rw8 = '1' then
+
             ram_oen <= '0';
             if addr8(0) = '0' then
               ram_blen <= '0';
-              dout8 <= ram_io(7 downto 0);
             else
               ram_bhen <= '0';
-              dout8 <= ram_io(15 downto 8);
             end if;
+
             state <= read8;
+
           else
+
             if addr8(0) = '0' then
               ram_io(7 downto 0) <= din8;
               ram_blen <= '0';
@@ -112,7 +114,9 @@ begin
               ram_io(15 downto 8) <= din8;
               ram_bhen <= '0';
             end if;
+
             state <= write8;
+
           end if;
 
         elsif read32_enable = '1' then
@@ -203,27 +207,21 @@ begin
   begin
     if falling_edge(clk) then
 
-      ram_wen <= '1';
-
       case state is
+        when write8 | write32_low | write32_high =>
+          ram_wen <= '0';
 
         when read8 =>
+          ram_wen <= '1';
 
-        when write8 =>
-          ram_wen <= '0';
-
-        when read32_low =>
-
-        when read32_high =>
-
-        when write32_low =>
-          ram_wen <= '0';
-
-        when write32_high =>
-          ram_wen <= '0';
+          if addr8(0) = '0' then
+            dout8 <= ram_io(7 downto 0);
+          else
+            dout8 <= ram_io(15 downto 8);
+          end if;
 
         when others =>
-          null;
+          ram_wen <= '1';
 
       end case;
 

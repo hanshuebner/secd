@@ -40,7 +40,7 @@ architecture my_secd_system of secd_system is
   signal flags     : flagsunit;
 
   signal stop_instruction         : std_logic;
-  signal stop_instruction_latched : std_logic;
+  signal stop_instruction_latched : std_logic := '0';
   signal stop_clock_gen           : std_logic;
 
 begin

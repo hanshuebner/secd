@@ -67,6 +67,7 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
   signal rw8 : std_logic;
   signal cs8 : std_logic;
   signal ram_io : std_logic_vector(15 downto 0);
+  signal cpu_hold : std_logic;
   -- Observed signals - signals mapped to the output ports of tested entity
   signal busy8 : std_logic;
   signal busy32 : std_logic;
@@ -78,7 +79,6 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
   signal ram_a : std_logic_vector(20 downto 0);
   signal ram_bhen : std_logic;
   signal ram_blen : std_logic;
-
   -- Add your code here ...
 
 begin
@@ -155,9 +155,9 @@ begin
   clock_stimulus : process
   begin
     clk <= '1';
-    wait for 10 ns;
+    wait for 16.67 ns;
     clk <= '0';
-    wait for 10 ns;
+    wait for 16.67 ns;
   end process;
 
   stimulus : process
@@ -221,9 +221,12 @@ begin
     rw8 <= '1';
     cs8 <= '0';
 
-    wait for 200 ns;
+    wait for 70 ns;
     reset <= '0';
-    wait for 100 ns;
+    wait for 70 ns;
+
+    write8(X"FFFF", X"FF");
+    read8(X"FFFF");
 
     write32(X"0000", X"F0A5739C");
 
@@ -248,6 +251,8 @@ begin
     wait for 300 ns;
     assert (0 = 1) report "done";
   end process;
+
+  cpu_hold <= '1' when cs8 = '1' or busy8 = '1' else '0';
 
 end TB_ARCHITECTURE;
 

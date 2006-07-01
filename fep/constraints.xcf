@@ -113,7 +113,7 @@ NET "ram_oen"  LOC = "K16"  ;
 NET "ram_wen"  LOC = "G1"  ;
 
 #compact flash
-#NET "cf_we"	LOC = "D8";
+NET "cf_we"	LOC = "D8";
 #NET "cf_reg"	LOC = "G5";
 NET "cf_cs0"	LOC = "D7";
 NET "cf_cs1"	LOC = "D5";
