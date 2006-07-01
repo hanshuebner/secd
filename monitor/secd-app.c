@@ -1,6 +1,8 @@
 
 #include "system09.h"
 
+extern void outc(char c);
+
 void
 acia_putchar(char c)
 {
@@ -18,10 +20,10 @@ acia_getchar()
 }
 
 void
-acia_puts(const char* s)
+putstring(const char* s)
 {
   while (*s) {
-    acia_putchar(*s++);
+    outc(*s++);
   }
 }
 
@@ -43,7 +45,8 @@ clear_secd_memory()
   for (high = 0; high < 256; high++) {
     secd_address_high = high;
     for (low = 0; low < 256; low++) {
-      secd_mem[low] = 0;
+      secd_address_low = low;
+      secd_data = 0;
     }
   }
 }
@@ -96,14 +99,20 @@ setup_secd_program()
 
   for (i = 0; i < sizeof program; i++) {
     short buf = program[i];
-    secd_mem[i] = buf;
+    secd_address_low = i;
+    secd_data = buf;
   }
 
   secd_address_high = 0xff;
-  secd_mem[0xfc] = 0xff;
-  secd_mem[0xfd] = 0x7f;
-  secd_mem[0xfe] = 0x03;
-  secd_mem[0xff] = 0x00;
+
+  secd_address_low = 0xfc;
+  secd_data = 0xff;
+  secd_address_low = 0xfd;
+  secd_data = 0x7f;
+  secd_address_low = 0xfe;
+  secd_data = 0x03;
+  secd_address_low = 0xff;
+  secd_data = 0x00;
 }
 
 void
@@ -120,15 +129,18 @@ delay()
 int
 main()
 {
-  int x;
+  int x = 0;
   
-  acia_puts("SECD Monitor V1.0\n");
-  // acia_puts("\xff\x00\xf0\x0f");
+  putstring("SECD Monitor V1.0\r\n");
   secd_status = SECD_CONTROL_STOP;
 
   for (;;) {
+    putstring("doit");
     delay();
-    led = x++;
+    led = x;
+    delay();
+    led = x;
+    x = ++x & 0xF;
   }
 
 #if 0

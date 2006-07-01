@@ -7,7 +7,8 @@ secd-app
 -g _led = 0xe0e0
 -g _lcd = 0xe0f0
 -g _secd_status = 0xe140
--g _secd_address_high = 0xe141
--g _secd_mem = 0xe200
+-g _secd_address_low = 0xe141
+-g _secd_address_high = 0xe142
+-g _secd_data = 0xe143
 -b sysrom = 0x0000
 -e

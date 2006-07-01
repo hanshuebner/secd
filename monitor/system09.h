@@ -16,7 +16,8 @@ extern volatile unsigned short secd_status;
 #define SECD_STATUS_RUNMODE_GC		0x04
 
 extern volatile unsigned short secd_address_high;
-extern volatile unsigned short secd_mem[256];
+extern volatile unsigned short secd_address_low;
+extern volatile unsigned short secd_data;
 
 extern volatile unsigned short lcd;
 

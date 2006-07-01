@@ -27,8 +27,8 @@ entity secd_ram_controller is
     din8                : in std_logic_vector(7 downto 0);
     dout8               : out std_logic_vector(7 downto 0);
     addr8               : in std_logic_vector(15 downto 0);
-    read8_enable        : in std_logic;
-    write8_enable       : in std_logic;
+    rw8                 : in std_logic;
+    cs8                 : in std_logic;
     busy32              : out std_logic;
 
     -- External interface
@@ -51,15 +51,18 @@ architecture external_ram of secd_ram_controller is
 
   signal state: state_type;
 
+  signal read32_buf : std_logic_vector(31 downto 0);
+
   signal selected: std_logic;
 
 begin
 
   secd_ram_controller : process(reset, clk,
                                 read32_enable, write32_enable, din32,
-                                read8_enable, write8_enable, din8,
+                                cs8, rw8, din8,
                                 ram_io,
                                 selected)
+
   begin
     if reset = '1' then
       ram_cen <= '1';
@@ -85,30 +88,32 @@ begin
         ram_io <= (others => 'Z');
         ram_a(1 downto 0) <= "00";
 
-        if read8_enable = '1' then
-          ram_a(14 downto 0) <= addr8(15 downto 1);
-          ram_cen <= '0';
-          ram_oen <= '0';
-          if addr8(0) = '0' then
-            ram_blen <= '0';
-          else
-            ram_bhen <= '0';
-          end if;
-          busy8 <= '1';
-          state <= read8;
+        if cs8 = '1' then
 
-        elsif write8_enable = '1' then
           ram_a(14 downto 0) <= addr8(15 downto 1);
           ram_cen <= '0';
-          if addr8(0) = '0' then
-            ram_io(7 downto 0) <= din8;
-            ram_blen <= '0';
-          else
-            ram_io(15 downto 8) <= din8;
-            ram_bhen <= '0';
-          end if;
           busy8 <= '1';
-          state <= write8;
+
+          if rw8 = '1' then
+            ram_oen <= '0';
+            if addr8(0) = '0' then
+              ram_blen <= '0';
+              dout8 <= ram_io(7 downto 0);
+            else
+              ram_bhen <= '0';
+              dout8 <= ram_io(15 downto 8);
+            end if;
+            state <= read8;
+          else
+            if addr8(0) = '0' then
+              ram_io(7 downto 0) <= din8;
+              ram_blen <= '0';
+            else
+              ram_io(15 downto 8) <= din8;
+              ram_bhen <= '0';
+            end if;
+            state <= write8;
+          end if;
 
         elsif read32_enable = '1' then
           ram_a(14 downto 1) <= addr32;
@@ -144,10 +149,12 @@ begin
         end if;
 
       when read32_low =>
+        read32_buf(15 downto 0) <= ram_io;
         ram_a(0) <= '1';
         state <= read32_high;
 
       when read32_high =>
+        read32_buf(31 downto 16) <= ram_io;
         if selected = '1' then
           state <= wait_deselect;
         else
@@ -173,6 +180,8 @@ begin
         ram_blen <= '1';
         ram_bhen <= '1';
         ram_io <= (others => 'Z');
+        busy8 <= '0';
+        busy32 <= '0';
 
         if selected = '0' then
           state <= idle;
@@ -181,9 +190,9 @@ begin
     end if;
   end process;
 
-  generate_selected : process(read8_enable, write8_enable, read32_enable, write32_enable)
+  generate_selected : process(cs8, read32_enable, write32_enable)
   begin
-    if read8_enable = '1' or write8_enable = '1' or read32_enable = '1' or write32_enable = '1' then
+    if cs8 = '1' or read32_enable = '1' or write32_enable = '1' then
       selected <= '1';
     else
       selected <= '0';
@@ -199,20 +208,13 @@ begin
       case state is
 
         when read8 =>
-          if addr8(0) = '0' then
-            dout8 <= ram_io(7 downto 0);
-          else
-            dout8 <= ram_io(15 downto 8);
-          end if;
 
         when write8 =>
           ram_wen <= '0';
 
         when read32_low =>
-          dout32(15 downto 0) <= ram_io;
 
         when read32_high =>
-          dout32(31 downto 16) <= ram_io;
 
         when write32_low =>
           ram_wen <= '0';
@@ -228,5 +230,7 @@ begin
     end if;
   end process;
 
+  dout32 <= read32_buf;
+  
 end;
 

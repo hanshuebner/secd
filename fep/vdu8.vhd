@@ -22,6 +22,7 @@ entity vdu is
   port(
     -- control register interface
     vdu_clk_in   : in  std_logic;	-- 50MHz	System clock
+    cpu_clk_out  : out std_logic;	-- 12.5 MHz CPU Clock
     vdu_rst      : in  std_logic;
     vdu_cs       : in  std_logic;
     vdu_rw       : in  std_logic;
@@ -223,6 +224,10 @@ begin
     o => vdu_clk
     );
   
+  cpu_clk_buffer : BUFG port map(
+    i => clk_count(1),
+    o => cpu_clk_out);
+
 --
 -- Clock divider
 -- Assumes 50 MHz system clock

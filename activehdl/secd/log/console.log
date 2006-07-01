@@ -1945,3 +1945,2260 @@ run
 # KERNEL: stopped at delta: 0 at time 1540 ns.
 endsim
 #  Simulation has been stopped
+asim -advdataflow  -asdb  -asdbrefresh 1 testbench_for_secd_ram_controller
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  23:14, Freitag, 30. Juni 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+run 500 ns
+# KERNEL: stopped at time: 1500 ns
+run 500 ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+run 500 ns
+# KERNEL: stopped at time: 2040 ns
+run 500 ns
+# KERNEL: stopped at time: 2540 ns
+run 500 ns
+# KERNEL: stopped at time: 3040 ns
+# Warning: This operation cannot be executed since you have initialized the simulation with the -asdb switch.
+# KERNEL: ASDB file was created in location h:\fpga\secd\activehdl\secd\src\wave.asdb
+# 21 signals traced
+asim testbench_for_secd_ram_controller
+#  Simulation has been stopped
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  23:14, Freitag, 30. Juni 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+run 500 ns
+# KERNEL: stopped at time: 1500 ns
+run 500 ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+run 500 ns
+# KERNEL: stopped at time: 2040 ns
+run 500 ns
+# KERNEL: stopped at time: 2540 ns
+run 500 ns
+# KERNEL: stopped at time: 3040 ns
+run 500 ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 3080 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 3080 ns.
+run 500 ns
+# KERNEL: stopped at time: 3580 ns
+run 500 ns
+# KERNEL: stopped at time: 4080 ns
+run 500 ns
+# KERNEL: stopped at time: 4580 ns
+run 500 ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 4620 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 4620 ns.
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  23:14, Freitag, 30. Juni 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+step
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  23:17, Freitag, 30. Juni 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.9 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.9 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  08:55, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 3 error(s), 0 warning(s)
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 1 error(s), 0 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+# Launching iMPACT.
+# iMPACT has been launched.
+open -html "h:\fpga\secd\activehdl\secd\synthesis\synlog.htm"
+open -html "h:\fpga\secd\activehdl\secd\implement\ver1\rev1\implementation.htm"
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+open -html "h:\fpga\secd\activehdl\secd\synthesis\synlog.htm"
+open -html "h:\fpga\secd\activehdl\secd\implement\ver1\rev1\implementation.htm"
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\secd_ram_controller.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.5 [s]
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  7.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  2.0 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.2 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:09, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+run 500 ns
+# KERNEL: stopped at time: 1500 ns
+run 500 ns
+# EXECUTION:: ERROR  : done
+# EXECUTION:: Time: 1540 ns,  Iteration: 0,  TOP instance,  Process: stimulus.
+# KERNEL: stopped at delta: 0 at time 1540 ns.
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:10, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+run 500 ns
+# KERNEL: stopped at time: 1500 ns
+acom -reorder $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Top-Level unit detected
+# Configuration  =>   TESTBENCH_FOR_secd_ram_controller
+# Entity  =>   secd_ram_controller_tb
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -reorder -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Top-Level unit detected
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  2.0 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.2 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:14, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run
+stop
+# KERNEL: stopped at time: 36399150 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:15, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:15, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+acom -reorder $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Top-Level unit detected
+# Configuration  =>   TESTBENCH_FOR_secd_ram_controller
+# Entity  =>   secd_ram_controller_tb
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -reorder -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Top-Level unit detected
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4276 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:16, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+acom -reorder $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Top-Level unit detected
+# Configuration  =>   TESTBENCH_FOR_secd_ram_controller
+# Entity  =>   secd_ram_controller_tb
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -reorder -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Top-Level unit detected
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2946 kernel=298 sdf=0)
+#  11:17, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 500 ns
+# KERNEL: stopped at time: 500 ns
+run 500 ns
+# KERNEL: stopped at time: 1 us
+run 500 ns
+# KERNEL: stopped at time: 1500 ns
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\secd_ram_controller.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+# Running synthesis...
+# Error: Synthesis aborted.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+#  Simulation has been stopped
+# ELBREAD: Elaboration process.
+# Error: ULM_0021: Architecture "syn" is not up-to-date. Please, recompile file: ./../../fep/fep_toplevel.vhd.
+# ELBREAD: Error: Architecture 'syn' of entity 'secd_fep_trenz' not found in library 'secd'.
+# ELBREAD: Error: Elaboration process completed with errors.
+# Design: Error: Elaboration failed
+acom -reorder $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Top-Level unit detected
+# Entity  =>   vdu
+# Configuration  =>   TESTBENCH_FOR_secd_ram_controller
+# Entity  =>   secd_ram_controller_tb
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  5.0 [s]
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 1.3 [s].
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -reorder -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Top-Level unit detected
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\clock_synthesis.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 58 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Error: File 'h:/fpga/secd/activehdl/secd/implement/ver1/rev1/secd_fep_trenz.bit' does not exist.
+# Implementation ver1->rev1: 5 error(s), 7 warning(s).
+# Error: Implementation ended with error(s).
+# Warning: No simulation netlist was produced.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 56 warning(s)
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Error: Synthesis: 1 error(s), 58 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\vdu8.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 59 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# Error: COMP96_0078: clock_synthesis.vhd : (93, 3): Unknown identifier "CLKIN_IBUFG_OUT".
+# Error: COMP96_0133: clock_synthesis.vhd : (93, 3): Cannot find object declaration.
+# Error: COMP96_0078: clock_synthesis.vhd : (94, 3): Unknown identifier "CLK0_OUT".
+# Error: COMP96_0133: clock_synthesis.vhd : (94, 3): Cannot find object declaration.
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# Error: COMP96_0078: fep_toplevel.vhd : (322, 5): Unknown identifier "vdu_clk_out".
+# Error: COMP96_0133: fep_toplevel.vhd : (322, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (322, 5): "vdu_clk_out" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rst".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_cs".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rw".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_addr".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_data_in".
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile failure 12 Errors 0 Warnings  Analysis time :  4.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+acom $DSN/../../fep/clock_synthesis.vhd
+# Compile...
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.3 [s]
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# Error: COMP96_0078: fep_toplevel.vhd : (322, 5): Unknown identifier "vdu_clk_out".
+# Error: COMP96_0133: fep_toplevel.vhd : (322, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (322, 5): "vdu_clk_out" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rst".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_cs".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rw".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_addr".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_data_in".
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile failure 8 Errors 0 Warnings  Analysis time :  4.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# Error: COMP96_0019: vdu8.vhd : (230, 1): Keyword "end" expected.
+# Error: COMP96_0016: vdu8.vhd : (237, 3): Design unit declaration expected.
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile failure 2 Errors 0 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  4.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+# Checking if synthesis needs to be updated...
+# Warning: File "h:\fpga\secd\fep\clock_synthesis.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\secd_ram_controller.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\vdu8.vhd" has been modified after last synthesis run.
+# Warning: File "h:\fpga\secd\fep\fep_toplevel.vhd" has been modified after last synthesis run.
+# Running synthesis...
+# Warning: Synthesis: 0 errors, 57 warning(s)
+# Checking if synthesis needs to be updated...
+# Checking if implementation needs to be updated...
+# File "h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.ngc" has been modified after last implementation run.
+# Implementation has been started.
+# Implementation ver1->rev1: 0 error(s), 4 warning(s).
+# Warning: Implementation ended with warning(s).
+# Warning: No simulation netlist was produced.
+acom $DSN/../../fep/fep_toplevel.vhd
+# Compile...
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# Error: COMP96_0078: fep_toplevel.vhd : (394, 5): Unknown identifier "cs8".
+# Error: COMP96_0078: fep_toplevel.vhd : (395, 5): Unknown identifier "rw8".
+# Error: COMP96_0133: fep_toplevel.vhd : (394, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (394, 5): "cs8" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (377, 0): No actual specified for local port "read8_enable".
+# Error: COMP96_0207: fep_toplevel.vhd : (377, 0): No actual specified for local port "write8_enable".
+# Compile failure 6 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Error: COMP96_0078: secd_ram_controller.vhd : (62, 33): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (62, 47): Unknown identifier "write8_enable".
+# Error: COMP96_0348: secd_ram_controller.vhd : (60, 32): Name on sensitivity list must denote a signal.
+# Error: COMP96_0078: secd_ram_controller.vhd : (191, 31): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (191, 45): Unknown identifier "write8_enable".
+# Error: COMP96_0348: secd_ram_controller.vhd : (191, 30): Name on sensitivity list must denote a signal.
+# Error: COMP96_0078: secd_ram_controller.vhd : (193, 8): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (193, 30): Unknown identifier "write8_enable".
+# Error: COMP96_0133: secd_ram_controller.vhd : (193, 30): Cannot find object declaration.
+# Error: COMP96_0133: secd_ram_controller.vhd : (193, 8): Cannot find object declaration.
+# Error: COMP96_0104: secd_ram_controller.vhd : (193, 8): Undefined type of expression.
+# Error: COMP96_0098: secd_ram_controller.vhd : (193, 8): Boolean type expected.
+# Compile failure 12 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/fep_toplevel.vhd
+# Compile...
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Warning: ELAB1_0026: secd_ram_controller_TB.vhd : (128, 0): There is no default binding for component "secd_ram_controller".(Port "read8_enable" is not on the entity).
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Error: ELAB1_0011: secd_ram_controller_TB.vhd : (254, 0): Port "rw8" is on entity "secd_ram_controller" but not on the component declaration.
+# Error: ELAB1_0011: secd_ram_controller_TB.vhd : (254, 0): Port "cs8" is on entity "secd_ram_controller" but not on the component declaration.
+# Error: ELAB1_0030: secd_ram_controller_TB.vhd : (254, 0): Port "read8_enable" is on component "secd_ram_controller" but not on the entity "secd_ram_controller".
+# Error: ELAB1_0030: secd_ram_controller_TB.vhd : (254, 0): Port "write8_enable" is on component "secd_ram_controller" but not on the entity "secd_ram_controller".
+# Error: COMP96_0203: secd_ram_controller_TB.vhd : (255, 7): Binding indication has neither a generic map aspect nor a port map aspect.
+# Error: ELAB1_0011: secd_ram_controller_TB.vhd : (255, 0): Port "rw8" is on entity "secd_ram_controller" but not on the component declaration.
+# Error: ELAB1_0011: secd_ram_controller_TB.vhd : (255, 0): Port "cs8" is on entity "secd_ram_controller" but not on the component declaration.
+# Error: ELAB1_0030: secd_ram_controller_TB.vhd : (255, 0): Port "read8_enable" is on component "secd_ram_controller" but not on the entity "secd_ram_controller".
+# Error: ELAB1_0030: secd_ram_controller_TB.vhd : (255, 0): Port "write8_enable" is on component "secd_ram_controller" but not on the entity "secd_ram_controller".
+# Compile failure 9 Errors 1 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+acom $DSN/../../fep/secd_ram_controller.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.2 [s]
+asim -advdataflow  -asdb  -asdbrefresh 1 secd_fep_trenz rtl
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 1.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 1.3 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 58128 kB (elbread=25603 elab2=29826 kernel=2698 sdf=0)
+#  15:06, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: secd_fep_trenz (rtl)
+#  Simulation has been stopped
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+acom -reorder $DSN/../../secd-microcode.vhd $DSN/../../vhdl/secd_defs.vhd $DSN/../../vhdl/secd_ram_defs.vhd $DSN/../../fep/clock_synthesis.vhd $DSN/../../fep/char_rom_b16.vhd $DSN/../../fep/cpu09.vhd $DSN/../../fep/kbug_rom2k.vhd $DSN/../../fep/key_b4.vhd $DSN/../../fep/kbug_ram.vhd $DSN/../../fep/rxunit3.vhd $DSN/../../fep/secd_ram_controller.vhd $DSN/../../fep/user_ram.vhd $DSN/../../fep/txunit3.vhd $DSN/../../vhdl/microcode_rom.vhd $DSN/../../vhdl/datapath.vhd $DSN/../../fep/ram2k_b16.vhd $DSN/../../fep/ps2_keyboard.vhd $DSN/../../fep/miniuart3.vhd $DSN/../../fep/vdu8.vhd $DSN/../../vhdl/clock_gen.vhd $DSN/../../vhdl/control_unit.vhd $DSN/../../vhdl/secd_toplevel.vhd $DSN/../../fep/keyboard.vhd $DSN/../../fep/fep_toplevel.vhd $DSN/../../fmf/idt71v416.vhd $DSN/../../fep/secd_ram_controller_tb.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\secd-microcode.vhd
+# Compile Package "microcode_rom_defs"
+# File: h:\fpga\secd\vhdl\secd_defs.vhd
+# Compile Package "secd_defs"
+# File: h:\fpga\secd\vhdl\secd_ram_defs.vhd
+# Compile Package "secd_ram_defs"
+# File: h:\fpga\secd\fep\clock_synthesis.vhd
+# Compile Entity "clock_synthesis"
+# Compile Architecture "BEHAVIORAL" of Entity "clock_synthesis"
+# File: h:\fpga\secd\fep\char_rom_b16.vhd
+# Compile Entity "char_rom"
+# Compile Architecture "rtl" of Entity "char_rom"
+# File: h:\fpga\secd\fep\cpu09.vhd
+# Compile Entity "cpu09"
+# Compile Architecture "CPU_ARCH" of Entity "cpu09"
+# File: h:\fpga\secd\fep\kbug_rom2k.vhd
+# Compile Entity "mon_rom"
+# Compile Architecture "rtl" of Entity "mon_rom"
+# File: h:\fpga\secd\fep\key_b4.vhd
+# Compile Entity "key_b4"
+# Compile Architecture "rtl" of Entity "key_b4"
+# File: h:\fpga\secd\fep\kbug_ram.vhd
+# Compile Entity "kbug_ram"
+# Compile Architecture "internal_ram" of Entity "kbug_ram"
+# File: h:\fpga\secd\fep\rxunit3.vhd
+# Compile Entity "RxUnit"
+# Compile Architecture "Behaviour" of Entity "RxUnit"
+# File: h:\fpga\secd\fep\secd_ram_controller.vhd
+# Compile Entity "secd_ram_controller"
+# Compile Architecture "external_ram" of Entity "secd_ram_controller"
+# File: h:\fpga\secd\fep\user_ram.vhd
+# Compile Entity "user_ram"
+# Compile Architecture "sim" of Entity "user_ram"
+# Compile Architecture "syn" of Entity "user_ram"
+# File: h:\fpga\secd\fep\txunit3.vhd
+# Compile Entity "TxUnit"
+# Compile Architecture "Behaviour" of Entity "TxUnit"
+# File: h:\fpga\secd\vhdl\microcode_rom.vhd
+# Compile Entity "microcode_rom"
+# Compile Architecture "syn" of Entity "microcode_rom"
+# File: h:\fpga\secd\vhdl\datapath.vhd
+# Compile Entity "datapath"
+# Compile Architecture "datapath_arch" of Entity "datapath"
+# File: h:\fpga\secd\fep\ram2k_b16.vhd
+# Compile Entity "ram_2k"
+# Compile Architecture "rtl" of Entity "ram_2k"
+# File: h:\fpga\secd\fep\ps2_keyboard.vhd
+# Compile Entity "ps2_keyboard_interface"
+# Compile Architecture "my_ps2_keyboard" of Entity "ps2_keyboard_interface"
+# File: h:\fpga\secd\fep\miniUART3.vhd
+# Compile Entity "miniUART"
+# Compile Architecture "uart" of Entity "miniUART"
+# File: h:\fpga\secd\fep\vdu8.vhd
+# Compile Entity "vdu"
+# Compile Architecture "arch" of Entity "vdu"
+# File: h:\fpga\secd\vhdl\clock_gen.vhd
+# Compile Entity "clock_gen"
+# Compile Architecture "my_clock_gen" of Entity "clock_gen"
+# File: h:\fpga\secd\vhdl\control_unit.vhd
+# Compile Entity "control_unit"
+# Compile Architecture "my_control_unit" of Entity "control_unit"
+# File: h:\fpga\secd\vhdl\secd_toplevel.vhd
+# Compile Entity "secd_system"
+# Compile Architecture "my_secd_system" of Entity "secd_system"
+# File: h:\fpga\secd\fep\keyboard.vhd
+# Compile Entity "keyboard"
+# Compile Architecture "my_keyboard" of Entity "keyboard"
+# File: h:\fpga\secd\fep\fep_toplevel.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "rtl" of Entity "secd_fep_trenz"
+# File: h:\fpga\secd\fmf\idt71v416.vhd
+# Compile Entity "idt71v416"
+# Compile Architecture "vhdl_behavioral" of Entity "idt71V416"
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Top-Level unit detected
+# Configuration  =>   TESTBENCH_FOR_secd_ram_controller
+# Entity  =>   secd_ram_controller_tb
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  5.0 [s]
+edfcomp $DSN/../../fep/icon.edn
+# Compile...
+# File: h:\fpga\secd\fep\icon.edn
+# Compilation successful; 0 errors
+# h:\fpga\secd\fep\icon.edn
+acom -reorder -work secd_post_synthesis $DSN/synthesis/secd_fep_trenz.vhd
+# Compile with File Reorder...
+# File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
+# Compile Entity "secd_fep_trenz"
+# Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"
+# Start Netlist compilation mode.
+# Top-Level unit detected
+# Entity  =>   secd_fep_trenz
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+asim -advdataflow  -asdb  -asdbrefresh 1 testbench_for_secd_ram_controller
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4277 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:08, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+asim testbench_for_secd_ram_controller
+#  Simulation has been stopped
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:08, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+# Signal write8_enable not found in design
+# Signal read8_enable not found in design
+run 100 ns
+# KERNEL: stopped at time: 100 ns
+run 100 ns
+# KERNEL: stopped at time: 200 ns
+run 100 ns
+# KERNEL: stopped at time: 300 ns
+run 100 ns
+# KERNEL: stopped at time: 400 ns
+run 100 ns
+# KERNEL: stopped at time: 500 ns
+run 100 ns
+# KERNEL: stopped at time: 600 ns
+run 100 ns
+# KERNEL: stopped at time: 700 ns
+run 100 ns
+# KERNEL: stopped at time: 800 ns
+run 100 ns
+# KERNEL: stopped at time: 900 ns
+run 100 ns
+# KERNEL: stopped at time: 1 us
+run 100 ns
+# KERNEL: stopped at time: 1100 ns
+run 100 ns
+# KERNEL: stopped at time: 1200 ns
+run 100 ns
+# KERNEL: stopped at time: 1300 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:09, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 100 ns
+# KERNEL: stopped at time: 100 ns
+run 100 ns
+# KERNEL: stopped at time: 200 ns
+run 100 ns
+# KERNEL: stopped at time: 300 ns
+run 100 ns
+# KERNEL: stopped at time: 400 ns
+run 100 ns
+# KERNEL: stopped at time: 500 ns
+run 100 ns
+# KERNEL: stopped at time: 600 ns
+run 100 ns
+# KERNEL: stopped at time: 700 ns
+run 100 ns
+# KERNEL: stopped at time: 800 ns
+run 100 ns
+# KERNEL: stopped at time: 900 ns
+run 100 ns
+# KERNEL: stopped at time: 1 us
+run 100 ns
+# KERNEL: stopped at time: 1100 ns
+run 100 ns
+# KERNEL: stopped at time: 1200 ns
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:11, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 10 ns
+# KERNEL: stopped at time: 10 ns
+run 10 ns
+# KERNEL: stopped at time: 20 ns
+run 10 ns
+# KERNEL: stopped at time: 30 ns
+run 10 ns
+# KERNEL: stopped at time: 40 ns
+run 10 ns
+# KERNEL: stopped at time: 50 ns
+run 10 ns
+# KERNEL: stopped at time: 60 ns
+run 10 ns
+# KERNEL: stopped at time: 70 ns
+run 10 ns
+# KERNEL: stopped at time: 80 ns
+run 10 ns
+# KERNEL: stopped at time: 90 ns
+run 10 ns
+# KERNEL: stopped at time: 100 ns
+run 10 ns
+# KERNEL: stopped at time: 110 ns
+run 10 ns
+# KERNEL: stopped at time: 120 ns
+run 10 ns
+# KERNEL: stopped at time: 130 ns
+run 10 ns
+run 10 ns
+run 10 ns
+# KERNEL: stopped at time: 140 ns
+run 10 ns
+# KERNEL: stopped at time: 150 ns
+run 10 ns
+# KERNEL: stopped at time: 160 ns
+run 10 ns
+# KERNEL: stopped at time: 170 ns
+run 10 ns
+# KERNEL: stopped at time: 180 ns
+run 10 ns
+# KERNEL: stopped at time: 190 ns
+run 10 ns
+# KERNEL: stopped at time: 200 ns
+run 10 ns
+# KERNEL: stopped at time: 210 ns
+run 10 ns
+# KERNEL: stopped at time: 220 ns
+run 10 ns
+# KERNEL: stopped at time: 230 ns
+run 10 ns
+# KERNEL: stopped at time: 240 ns
+run 10 ns
+# KERNEL: stopped at time: 250 ns
+run 10 ns
+# KERNEL: stopped at time: 260 ns
+run 10 ns
+# KERNEL: stopped at time: 270 ns
+run 10 ns
+# KERNEL: stopped at time: 280 ns
+run 10 ns
+# KERNEL: stopped at time: 290 ns
+run 10 ns
+# KERNEL: stopped at time: 300 ns
+run 10 ns
+# KERNEL: stopped at time: 310 ns
+run 10 ns
+# KERNEL: stopped at time: 320 ns
+run 10 ns
+# KERNEL: stopped at time: 330 ns
+run 10 ns
+# KERNEL: stopped at time: 340 ns
+run 10 ns
+# KERNEL: stopped at time: 350 ns
+run 10 ns
+# KERNEL: stopped at time: 360 ns
+run 10 ns
+# KERNEL: stopped at time: 370 ns
+run 10 ns
+# KERNEL: stopped at time: 380 ns
+run 10 ns
+# KERNEL: stopped at time: 390 ns
+run 10 ns
+# KERNEL: stopped at time: 400 ns
+run 10 ns
+# KERNEL: stopped at time: 410 ns
+run 10 ns
+# KERNEL: stopped at time: 420 ns
+run 10 ns
+# KERNEL: stopped at time: 430 ns
+run 10 ns
+# KERNEL: stopped at time: 440 ns
+run 10 ns
+# KERNEL: stopped at time: 450 ns
+run 10 ns
+# KERNEL: stopped at time: 460 ns
+run 10 ns
+# KERNEL: stopped at time: 470 ns
+run 10 ns
+# KERNEL: stopped at time: 480 ns
+run 10 ns
+# KERNEL: stopped at time: 490 ns
+run 10 ns
+# KERNEL: stopped at time: 500 ns
+run 10 ns
+# KERNEL: stopped at time: 510 ns
+run 10 ns
+# KERNEL: stopped at time: 520 ns
+run 10 ns
+# KERNEL: stopped at time: 530 ns
+run 10 ns
+# KERNEL: stopped at time: 540 ns
+run 10 ns
+# KERNEL: stopped at time: 550 ns
+run 10 ns
+# KERNEL: stopped at time: 560 ns
+run 10 ns
+# KERNEL: stopped at time: 570 ns
+run 10 ns
+# KERNEL: stopped at time: 580 ns
+run 10 ns
+# KERNEL: stopped at time: 590 ns
+run 10 ns
+# KERNEL: stopped at time: 600 ns
+run 10 ns
+# KERNEL: stopped at time: 610 ns
+run 10 ns
+# KERNEL: stopped at time: 620 ns
+run 10 ns
+# KERNEL: stopped at time: 630 ns
+run 10 ns
+# KERNEL: stopped at time: 640 ns
+run 10 ns
+# KERNEL: stopped at time: 650 ns
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+acom $DSN/../../fep/secd_ram_controller_TB.vhd
+# Compile...
+# File: h:\fpga\secd\fep\secd_ram_controller_TB.vhd
+# Compile Entity "secd_ram_controller_tb"
+# Compile Architecture "TB_ARCHITECTURE" of Entity "secd_ram_controller_tb"
+# Compile Configuration "TESTBENCH_FOR_secd_ram_controller"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+restart
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 4278 kB (elbread=1032 elab2=2947 kernel=298 sdf=0)
+#  15:13, Samstag, 1. Juli 2006
+#  Simulation has been initialized
+#  Selected Top-Level: testbench_for_secd_ram_controller
+run 10 ns
+# KERNEL: stopped at time: 10 ns
+run 10 ns
+# KERNEL: stopped at time: 20 ns
+run 10 ns
+# KERNEL: stopped at time: 30 ns
+run 10 ns
+# KERNEL: stopped at time: 40 ns
+run 10 ns
+# KERNEL: stopped at time: 50 ns
+run 10 ns
+# KERNEL: stopped at time: 60 ns
+run 10 ns
+# KERNEL: stopped at time: 70 ns
+run 10 ns
+# KERNEL: stopped at time: 80 ns
+run 10 ns
+# KERNEL: stopped at time: 90 ns
+run 10 ns
+# KERNEL: stopped at time: 100 ns
+run 10 ns
+# KERNEL: stopped at time: 110 ns
+run 10 ns
+# KERNEL: stopped at time: 120 ns
+run 10 ns
+# KERNEL: stopped at time: 130 ns
+run 10 ns
+# KERNEL: stopped at time: 140 ns
+run 10 ns
+# KERNEL: stopped at time: 150 ns
+run 10 ns
+# KERNEL: stopped at time: 160 ns
+run 10 ns
+# KERNEL: stopped at time: 170 ns
+run 10 ns
+# KERNEL: stopped at time: 180 ns
+run 10 ns
+# KERNEL: stopped at time: 190 ns
+run 10 ns
+# KERNEL: stopped at time: 200 ns
+run 10 ns
+# KERNEL: stopped at time: 210 ns
+run 10 ns
+# KERNEL: stopped at time: 220 ns
+run 10 ns
+# KERNEL: stopped at time: 230 ns
+run 10 ns
+# KERNEL: stopped at time: 240 ns
+run 10 ns
+# KERNEL: stopped at time: 250 ns
+run 10 ns
+# KERNEL: stopped at time: 260 ns
+run 10 ns
+# KERNEL: stopped at time: 270 ns
+run 10 ns
+# KERNEL: stopped at time: 280 ns
+run 10 ns
+# KERNEL: stopped at time: 290 ns
+run 10 ns
+# KERNEL: stopped at time: 300 ns
+run 10 ns
+# KERNEL: stopped at time: 310 ns
+run 10 ns
+# KERNEL: stopped at time: 320 ns
+run 10 ns
+# KERNEL: stopped at time: 330 ns
+run 10 ns
+# KERNEL: stopped at time: 340 ns
+run 10 ns
+# KERNEL: stopped at time: 350 ns
+run 10 ns
+# KERNEL: stopped at time: 360 ns
+run 10 ns
+# KERNEL: stopped at time: 370 ns
+run 10 ns
+# KERNEL: stopped at time: 380 ns
+run 10 ns
+# KERNEL: stopped at time: 390 ns
+run 10 ns
+# KERNEL: stopped at time: 400 ns
+run 10 ns
+# KERNEL: stopped at time: 410 ns
+run 10 ns
+# KERNEL: stopped at time: 420 ns
+run 10 ns
+# KERNEL: stopped at time: 430 ns
+run 10 ns
+# KERNEL: stopped at time: 440 ns
+run 10 ns
+# KERNEL: stopped at time: 450 ns
+run 10 ns
+# KERNEL: stopped at time: 460 ns
+run 10 ns
+# KERNEL: stopped at time: 470 ns
+run 10 ns
+# KERNEL: stopped at time: 480 ns
+run 10 ns
+# KERNEL: stopped at time: 490 ns
+run 10 ns
+# KERNEL: stopped at time: 500 ns
+run 10 ns
+# KERNEL: stopped at time: 510 ns
+run 10 ns
+# KERNEL: stopped at time: 520 ns
+run 10 ns
+# KERNEL: stopped at time: 530 ns
+run 10 ns
+# KERNEL: stopped at time: 540 ns
+run 10 ns
+# KERNEL: stopped at time: 550 ns
+run 10 ns
+# KERNEL: stopped at time: 560 ns
+run 10 ns
+# KERNEL: stopped at time: 570 ns
+run 10 ns
+# KERNEL: stopped at time: 580 ns
+run 10 ns
+# KERNEL: stopped at time: 590 ns
+run 10 ns
+# KERNEL: stopped at time: 600 ns
+run 10 ns
+# KERNEL: stopped at time: 610 ns
+run 10 ns
+# KERNEL: stopped at time: 620 ns
+run 10 ns
+# KERNEL: stopped at time: 630 ns
+run 10 ns
+# KERNEL: stopped at time: 640 ns
+run 10 ns
+# KERNEL: stopped at time: 650 ns
+run 10 ns
+# KERNEL: stopped at time: 660 ns
+run 10 ns
+# KERNEL: stopped at time: 670 ns
+run 10 ns
+# KERNEL: stopped at time: 680 ns
+run 10 ns
+# KERNEL: stopped at time: 690 ns
+run 10 ns
+# KERNEL: stopped at time: 700 ns
+run 10 ns
+# KERNEL: stopped at time: 710 ns
+run 10 ns
+# KERNEL: stopped at time: 720 ns
+run 10 ns
+# KERNEL: stopped at time: 730 ns
+run 10 ns
+# KERNEL: stopped at time: 740 ns
+run 10 ns
+# KERNEL: stopped at time: 750 ns
+run 10 ns
+# KERNEL: stopped at time: 760 ns
+run 10 ns
+run 10 ns
+# KERNEL: stopped at time: 770 ns
+run 10 ns
+# KERNEL: stopped at time: 780 ns
+run 10 ns
+# KERNEL: stopped at time: 790 ns
+run 10 ns
+# KERNEL: stopped at time: 800 ns
+run 10 ns
+# KERNEL: stopped at time: 810 ns
+run 10 ns
+# KERNEL: stopped at time: 820 ns
+run 10 ns
+# KERNEL: stopped at time: 830 ns
+run 10 ns
+# KERNEL: stopped at time: 840 ns
+run 10 ns
+# KERNEL: stopped at time: 850 ns
+run 10 ns
+# KERNEL: stopped at time: 860 ns
+run 10 ns
+# KERNEL: stopped at time: 870 ns
+run 10 ns
+# KERNEL: stopped at time: 880 ns
+run 10 ns
+# KERNEL: stopped at time: 890 ns
+run 10 ns
+# KERNEL: stopped at time: 900 ns
+run 10 ns
+# KERNEL: stopped at time: 910 ns
+run 10 ns
+# KERNEL: stopped at time: 920 ns
+run 10 ns
+# KERNEL: stopped at time: 930 ns
+run 10 ns
+# KERNEL: stopped at time: 940 ns
+run 10 ns
+# KERNEL: stopped at time: 950 ns
+run 10 ns
+# KERNEL: stopped at time: 960 ns
+run 10 ns
+# KERNEL: stopped at time: 970 ns
+run 10 ns
+# KERNEL: stopped at time: 980 ns
+run 10 ns
+# KERNEL: stopped at time: 990 ns
+run 10 ns
+# KERNEL: stopped at time: 1 us
+run 10 ns
+# KERNEL: stopped at time: 1010 ns
+run 10 ns
+# KERNEL: stopped at time: 1020 ns
+run 10 ns
+# KERNEL: stopped at time: 1030 ns
+run 10 ns
+# KERNEL: stopped at time: 1040 ns
+run 10 ns
+# KERNEL: stopped at time: 1050 ns
+run 10 ns
+# KERNEL: stopped at time: 1060 ns
+run 10 ns
+# KERNEL: stopped at time: 1070 ns
+run 10 ns
+# KERNEL: stopped at time: 1080 ns
+run 10 ns
+# KERNEL: stopped at time: 1090 ns
+run 10 ns
+# KERNEL: stopped at time: 1100 ns
+run 10 ns
+# KERNEL: stopped at time: 1110 ns
+run 10 ns
+# KERNEL: stopped at time: 1120 ns
+run 10 ns
+# KERNEL: stopped at time: 1130 ns
+run 10 ns
+# KERNEL: stopped at time: 1140 ns
+run 10 ns
+# KERNEL: stopped at time: 1150 ns
+run 10 ns
+# KERNEL: stopped at time: 1160 ns
+run 10 ns
+# KERNEL: stopped at time: 1170 ns
+run 10 ns
+# KERNEL: stopped at time: 1180 ns
+run 10 ns
+# KERNEL: stopped at time: 1190 ns
+run 10 ns
+# KERNEL: stopped at time: 1200 ns
+run 10 ns
+# KERNEL: stopped at time: 1210 ns
+run 10 ns
+# KERNEL: stopped at time: 1220 ns
+run 10 ns
+# KERNEL: stopped at time: 1230 ns
+run 10 ns
+# KERNEL: stopped at time: 1240 ns
+run 10 ns
+# KERNEL: stopped at time: 1250 ns
+run 10 ns
+# KERNEL: stopped at time: 1260 ns
+run 10 ns
+# KERNEL: stopped at time: 1270 ns
+run 10 ns
+# KERNEL: stopped at time: 1280 ns
+run 10 ns
+# KERNEL: stopped at time

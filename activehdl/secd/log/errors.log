@@ -146,3 +146,57 @@
 # EXECUTION:: ERROR  : done
 # EXECUTION:: ERROR  : done
 # EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# EXECUTION:: ERROR  : done
+# Error: Synthesis: 3 error(s), 0 warning(s)
+# Error: Synthesis: 1 error(s), 0 warning(s)
+# EXECUTION:: ERROR  : done
+# Error: Synthesis aborted.
+# Error: ULM_0021: Architecture "syn" is not up-to-date. Please, recompile file: ./../../fep/fep_toplevel.vhd.
+# ELBREAD: Error: Architecture 'syn' of entity 'secd_fep_trenz' not found in library 'secd'.
+# ELBREAD: Error: Elaboration process completed with errors.
+# Design: Error: Elaboration failed
+# Error: File 'h:/fpga/secd/activehdl/secd/implement/ver1/rev1/secd_fep_trenz.bit' does not exist.
+# Error: Implementation ended with error(s).
+# Error: Synthesis: 1 error(s), 58 warning(s)
+# Error: COMP96_0078: clock_synthesis.vhd : (93, 3): Unknown identifier "CLKIN_IBUFG_OUT".
+# Error: COMP96_0133: clock_synthesis.vhd : (93, 3): Cannot find object declaration.
+# Error: COMP96_0078: clock_synthesis.vhd : (94, 3): Unknown identifier "CLK0_OUT".
+# Error: COMP96_0133: clock_synthesis.vhd : (94, 3): Cannot find object declaration.
+# Error: COMP96_0078: fep_toplevel.vhd : (322, 5): Unknown identifier "vdu_clk_out".
+# Error: COMP96_0133: fep_toplevel.vhd : (322, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (322, 5): "vdu_clk_out" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rst".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_cs".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rw".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_addr".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_data_in".
+# Error: COMP96_0078: fep_toplevel.vhd : (322, 5): Unknown identifier "vdu_clk_out".
+# Error: COMP96_0133: fep_toplevel.vhd : (322, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (322, 5): "vdu_clk_out" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rst".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_cs".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_rw".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_addr".
+# Error: COMP96_0207: fep_toplevel.vhd : (318, 0): No actual specified for local port "vdu_data_in".
+# Error: COMP96_0019: vdu8.vhd : (230, 1): Keyword "end" expected.
+# Error: COMP96_0016: vdu8.vhd : (237, 3): Design unit declaration expected.
+# Error: COMP96_0078: fep_toplevel.vhd : (394, 5): Unknown identifier "cs8".
+# Error: COMP96_0078: fep_toplevel.vhd : (395, 5): Unknown identifier "rw8".
+# Error: COMP96_0133: fep_toplevel.vhd : (394, 5): Cannot find object declaration.
+# Error: COMP96_0112: fep_toplevel.vhd : (394, 5): "cs8" does not match the formal name.
+# Error: COMP96_0207: fep_toplevel.vhd : (377, 0): No actual specified for local port "read8_enable".
+# Error: COMP96_0207: fep_toplevel.vhd : (377, 0): No actual specified for local port "write8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (62, 33): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (62, 47): Unknown identifier "write8_enable".
+# Error: COMP96_0348: secd_ram_controller.vhd : (60, 32): Name on sensitivity list must denote a signal.
+# Error: COMP96_0078: secd_ram_controller.vhd : (191, 31): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (191, 45): Unknown identifier "write8_enable".
+# Error: COMP96_0348: secd_ram_controller.vhd : (191, 30): Name on sensitivity list must denote a signal.
+# Error: COMP96_0078: secd_ram_controller.vhd : (193, 8): Unknown identifier "read8_enable".
+# Error: COMP96_0078: secd_ram_controller.vhd : (193, 30)

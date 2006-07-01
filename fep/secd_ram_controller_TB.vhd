@@ -44,8 +44,8 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
       din8 : in std_logic_vector(7 downto 0);
       dout8 : out std_logic_vector(7 downto 0);
       addr8 : in std_logic_vector(15 downto 0);
-      read8_enable : in std_logic;
-      write8_enable : in std_logic;
+      cs8 : in std_logic;
+      rw8 : in std_logic;
       ram_oen : out std_logic;
       ram_cen : out std_logic;
       ram_wen : out std_logic;
@@ -64,8 +64,8 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
   signal write32_enable : std_logic;
   signal din8 : std_logic_vector(7 downto 0);
   signal addr8 : std_logic_vector(15 downto 0);
-  signal read8_enable : std_logic;
-  signal write8_enable : std_logic;
+  signal rw8 : std_logic;
+  signal cs8 : std_logic;
   signal ram_io : std_logic_vector(15 downto 0);
   -- Observed signals - signals mapped to the output ports of tested entity
   signal busy8 : std_logic;
@@ -139,8 +139,8 @@ begin
       din8 => din8,
       dout8 => dout8,
       addr8 => addr8,
-      read8_enable => read8_enable,
-      write8_enable => write8_enable,
+      rw8 => rw8,
+      cs8 => cs8,
       ram_oen => ram_oen,
       ram_cen => ram_cen,
       ram_wen => ram_wen,
@@ -166,12 +166,13 @@ begin
       variable result : std_logic_vector(7 downto 0);
     begin
       addr8 <= addr;
-      read8_enable <= '1';
+      cs8 <= '1';
+      rw8 <= '1';
       wait until busy8 = '1';
       wait for 10 ns;
-      read8_enable <= '0';
-      wait until busy8 = '0';
       result := din8;
+      cs8 <= '0';
+      wait until busy8 = '0';
     end procedure;
 
     procedure write8(addr : in std_logic_vector(15 downto 0);
@@ -179,10 +180,11 @@ begin
     begin
       addr8 <= addr;
       din8 <= data;
-      write8_enable <= '1';
+      rw8 <= '0';
+      cs8 <= '1';
       wait until busy8 = '1';
       wait for 10 ns;
-      write8_enable <= '0';
+      cs8 <= '0';
       wait until busy8 = '0';
     end procedure;
 
@@ -216,8 +218,8 @@ begin
     reset <= '1';
     read32_enable <= '0';
     write32_enable <= '0';
-    read8_enable <= '0';
-    write8_enable <= '0';
+    rw8 <= '1';
+    cs8 <= '0';
 
     wait for 200 ns;
     reset <= '0';

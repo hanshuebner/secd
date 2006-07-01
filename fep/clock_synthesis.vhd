@@ -29,17 +29,13 @@ use UNISIM.Vcomponents.ALL;
 
 entity clock_synthesis is
   port ( CLKIN_IN        : in    std_logic; 
-         CLKFX_OUT       : out   std_logic; 
-         CLKIN_IBUFG_OUT : out   std_logic; 
-         CLK0_OUT        : out   std_logic;
-         CLKDV_OUT       : out   std_logic;
+         CLKFX_OUT       : out   std_logic;
          LOCKED_OUT      : out   std_logic);
 end clock_synthesis;
 
 architecture BEHAVIORAL of clock_synthesis is
   signal CLKFB_IN        : std_logic;
   signal CLKFX_BUF       : std_logic;
-  signal CLKDV_BUF       : std_logic;
   signal CLKIN_IBUFG     : std_logic;
   signal CLK0_BUF        : std_logic;
   signal GND1            : std_logic;
@@ -94,8 +90,6 @@ architecture BEHAVIORAL of clock_synthesis is
   
 begin
   GND1 <= '0';
-  CLKIN_IBUFG_OUT <= CLKIN_IBUFG;
-  CLK0_OUT <= CLKFB_IN;
   CLKFX_BUFG_INST : BUFG
     port map (I=>CLKFX_BUF,
               O=>CLKFX_OUT);
@@ -108,10 +102,6 @@ begin
     port map (I=>CLK0_BUF,
               O=>CLKFB_IN);
 
-  CLKDV_BUFG_INST : BUFG
-    port map(I => CLKDV_BUF,
-             O => CLKDV_OUT);
-  
   DCM_INST : DCM
     generic map( CLK_FEEDBACK => "1X",
                  CLKDV_DIVIDE => 2.000000,
@@ -135,7 +125,7 @@ begin
               PSEN=>GND1,
               PSINCDEC=>GND1,
               RST=>GND1,
-              CLKDV=>CLKDV_BUF,
+              CLKDV=>open,
               CLKFX=>CLKFX_BUF,
               CLKFX180=>open,
               CLK0=>CLK0_BUF,
