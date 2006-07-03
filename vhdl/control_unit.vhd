@@ -3,6 +3,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.secd_defs.all;
+use work.all;
 
 entity control_unit is
   port (
@@ -34,8 +35,11 @@ architecture my_control_unit of control_unit is
   signal mi_a         : std_logic_vector(8 downto 0);
 
   type stack_type is array(7 downto 0) of microaddress;
+
   signal stack       : stack_type;
-  signal sp, next_sp : integer range 0 to 7 := 0;
+  signal sp          : integer range 0 to 7 := 0;
+  signal push_stack  : std_logic := '0';
+  signal pop_stack   : std_logic := '0';
 
   begin
     my_microcode_rom : entity microcode_rom port map (
@@ -54,9 +58,12 @@ architecture my_control_unit of control_unit is
                                 opcode, button, stack, next_mpc, sp)
     begin
       if reset = '1' then
-        mpc <= (others => '0');
-        next_sp <= 0;
+        mpc        <= (others => '0');
+        push_stack <= '0';
+        pop_stack  <= '0';
       elsif rising_edge(phi_next) then
+        push_stack <= '0';
+        pop_stack  <= '0';
         if mi_test = jump then
           mpc <= mi_a;
         elsif mi_test = dispatch then
@@ -78,11 +85,11 @@ architecture my_control_unit of control_unit is
           mpc <= mi_a;
         elsif mi_test = call then
           mpc <= mi_a;
-          stack(integer(sp)) <= next_mpc;
-          next_sp <= sp + 1;
+          stack(sp + 1) <= next_mpc;
+          push_stack <= '1';
         elsif mi_test = returnx then
-          mpc <= stack(integer(sp - 1));
-          next_sp <= sp - 1;
+          mpc <= stack(sp);
+          pop_stack <= '1';
         elsif mi_test = stop then
           stop_instruction <= '1';
           mpc <= (others => '0');
@@ -96,7 +103,19 @@ architecture my_control_unit of control_unit is
     begin
       if falling_edge(phi_next) then
         next_mpc <= std_logic_vector(unsigned(mpc) + 1);
-        sp <= next_sp;
+      end if;
+    end process;
+
+    process_stack : process(reset, phi_next, push_stack, pop_stack, stack)
+    begin
+      if reset = '1' then
+        sp <= 0;
+      elsif falling_edge(phi_next) then
+        if push_stack = '1' then
+          sp <= sp + 1;
+        elsif pop_stack = '1' then
+          sp <= sp - 1;
+        end if;
       end if;
     end process;
 

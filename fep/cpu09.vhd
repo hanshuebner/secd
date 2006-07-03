@@ -116,12 +116,12 @@ use ieee.std_logic_unsigned.all;
 
 entity cpu09 is
   port (	
-    clk:	    in  std_logic;
-    rst:	    in  std_logic;
-    rw:	    out std_logic;
-    vma:	    out std_logic;
-    address:	 out std_logic_vector(15 downto 0);
-    data_in:	 in  std_logic_vector(7 downto 0);
+    clk:      in  std_logic;
+    rst:      in  std_logic;
+    rw:	      out std_logic;
+    vma:      out std_logic;
+    address:  out std_logic_vector(15 downto 0);
+    data_in:  in  std_logic_vector(7 downto 0);
     data_out: out std_logic_vector(7 downto 0);
     halt:     in  std_logic;
     hold:     in  std_logic;

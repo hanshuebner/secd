@@ -30,7 +30,6 @@ use UNISIM.Vcomponents.ALL;
 entity clock_synthesis is
   port ( CLKIN_IN        : in    std_logic; 
          CLKFX_OUT       : out   std_logic;
-         CLK0_OUT        : out   std_logic;
          LOCKED_OUT      : out   std_logic);
 end clock_synthesis;
 
@@ -139,8 +138,6 @@ begin
               PSDONE=>open,
               STATUS=>open);
 
-  CLK0_OUT <= CLKFB_IN;
-  
 end BEHAVIORAL;
 
 

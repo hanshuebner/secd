@@ -189,9 +189,9 @@ void screen_funk()
 int
 main()
 {
-  putstring("\n\n\rSECD Monitor V1.0\r\n");
-
   secd_status = SECD_CONTROL_STOP;
+
+  putstring("\n\n\rSECD Monitor V1.0\r\n");
 
   putstring("Clearing memory\r\n");
   clear_secd_memory(0);

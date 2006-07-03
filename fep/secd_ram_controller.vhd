@@ -54,7 +54,10 @@ architecture external_ram of secd_ram_controller is
   signal read32_buf : std_logic_vector(31 downto 0);
   signal read8_buf  : std_logic_vector(7 downto 0);
 
-  signal selected: std_logic;
+  signal selected       : std_logic;
+
+  signal busy8_register : std_logic := '0';
+  signal busy8_int      : std_logic;
 
 begin
 
@@ -70,7 +73,7 @@ begin
       ram_oen <= '1';
       ram_a <= (others => '0');
       ram_io <= (others => 'Z');
-      busy8 <= '0';
+      busy8_int <= '0';
       busy32 <= '0';
       state <= idle;
 
@@ -90,29 +93,23 @@ begin
 
           ram_a(14 downto 0) <= addr8(15 downto 1);
           ram_cen <= '0';
-          busy8 <= '1';
+          busy8_int <= '1';
+
+          ram_blen <= addr8(0);
+          ram_bhen <= not addr8(0);
 
           if rw8 = '1' then
 
             ram_oen <= '0';
-            if addr8(0) = '0' then
-              ram_blen <= '0';
-            else
-              ram_bhen <= '0';
-            end if;
-
             state <= read8;
 
           else
 
             if addr8(0) = '0' then
               ram_io(7 downto 0) <= din8;
-              ram_blen <= '0';
             else
               ram_io(15 downto 8) <= din8;
-              ram_bhen <= '0';
             end if;
-
             state <= write8;
 
           end if;
@@ -162,7 +159,7 @@ begin
       when deselect =>
 
         ram_cen <= '1';
-        busy8 <= '0';
+        busy8_int <= '0';
         busy32 <= '0';
 
         if selected = '0' then
@@ -209,6 +206,17 @@ begin
 
   dout32 <= read32_buf;
   dout8 <= read8_buf;
-  
+
+  generate_busy8_register : process(busy8_int, cs8)
+  begin
+    if busy8_int = '1' then
+      busy8_register <= '0';
+    elsif rising_edge(cs8) then
+      busy8_register <= '1';
+    end if;
+  end process;
+
+  busy8 <= '1' when busy8_register = '1' or busy8_int = '1' else '0';
+
 end;
 

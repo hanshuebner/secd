@@ -21,8 +21,9 @@ use unisim.all;
 entity vdu is
   port(
     -- control register interface
-    vdu_clk_in   : in  std_logic;	-- 50MHz	System clock
+    vdu_clk_in   : in  std_logic;	-- 50MHz System clock
     cpu_clk_out  : out std_logic;	-- 12.5 MHz CPU Clock
+    ram_clk_out  : out std_logic;       -- 25 Mhz RAM Clock
     vdu_rst      : in  std_logic;
     vdu_cs       : in  std_logic;
     vdu_rw       : in  std_logic;
@@ -124,7 +125,7 @@ architecture arch of vdu is
   --
   -- Clock divider
   --
-  signal clk_count : std_logic_vector(1 downto 0);
+  signal clk_count : std_logic_vector(1 downto 0) := "00";
   signal vdu_clk   : std_logic;
 
   --
@@ -609,5 +610,7 @@ begin
     char_addr(10 downto 4) <= vga_data_out(6 downto 0);
     char_data_in <= "00000000";
   end process;
+
+  ram_clk_out <= vdu_clk;
 
 end arch;

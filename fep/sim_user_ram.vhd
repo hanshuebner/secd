@@ -18,27 +18,6 @@ entity user_ram is
   );
 end;
 
-architecture syn of user_ram is
-
-  constant user_ram_size : integer := 16384;
-  type user_ram_type is array (0 to (user_ram_size - 1)) of std_logic_vector (7 downto 0);
-
-  signal RAM : user_ram_type;
-
-begin
-  process (clk)
-  begin
-    if rising_edge(clk) then
-      if en = '1' then
-        if we = '1' then
-          RAM(conv_integer(addr)) <= din;
-        end if;
-        dout <= RAM(conv_integer(addr));
-      end if;
-    end if;
-  end process;
-end;
-
 architecture sim of user_ram is
 
   constant user_ram_size : integer := 16384;

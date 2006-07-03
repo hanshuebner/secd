@@ -52,13 +52,14 @@ architecture datapath_arch of datapath is
   signal buf1     : std_logic_vector(31 downto 0) := (others => '0');
   signal buf2     : std_logic_vector(31 downto 0) := (others => '0');
 
-  signal state_reg : std_logic_vector(1 downto 0) := (others => '0');
+  signal state_reg  : std_logic_vector(1 downto 0) := (others => '0');
 
-  signal alu_out  : std_logic_vector(31 downto 0);
+  signal alu_out    : std_logic_vector(31 downto 0);
+  signal mul_result : std_logic_vector(59 downto 0);
 
   begin
 
-    datapath_process : process(clk, phi_read, phi_alu, phi_write) 
+    datapath_process : process(clk, phi_read, phi_alu, phi_write)
     begin
       if falling_edge(clk) then
         if phi_read = '1' then
@@ -139,7 +140,8 @@ architecture datapath_arch of datapath is
               alu_out(27 downto 0) <= std_logic_vector(signed(data_bus(27 downto 0)) - signed(arg(27 downto 0)));
 
             when mul | div | remx =>
-              alu_out(27 downto 0) <= std_logic_vector(signed(data_bus) * signed(arg(27 downto 0)));
+              mul_result <= std_logic_vector(signed(data_bus) * signed(arg(27 downto 0)));
+              alu_out(27 downto 0) <= mul_result(27 downto 0);
 
             when setmark =>
               alu_out(31)           <= arg(31);
@@ -289,7 +291,7 @@ architecture datapath_arch of datapath is
 
     status_register_gen : process(phi_read, clk)
     begin
-      if rising_edge(phi_read)
+      if falling_edge(phi_read)
       then
         case alu_sel is
           when running =>

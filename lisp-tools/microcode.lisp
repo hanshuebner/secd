@@ -228,9 +228,17 @@
 library ieee;
 
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+use ieee.std_logic_unsigned.all;
+use ieee.std_logic_arith.all;
 
-package microcode_rom_defs is
+entity microcode_rom is
+  port (clk  : in std_logic;
+        en   : in std_logic;
+        addr : in std_logic_vector(8 downto 0);
+        data : out std_logic_vector(27 downto 0));
+end microcode_rom;
+
+architecture rtl of microcode_rom is
 
 constant MICROCODE_ROM_SIZE : integer := ~A;
 type rom_type is array (0 to MICROCODE_ROM_SIZE - 1) of std_logic_vector (27 downto 0);
@@ -246,5 +254,18 @@ constant MICROCODE_ROM : rom_type := (~%" rom-size)
           do (print-microinstruction mi stream)))
     (format stream "others => (others => '0'));
 
-end package;~%")))
+begin
+
+  process (clk)
+  begin
+    if (clk'event and clk = '1') then
+      if (en = '1') then
+        data <= MICROCODE_ROM(conv_integer(addr));
+      end if;
+    end if;
+  end process;
+
+
+end;
+~%")))
 

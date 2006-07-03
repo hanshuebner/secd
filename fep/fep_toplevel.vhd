@@ -6,6 +6,7 @@ use ieee.std_logic_1164.all;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use ieee.numeric_std.all;
+use work.all;
 
 entity secd_fep_trenz is
   port(
@@ -74,7 +75,8 @@ entity secd_fep_trenz is
     cf_pwr_en   : out std_logic;
     cf_cs0      : out std_logic;
     cf_cs1      : out std_logic;
-    cf_we       : out std_logic
+    cf_we       : out std_logic;
+    cf_rew      : out std_logic
     );
 end secd_fep_trenz;
 
@@ -82,6 +84,9 @@ end secd_fep_trenz;
 -- Architecture for System09
 -------------------------------------------------------------------------------
 architecture rtl of secd_fep_trenz is
+
+  attribute period : string;
+  attribute period of sysclk : signal is "20 ns";
 
   -----------------------------------------------------------------------------
   -- Configurable components
@@ -320,6 +325,7 @@ begin
     -- Control Registers
     vdu_clk_in    => sysclk,            -- 50 Mhz pixel clock input
     cpu_clk_out   => cpu_clk,           -- 12.5 Mhz CPU clock output
+    ram_clk_out   => secd_ram_clk,      -- 25 Mhz RAM clock output
     vdu_rst       => reset,
     vdu_cs        => vdu_cs,
     vdu_rw        => cpu_rw,
@@ -344,7 +350,6 @@ begin
   my_clock_synthesis : entity clock_synthesis port map (
     clkin_in        => utmi_clkout,
     clkfx_out       => sysclk,
-    clk0_out        => secd_ram_clk,
     locked_out      => open);
   
   ----------------------------------------

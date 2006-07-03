@@ -217,10 +217,10 @@ architecture my_ps2_keyboard of ps2_keyboard_interface is
   signal tx_shifting_done   : std_logic;
   signal shift_key_plus_code: std_logic_vector(8 downto 0);
 
-  signal q                  : std_logic_vector(TOTAL_BITS-1 downto 0);
+  signal q                  : std_logic_vector(TOTAL_BITS-1 downto 0) := (others => '0');
   signal m1_state           : m1_type;
   signal m1_next_state      : m1_type;
-  signal bit_count          : std_logic_vector(3 downto 0);
+  signal bit_count          : std_logic_vector(3 downto 0) := (others => '0');
   signal enable_timer_60usec: std_logic;
   signal enable_timer_5usec : std_logic;
   signal timer_60usec_count : std_logic_vector(TIMER_60USEC_BITS_PP-1 downto 0) := (others => '0');

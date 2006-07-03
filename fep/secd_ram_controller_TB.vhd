@@ -168,11 +168,10 @@ begin
       addr8 <= addr;
       cs8 <= '1';
       rw8 <= '1';
-      wait until busy8 = '1';
-      wait for 10 ns;
+      wait for 100 ns;
       result := din8;
       cs8 <= '0';
-      wait until busy8 = '0';
+      wait for 40 ns;
     end procedure;
 
     procedure write8(addr : in std_logic_vector(15 downto 0);
@@ -182,10 +181,9 @@ begin
       din8 <= data;
       rw8 <= '0';
       cs8 <= '1';
-      wait until busy8 = '1';
-      wait for 10 ns;
+      wait for 100 ns;
       cs8 <= '0';
-      wait until busy8 = '0';
+      wait for 40 ns;
     end procedure;
 
     procedure read32(addr : in std_logic_vector(15 downto 0)) is
@@ -194,11 +192,10 @@ begin
       assert addr(15 downto 14) = "00" report "invalid address for 32 bit access";
       addr32 <= addr(13 downto 0);
       read32_enable <= '1';
-      wait until busy32 = '1';
-      wait for 10 ns;
+      wait for 100 ns;
       read32_enable <= '0';
-      wait until busy32 = '0';
       result := din32;
+      wait for 40 ns;
     end procedure;
 
     procedure write32(addr : in std_logic_vector(15 downto 0);
@@ -208,10 +205,9 @@ begin
       addr32 <= addr(13 downto 0);
       din32 <= data;
       write32_enable <= '1';
-      wait until busy32 = '1';
-      wait for 10 ns;
+      wait for 100 ns;
       write32_enable <= '0';
-      wait until busy32 = '0';
+      wait for 40 ns;
     end procedure;
 
   begin
