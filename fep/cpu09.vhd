@@ -364,10 +364,6 @@ begin
             state_stack(0) <= state_stack(1); 
             state_stack(1) <= state_stack(2); 
             state_stack(2) <= fetch_state;
-          when others =>
-            state_stack(0) <= state_stack(0); 
-            state_stack(1) <= state_stack(1); 
-            state_stack(2) <= state_stack(2); 
         end case;
       end if;
     end if;
@@ -902,10 +898,6 @@ begin
         address <= "111111111111" & iv & "1";
         vma     <= '1';
         rw      <= '1';
-      when others =>
-        address <= "1111111111111111";
-        vma     <= '0';
-        rw      <= '1';
     end case;
   end process;
 
@@ -949,8 +941,6 @@ begin
         data_out <= pc(7 downto 0);
       when pc_hi_dout => -- high order pc
         data_out <= pc(15 downto 8);
-      when others =>
-        data_out <= "00000000";
     end case;
   end process;
 

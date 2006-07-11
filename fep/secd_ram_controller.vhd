@@ -15,13 +15,15 @@ entity secd_ram_controller is
     clk                 : in std_logic;
     reset               : in std_logic;
 
+    secd_stopped        : in std_logic;
+
     -- Internal interface to SECD (16k x 32)
     din32               : in std_logic_vector(31 downto 0);
     dout32              : out std_logic_vector(31 downto 0);
     addr32              : in std_logic_vector(13 downto 0);
     read32_enable       : in std_logic;
     write32_enable      : in std_logic;
-    busy8               : out std_logic;
+    busy                : out std_logic;
 
     -- Internal interface to 6809 (64k x 8)
     din8                : in std_logic_vector(7 downto 0);
@@ -29,7 +31,6 @@ entity secd_ram_controller is
     addr8               : in std_logic_vector(15 downto 0);
     rw8                 : in std_logic;
     cs8                 : in std_logic;
-    busy32              : out std_logic;
 
     -- External interface
     ram_oen          : out std_logic;
@@ -44,179 +45,199 @@ end;
 
 architecture external_ram of secd_ram_controller is
 
-  type state_type is (idle,
-                      read32_high, read32_low, write32_high, write32_low,
-                      read8, write8,
-                      deselect);
+  type ram_out_mux_type is (ram_out_tristate, ram_out_din8, ram_out_din32_low, ram_out_din32_high);
+  signal ram_out_mux : ram_out_mux_type := ram_out_tristate;
 
-  signal state: state_type;
+  type state_type is (idle, read32_low, read32_high, write32_low, write32_low_deselect, write32_high, write32_high_deselect, deselect);
+  signal state, next_state : state_type;
 
   signal read32_buf : std_logic_vector(31 downto 0);
-  signal read8_buf  : std_logic_vector(7 downto 0);
 
-  signal selected       : std_logic;
+  signal oe8  : std_logic := '0';
+  signal oe32 : std_logic := '0';
 
-  signal busy8_register : std_logic := '0';
-  signal busy8_int      : std_logic;
+  signal secd_write_pulse       : std_logic := '0';
+  signal clear_write_pulse      : std_logic := '0';
 
 begin
 
-  secd_ram_controller : process(reset, clk,
-                                read32_enable, write32_enable, din32,
-                                cs8, rw8, din8,
-                                ram_io,
-                                selected)
+  secd_ram_controller : process(reset, state, secd_stopped, cs8, rw8,
+                                read32_enable, write32_enable)
 
   begin
+
+    ram_out_mux <= ram_out_tristate;
+
+    if secd_stopped = '1' then
+
+      if cs8 = '1' and rw8 = '0' then
+        ram_out_mux <= ram_out_din8;
+      end if;
+
+    else
+
+      oe32 <= '0';
+
+      case state is
+
+        when idle =>
+          if read32_enable = '1' then
+            oe32 <= '1';
+            next_state <= read32_low;
+          elsif write32_enable = '1' then
+            next_state <= write32_low;
+          end if;
+
+        when read32_low =>
+          oe32 <= '1';
+          next_state <= read32_high;
+
+        when read32_high =>
+          oe32 <= '1';
+          next_state <= deselect;
+
+        when write32_low =>
+          ram_out_mux <= ram_out_din32_low;
+          next_state <= write32_low_deselect;
+
+        when write32_low_deselect =>
+          ram_out_mux <= ram_out_din32_low;
+          next_state <= write32_high;
+
+        when write32_high =>
+          ram_out_mux <= ram_out_din32_high;
+          next_state <= write32_high_deselect;
+
+        when write32_high_deselect =>
+          ram_out_mux <= ram_out_din32_high;
+          next_state <= deselect;
+
+        when deselect =>
+          next_state <= idle;
+
+      end case;
+    end if;
+  end process;
+
+  mux_address : process(secd_stopped, addr8, addr32, state)
+  begin
+    if secd_stopped = '1' then
+      ram_a(14 downto 0) <= addr8(15 downto 1);
+      ram_blen <= addr8(0);
+      ram_bhen <= not addr8(0);
+    else
+      ram_a(14 downto 1) <= addr32;
+      if state = read32_high or state = write32_high or state = write32_high_deselect then
+        ram_a(0) <= '1';
+      else
+        ram_a(0) <= '0';
+      end if;
+      ram_blen <= '0';
+      ram_bhen <= '0';
+    end if;
+  end process;
+
+  mux_controls : process(secd_stopped, cs8, state)
+  begin
+    if secd_stopped = '1' then
+      ram_cen <= not cs8;
+    else
+      ram_cen <= '0';
+    end if;
+  end process;
+
+  control_wen : process(secd_stopped, secd_write_pulse, rw8, cs8)
+  begin
+    if secd_stopped = '1' then
+      if cs8 = '1' then
+        ram_wen <= rw8;
+      else
+        ram_wen <= '1';
+      end if;
+    else
+      ram_wen <= not secd_write_pulse;
+    end if;
+  end process;
+
+  secd_set_write_pulse : process(state, clk)
+  begin
+    if clear_write_pulse = '1' then
+      secd_write_pulse <= '0';
+    elsif falling_edge(clk) then
+      if state = write32_high or state = write32_low then
+        secd_write_pulse <= '1';
+      else
+        secd_write_pulse <= '0';
+      end if;
+    end if;
+  end process;
+
+  secd_clear_write_pulse : process(clk, secd_write_pulse)
+  begin
+    if rising_edge(clk) then
+      if secd_write_pulse = '1' then
+        clear_write_pulse <= '1';
+      else
+        clear_write_pulse <= '0';
+      end if;
+    end if;
+  end process;
+
+  make_next_state : process(reset, clk, secd_stopped, rw8, din8)
+  begin
     if reset = '1' then
-      ram_cen <= '1';
-      ram_oen <= '1';
-      ram_a <= (others => '0');
-      ram_io <= (others => 'Z');
-      busy8_int <= '0';
-      busy32 <= '0';
+
       state <= idle;
 
     elsif rising_edge(clk) then
 
-      case state is
+      state <= next_state;
 
-      when idle =>
+    end if;
+  end process;
 
-        ram_oen <= '1';
-        ram_blen <= '1';
-        ram_bhen <= '1';
+  setup_ram_out_mux : process(ram_out_mux, din8, din32)
+  begin
+    case ram_out_mux is
+      when ram_out_din8 =>
+        ram_io(7 downto 0)  <= din8;
+        ram_io(15 downto 8) <= din8;
+      when ram_out_din32_high =>
+        ram_io <= din32(31 downto 16);
+      when ram_out_din32_low =>
+        ram_io <= din32(15 downto 0);
+      when ram_out_tristate =>
         ram_io <= (others => 'Z');
-        ram_a(1 downto 0) <= "00";
+    end case;
+  end process;
 
-        if cs8 = '1' then
-
-          ram_a(14 downto 0) <= addr8(15 downto 1);
-          ram_cen <= '0';
-          busy8_int <= '1';
-
-          ram_blen <= addr8(0);
-          ram_bhen <= not addr8(0);
-
-          if rw8 = '1' then
-
-            ram_oen <= '0';
-            state <= read8;
-
-          else
-
-            if addr8(0) = '0' then
-              ram_io(7 downto 0) <= din8;
-            else
-              ram_io(15 downto 8) <= din8;
-            end if;
-            state <= write8;
-
-          end if;
-
-        elsif read32_enable = '1' then
-          ram_a(14 downto 1) <= addr32;
-          ram_blen <= '0';
-          ram_bhen <= '0';
-          ram_cen <= '0';
-          ram_oen <= '0';
-          busy32 <= '1';
-          state <= read32_low;
-
-        elsif write32_enable = '1' then
-          ram_a(14 downto 1) <= addr32;
-          ram_blen <= '0';
-          ram_bhen <= '0';
-          ram_cen <= '0';
-          ram_io(15 downto 0) <= din32(15 downto 0);
-          busy32 <= '1';
-          state <= write32_low;
+  read_ram : process(clk, state, secd_stopped, cs8, rw8, addr8, ram_io)
+  begin
+    if secd_stopped = '1' then
+      if rw8 = '1' and cs8 = '1' then
+        if addr8(0) = '0' then
+          dout8 <= ram_io(7 downto 0);
+        else
+          dout8 <= ram_io(15 downto 8);
         end if;
-
-      when read8 =>
-        state <= deselect;
-
-      when write8 =>
-        state <= deselect;
-
-      when read32_low =>
+      end if;
+    elsif falling_edge(clk) then
+      if state = read32_low then
         read32_buf(15 downto 0) <= ram_io;
-        ram_a(0) <= '1';
-        state <= read32_high;
-
-      when read32_high =>
+      elsif state = read32_high then
         read32_buf(31 downto 16) <= ram_io;
-        state <= deselect;
-
-      when write32_low =>
-        ram_a(0) <= '1';
-        state <= write32_high;
-
-      when write32_high =>
-        ram_io(15 downto 0) <= din32(31 downto 16);
-        state <= deselect;
-
-      when deselect =>
-
-        ram_cen <= '1';
-        busy8_int <= '0';
-        busy32 <= '0';
-
-        if selected = '0' then
-          state <= idle;
-        end if;
-
-      end case;
-    end if;
-  end process;
-
-  generate_selected : process(cs8, read32_enable, write32_enable)
-  begin
-    if cs8 = '1' or read32_enable = '1' or write32_enable = '1' then
-      selected <= '1';
-    else
-      selected <= '0';
-    end if;
-  end process;
-
-  process_port : process(clk, ram_io, state)
-  begin
-    if falling_edge(clk) then
-
-      case state is
-        when write8 | write32_low | write32_high =>
-          ram_wen <= '0';
-
-        when read8 =>
-          ram_wen <= '1';
-
-          if addr8(0) = '0' then
-            read8_buf <= ram_io(7 downto 0);
-          else
-            read8_buf <= ram_io(15 downto 8);
-          end if;
-
-        when others =>
-          ram_wen <= '1';
-
-      end case;
-
+      end if;
     end if;
   end process;
 
   dout32 <= read32_buf;
-  dout8 <= read8_buf;
 
-  generate_busy8_register : process(busy8_int, cs8)
-  begin
-    if busy8_int = '1' then
-      busy8_register <= '0';
-    elsif rising_edge(cs8) then
-      busy8_register <= '1';
-    end if;
-  end process;
+  ram_a(20 downto 15) <= (others => '0');
 
-  busy8 <= '1' when busy8_register = '1' or busy8_int = '1' else '0';
+  busy <= '0' when state = idle or state = deselect else '1';
+
+  oe8 <= rw8 and cs8 and secd_stopped;
+  ram_oen <= not (oe8 or oe32);
 
 end;
 

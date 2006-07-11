@@ -8,8 +8,8 @@
 -------------------------------------------------------------------------------
 --
 -- File        : H:\fpga\secd\fep\secd_fep_trenz_TB.vhd
--- Generated   : 22.06.2006, 08:50
--- From        : H:\fpga\secd\fep\fep_toplevel.vhd
+-- Generated   : 05.07.2006, 19:23
+-- From        : h:\fpga\secd\fep\fep_toplevel.vhd
 -- By          : Active-HDL Built-in Test Bench Generator ver. 1.2s
 --
 -------------------------------------------------------------------------------
@@ -30,10 +30,63 @@ entity secd_fep_trenz_tb is
 end secd_fep_trenz_tb;
 
 architecture TB_ARCHITECTURE of secd_fep_trenz_tb is
+  -- Component declaration of the tested unit
+  component secd_fep_trenz
+    port(
+      utmi_clkout : in std_logic;
+      utmi_databus16_8 : out std_logic;
+      reset_sw : in std_logic;
+      ps2_clk1 : inout std_logic;
+      ps2_data1 : inout std_logic;
+      fpga_rxd : in std_logic;
+      fpga_txd : out std_logic;
+      fpga_cts : in std_logic;
+      fpga_rts : out std_logic;
+      vsync_b : out std_logic;
+      hsync_b : out std_logic;
+      fpga_b : out std_logic_vector(2 downto 0);
+      fpga_g : out std_logic_vector(2 downto 0);
+      fpga_r : out std_logic_vector(2 downto 0);
+      mm_led : out std_logic;
+      led : out std_logic_vector(3 downto 0);
+      joy_down : in std_logic;
+      joy_fire : in std_logic;
+      joy_left : in std_logic;
+      joy_right : in std_logic;
+      joy_up : in std_logic;
+      lcd_e : out std_logic;
+      lcd_rw : out std_logic;
+      lcd_rs : out std_logic;
+      lcd_d : out std_logic_vector(3 downto 0);
+      aud_out : out std_logic_vector(4 downto 1);
+      ram_a : out std_logic_vector(20 downto 0);
+      ram_io : inout std_logic_vector(15 downto 0);
+      ram_bhen : out std_logic;
+      ram_blen : out std_logic;
+      ram_cen : out std_logic;
+      ram_oen : out std_logic;
+      ram_wen : out std_logic;
+      cf_reset : out std_logic;
+      cf_irq : in std_logic;
+      cf_iord : out std_logic;
+      cf_iowr : out std_logic;
+      cf_wait : in std_logic;
+      cf_dasp : in std_logic;
+      cf_pdiag : in std_logic;
+      cf_cd1 : in std_logic;
+      cf_cd2 : in std_logic;
+      iois16 : in std_logic;
+      cf_oe : out std_logic;
+      cf_pwr_en : out std_logic;
+      cf_cs0 : out std_logic;
+      cf_cs1 : out std_logic;
+      cf_we : out std_logic;
+      cf_rew : out std_logic );
+  end component;
 
   -- Stimulus signals - signals mapped to the input and inout ports of tested entity
   signal utmi_clkout : std_logic;
-  signal reset_sw : std_logic := '1';
+  signal reset_sw : std_logic;
   signal fpga_rxd : std_logic;
   signal fpga_cts : std_logic;
   signal joy_down : std_logic;
@@ -73,15 +126,15 @@ architecture TB_ARCHITECTURE of secd_fep_trenz_tb is
   signal ram_cen : std_logic;
   signal ram_oen : std_logic;
   signal ram_wen : std_logic;
-  signal cf_we : std_logic;
-  signal cf_rew : std_logic;
-  signal cf_cs0 : std_logic;
-  signal cf_cs1 : std_logic;
   signal cf_reset : std_logic;
   signal cf_iord : std_logic;
   signal cf_iowr : std_logic;
   signal cf_oe : std_logic;
   signal cf_pwr_en : std_logic;
+  signal cf_cs0 : std_logic;
+  signal cf_cs1 : std_logic;
+  signal cf_we : std_logic;
+  signal cf_rew : std_logic;
 
   -- Add your code here ...
 
@@ -129,7 +182,7 @@ begin
     ceneg => ram_cen);
 
   -- Unit Under Test port map
-  UUT : entity secd_fep_trenz
+  UUT : secd_fep_trenz
     port map (
       utmi_clkout => utmi_clkout,
       utmi_databus16_8 => utmi_databus16_8,
@@ -164,10 +217,6 @@ begin
       ram_cen => ram_cen,
       ram_oen => ram_oen,
       ram_wen => ram_wen,
-      cf_we => cf_we,
-      cf_rew => cf_rew,
-      cf_cs0 => cf_cs0,
-      cf_cs1 => cf_cs1,
       cf_reset => cf_reset,
       cf_irq => cf_irq,
       cf_iord => cf_iord,
@@ -179,7 +228,11 @@ begin
       cf_cd2 => cf_cd2,
       iois16 => iois16,
       cf_oe => cf_oe,
-      cf_pwr_en => cf_pwr_en
+      cf_pwr_en => cf_pwr_en,
+      cf_cs0 => cf_cs0,
+      cf_cs1 => cf_cs1,
+      cf_we => cf_we,
+      cf_rew => cf_rew
       );
 
   -- Add your stimulus here ...
@@ -204,4 +257,12 @@ begin
   fpga_rxd <= '0';
 
 end TB_ARCHITECTURE;
+
+configuration TESTBENCH_FOR_secd_fep_trenz of secd_fep_trenz_tb is
+  for TB_ARCHITECTURE
+    for UUT : secd_fep_trenz
+      use entity work.secd_fep_trenz(rtl);
+    end for;
+  end for;
+end TESTBENCH_FOR_secd_fep_trenz;
 

@@ -276,14 +276,6 @@ begin
             TRegE      <= '0';
             TxState    <= TxIdle_State;
 
-          when others =>  -- Undefined
-            TxDbit     <= TxDbit;
-            Treg       <= Treg;
-            TxParity   <= '0';
-            DataCnt    <= "0000";
-            TRegE      <= TregE;
-            TxState    <= TxIdle_State;
-
         end case; -- TxState
 
       else -- TxBdEdge

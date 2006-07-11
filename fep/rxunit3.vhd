@@ -203,7 +203,7 @@ begin
   -- Select output then look for rising edge
   ---------------------------------------------------------------------
   rxunit_clock_select : process(Clk, Reset, BdFmt, RxClk, RxClkCnt,
-                                RxBdDel, RxBdEdge )
+                                RxBdDel, RxBdEdge, RxBdClk )
   begin
     -- BdFmt
     -- 0 0     - Baud Clk divide by 1

@@ -21,9 +21,7 @@ use unisim.all;
 entity vdu is
   port(
     -- control register interface
-    vdu_clk_in   : in  std_logic;	-- 50MHz System clock
-    cpu_clk_out  : out std_logic;	-- 12.5 MHz CPU Clock
-    ram_clk_out  : out std_logic;       -- 25 Mhz RAM Clock
+    vdu_clk      : in  std_logic;	-- 25 Mhz pixel clock
     vdu_rst      : in  std_logic;
     vdu_cs       : in  std_logic;
     vdu_rw       : in  std_logic;
@@ -35,8 +33,8 @@ entity vdu is
     vga_red_o    : out std_logic;
     vga_green_o  : out std_logic;
     vga_blue_o   : out std_logic;
-    vga_hsync_o   : out std_logic;
-    vga_vsync_o   : out std_logic
+    vga_hsync_o  : out std_logic;
+    vga_vsync_o  : out std_logic
     );
 end vdu;
 
@@ -122,11 +120,6 @@ architecture arch of vdu is
   --
   signal req_write : std_logic; -- request character write
   signal ack_write : std_logic;
-  --
-  -- Clock divider
-  --
-  signal clk_count : std_logic_vector(1 downto 0) := "00";
-  signal vdu_clk   : std_logic;
 
   --
   -- Slice character gen
@@ -219,30 +212,6 @@ begin
     wdata => reg_colour,
     rdata => attr_data_out
     );
-
-  vdu_clk_buffer : BUFG port map(
-    i => clk_count(0),
-    o => vdu_clk
-    );
-  
-  cpu_clk_buffer : BUFG port map(
-    i => clk_count(1),
-    o => cpu_clk_out);
-
---
--- Clock divider
--- Assumes 50 MHz system clock
--- 25MHz pixel clock
--- 12.5MHz CPU clock
---
-  vga_clock : process( vdu_clk_in, vdu_rst, clk_count )
-  begin
-    if vdu_rst = '1' then
-      clk_count <= "00";
-    elsif vdu_clk_in'event and vdu_clk_in='0' then
-      clk_count <= clk_count + "01";
-    end if;
-  end process;
 
 --
 -- CPU Write interface
@@ -610,7 +579,4 @@ begin
     char_addr(10 downto 4) <= vga_data_out(6 downto 0);
     char_data_in <= "00000000";
   end process;
-
-  ram_clk_out <= vdu_clk;
-
 end arch;

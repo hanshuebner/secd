@@ -34,13 +34,13 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
     port(
       clk : in std_logic;
       reset : in std_logic;
-      busy8 : out std_logic;
-      busy32 : out std_logic;
+      secd_stopped : in std_logic;
       din32 : in std_logic_vector(31 downto 0);
       dout32 : out std_logic_vector(31 downto 0);
       addr32 : in std_logic_vector(13 downto 0);
       read32_enable : in std_logic;
       write32_enable : in std_logic;
+      busy : out std_logic;
       din8 : in std_logic_vector(7 downto 0);
       dout8 : out std_logic_vector(7 downto 0);
       addr8 : in std_logic_vector(15 downto 0);
@@ -58,10 +58,12 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
   -- Stimulus signals - signals mapped to the input and inout ports of tested entity
   signal clk : std_logic;
   signal reset : std_logic;
+  signal secd_stopped : std_logic;
   signal din32 : std_logic_vector(31 downto 0);
   signal addr32 : std_logic_vector(13 downto 0);
   signal read32_enable : std_logic;
   signal write32_enable : std_logic;
+  signal busy : std_logic;
   signal din8 : std_logic_vector(7 downto 0);
   signal addr8 : std_logic_vector(15 downto 0);
   signal rw8 : std_logic;
@@ -69,8 +71,6 @@ architecture TB_ARCHITECTURE of secd_ram_controller_tb is
   signal ram_io : std_logic_vector(15 downto 0);
   signal cpu_hold : std_logic;
   -- Observed signals - signals mapped to the output ports of tested entity
-  signal busy8 : std_logic;
-  signal busy32 : std_logic;
   signal dout32 : std_logic_vector(31 downto 0);
   signal dout8 : std_logic_vector(7 downto 0);
   signal ram_oen : std_logic;
@@ -129,8 +129,8 @@ begin
     port map (
       clk => clk,
       reset => reset,
-      busy8 => busy8,
-      busy32 => busy32,
+      secd_stopped => secd_stopped,
+      busy => busy,
       din32 => din32,
       dout32 => dout32,
       addr32 => addr32,
@@ -155,9 +155,9 @@ begin
   clock_stimulus : process
   begin
     clk <= '1';
-    wait for 16.67 ns;
+    wait for 20 ns;
     clk <= '0';
-    wait for 16.67 ns;
+    wait for 20 ns;
   end process;
 
   stimulus : process
@@ -166,12 +166,13 @@ begin
       variable result : std_logic_vector(7 downto 0);
     begin
       addr8 <= addr;
+      wait for 10 ns;
       cs8 <= '1';
-      rw8 <= '1';
-      wait for 100 ns;
+      wait for 20 ns;
       result := din8;
       cs8 <= '0';
       wait for 40 ns;
+      report "read8 " & integer'image(to_integer(unsigned(addr))) & ": " & integer'image(to_integer(unsigned(result)));
     end procedure;
 
     procedure write8(addr : in std_logic_vector(15 downto 0);
@@ -180,9 +181,11 @@ begin
       addr8 <= addr;
       din8 <= data;
       rw8 <= '0';
+      wait for 10 ns;
       cs8 <= '1';
-      wait for 100 ns;
+      wait for 40 ns;
       cs8 <= '0';
+      rw8 <= '1';
       wait for 40 ns;
     end procedure;
 
@@ -191,11 +194,13 @@ begin
     begin
       assert addr(15 downto 14) = "00" report "invalid address for 32 bit access";
       addr32 <= addr(13 downto 0);
+      wait for 10 ns;
       read32_enable <= '1';
       wait for 100 ns;
       read32_enable <= '0';
+      wait until busy = '0';
       result := din32;
-      wait for 40 ns;
+      report "read32 " & integer'image(to_integer(unsigned(addr))) & ": " & integer'image(to_integer(unsigned(result)));
     end procedure;
 
     procedure write32(addr : in std_logic_vector(15 downto 0);
@@ -204,10 +209,11 @@ begin
       assert addr(15 downto 14) = "00" report "invalid address for 32 bit access";
       addr32 <= addr(13 downto 0);
       din32 <= data;
+      wait for 10 ns;
       write32_enable <= '1';
       wait for 100 ns;
       write32_enable <= '0';
-      wait for 40 ns;
+      wait until busy = '0';
     end procedure;
 
   begin
@@ -217,6 +223,13 @@ begin
     rw8 <= '1';
     cs8 <= '0';
 
+    addr8 <= (others => '0');
+    din8 <= (others => '0');
+    addr32 <= (others => '0');
+    din32 <= (others => '0');
+
+    secd_stopped <= '1';
+
     wait for 70 ns;
     reset <= '0';
     wait for 70 ns;
@@ -224,7 +237,11 @@ begin
     write8(X"FFFF", X"FF");
     read8(X"FFFF");
 
+    secd_stopped <= '0';
+
     write32(X"0000", X"F0A5739C");
+
+    secd_stopped <= '1';
 
     read8(X"0000");
     read8(X"0001");
@@ -241,14 +258,14 @@ begin
     read8(X"0006");
     read8(X"0007");
 
+    secd_stopped <= '0';
+
     read32(X"0000");
     read32(X"0001");
 
     wait for 300 ns;
     assert (0 = 1) report "done";
   end process;
-
-  cpu_hold <= '1' when cs8 = '1' or busy8 = '1' else '0';
 
 end TB_ARCHITECTURE;
 

@@ -437,8 +437,6 @@ begin
           m1_next_state <= m1_tx_error_no_keyboard_ack;
         end	if;
 
-      when others =>
-        m1_next_state <= m1_rx_clk_h;
     end case;
   end process;
 
