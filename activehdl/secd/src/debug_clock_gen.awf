@@ -1,0 +1,200 @@
+$WAVE4
+$RESOLUTION 1000
+$ENDTIME 1900000
+I 1 "e#9#std_logicc9 UX01ZWLH-"
+$S 1 1 clk_30mhz
+$S 3 1 locked
+$S 2 1 cpu_clk
+$S 4 1 0 5 vd
+$NOMODE 16 0 ""
+$S 6 1 "UUT/cpu_clk_buf"
+$IN 7 1 5 0 lk_30mhz
+$S 8 1 5 0 pu_clk_locked
+$OUT 9 1 "UUT/vdu_clk"
+$S +1 1 "UUT/feedback_buf"
+$OUT +1 1 "UUT/locked"
+$S +1 1 "UUT/vdu_clk_buf"
+$OUT +1 1 "UUT/cpu_clk"
+$S +1 1 "UUT/vdu_clk_locked"
+$S +1 1 "UUT/clkfb_in"
+$S +2 1 5 0 pu_clk_int
+$S +1 1 "UUT/vdu_clkin_ibufg"
+P 0 1-4 6-18 CS "0"
+P 0 16 EmptyRow "1"
+$WAVES 1
+=0 T 0
+=1 D 0 1
+R 1 114 =2 D 16650 1
+$VALUES
+V 1
+U
+R 2 57 1 0
+V 1
+1
+$END
+$WAVES 2
+*0
+=3 D 0 2
+=4 D 432900 11
+R 1 7 =5 D 39960 11
+=6 D 119880 4
+R 1 12 =7 D 39960 4
+R 2 7 =8 D 39960 3 *7
+$VALUES
+V 1
+U
+R 2 18 0 1
+$END
+$WAVES 3
+*0
+*1
+=9 D 1391940 4
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES 4
+*0
+*3
+=10 D 432900 4
+R 1 73 =11 D 19980 4
+$VALUES
+V 1
+U
+R 2 37 0 1
+V 1
+0
+$END
+$WAVES 6
+*0
+=12 D 432900 9
+R 1 7 =13 D 39960 9
+=14 D 119880 2
+R 1 12 =15 D 39960 2
+R 2 7 =16 D 39960 1 *15
+$VALUES
+R 2 18 0 1
+$END
+$WAVES 7
+*0
+*1
+R 1 114 *2
+$VALUES
+V 1
+U
+R 2 57 1 0
+V 1
+1
+$END
+$WAVES 8
+*0
+=17 D 1391940 3
+$VALUES
+V 2
+0
+1
+$END
+$WAVES 9
+*0
+*3
+*10
+R 1 73 *11
+$VALUES
+V 1
+U
+R 2 37 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+=18 D 0 7
+R 1 9 =19 D 16650 7
+=20 D 49950 2
+R 1 12 =21 D 16650 2
+R 2 45 *2 *21
+$VALUES
+R 2 57 0 1
+$END
+$WAVES +1
+*0
+*1
+*9
+$VALUES
+V 3
+U
+0
+1
+$END
+$WAVES +1
+*0
+=22 D 432900 2
+R 1 73 =23 D 19980 2
+$VALUES
+R 2 37 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*3
+*4
+R 1 7 *5
+*6
+R 1 12 *7
+R 2 7 *8 *7
+$VALUES
+V 1
+U
+R 2 18 0 1
+$END
+$WAVES +1
+*0
+=24 D 432900 3
+$VALUES
+V 2
+0
+1
+$END
+$WAVES +1
+*0
+*1
+=25 D 0 8
+R 1 9 =26 D 16650 8
+=27 D 49950 3
+R 1 12 =28 D 16650 3
+R 2 45 *21 *28
+$VALUES
+V 1
+U
+R 2 57 0 1
+$END
+$WAVES +2
+*0
+*1
+=29 D 432900 10
+R 1 7 =30 D 39960 10
+=31 D 119880 3
+R 1 12 *8
+R 2 7 *15 *8
+$VALUES
+V 1
+U
+R 2 18 0 1
+$END
+$WAVES +1
+*0
+*1
+*3
+R 1 114 *21
+$VALUES
+V 2
+U
+X
+R 2 57 1 0
+V 1
+1
+$END
+$ENDWAVE

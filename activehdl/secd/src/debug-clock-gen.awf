@@ -1,0 +1,493 @@
+$WAVE4
+$RESOLUTION 1000
+$ENDTIME 7700000
+I 1 "e#9#std_logicc9 UX01ZWLH-"
+$S 1 1 alu_ins
+$IN 21 1 "UUT/reset"
+$IN 19 1 "UUT/clk"
+$OUT 17 1 "UUT/stopped"
+$IN 14 1 8 0 ""
+$IN +4 1 "UUT/alu_ins"
+$OUT 16 1 "UUT/phi_read"
+$OUT 13 1 8 0 write
+$OUT +7 1 8 0 next
+$OUT 15 1 8 0 alu
+I 2 "e#10#state_types6 s_idle s_read s_alu s_write s_wait s_next "
+$S 12 2 "UUT/state"
+$IN 11 1 "UUT/ram_busy"
+$S 2 1 clk
+$S 3 1 phi_alu
+$S 5 1 phi_read
+$S 6 1 phi_write
+$S 4 1 phi_next
+$S 7 1 ram_busy
+$S 8 1 reset
+$S 9 1 stop
+$S +1 1 stopped
+P 0 1-21 CS "0"
+$WAVES 1
+=0 T 0
+=1 D 0 1
+R 2 9 =2 D 500k 1 =3 D 300k 1
+*2
+$VALUES
+V 1
+U
+R 2 10 0 1
+$END
+$WAVES 2
+*0
+*1
+R 1 192 =4 D 40k 1
+$VALUES
+V 1
+U
+R 2 96 1 0
+V 1
+1
+$END
+$WAVES 3
+*0
+=5 D 80k 2
+=6 D 640k 2
+R 2 2 *5 =7 D 720k 2
+*5
+*6
+*5
+=8 D 1520k 2
+R 2 3 *5 *7
+*5
+$VALUES
+V 1
+U
+R 2 8 0 1
+V 1
+0
+$END
+$WAVES 4
+*0
+R 4 2 *5 =9 D 240k 2 *5 =10 D 160k 2
+*5
+=11 D 480k 2
+R 2 2 *5 *10
+*5
+*9
+*5
+=12 D 320k 2
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+=13 D 400k 2
+*5
+*9
+R 2 2 *5 *10
+$VALUES
+V 1
+U
+R 2 24 0 1
+$END
+$WAVES 5
+*0
+R 1 3 *5
+R 2 2 *10 *5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+*13
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+$VALUES
+V 1
+U
+R 2 24 0 1
+V 1
+0
+$END
+$WAVES 6
+*0
+R 2 2 *5 *10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*12
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+$VALUES
+V 1
+U
+R 2 24 0 1
+V 1
+0
+$END
+$WAVES 7
+*0
+*1
+R 2 5 =14 D 900k 1 =15 D 420k 1
+*14
+$VALUES
+V 1
+U
+R 2 6 0 1
+$END
+$WAVES 8
+*0
+*1
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 9
+*0
+*1
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*5
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*1
+R 2 5 *14 *15
+*14
+$VALUES
+V 1
+U
+R 2 6 0 1
+$END
+$WAVES +2
+*0
+R 2 2 *5 *10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*12
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+$VALUES
+V 1
+U
+R 2 24 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*1
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*5
+*6
+R 2 2 *5 *7
+*5
+*6
+*5
+*8
+R 2 3 *5 *7
+*5
+$VALUES
+V 1
+U
+R 2 8 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+R 1 3 *5
+R 2 2 *10 *5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+*13
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+$VALUES
+V 1
+U
+R 2 24 0 1
+V 1
+0
+$END
+$WAVES +1
+*0
+*5
+$VALUES
+V 2
+U
+0
+$END
+$WAVES +1
+*0
+*1
+R 2 9 *2 *3
+*2
+$VALUES
+V 1
+U
+R 2 10 0 1
+$END
+$WAVES +1
+*0
+*1
+R 1 192 *4
+$VALUES
+V 1
+U
+R 2 96 1 0
+V 1
+1
+$END
+$WAVES +1
+*0
+R 4 2 *5 *9 *5 *10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*12
+*5
+*9
+R 2 2 *5 *10
+*5
+*11
+*5
+*10
+*5
+*9
+*5
+*10
+*5
+*11
+R 2 2 *5 *10
+*5
+*9
+*5
+*13
+*5
+*9
+R 2 2 *5 *10
+$VALUES
+V 1
+U
+R 2 24 0 1
+$END
+$WAVES +1
+*0
+*1
+$VALUES
+V 2
+U
+0
+$END
+$WAVES 12
+*0
+R 1 14 *5
+*9
+R 1 14 *5
+*10
+R 1 13 *5
+*12
+R 1 13 *5
+*9
+R 1 14 *5
+*9
+R 1 13 *5
+$VALUES
+V 1
+s_idle
+R 3 2 s_read s_write s_next
+V 10
+s_read
+s_alu
+s_write
+s_next
+s_read
+s_write
+s_next
+s_wait
+s_read
+s_alu
+R 3 3 s_write s_next s_read
+V 9
+s_alu
+s_write
+s_next
+s_wait
+s_read
+s_write
+s_next
+s_read
+s_alu
+R 3 2 s_write s_next s_read
+V 3
+s_write
+s_next
+s_wait
+R 3 2 s_read s_write s_next
+V 10
+s_read
+s_alu
+s_write
+s_next
+s_read
+s_write
+s_next
+s_wait
+s_read
+s_alu
+R 3 3 s_write s_next s_read
+V 9
+s_alu
+s_write
+s_next
+s_wait
+s_read
+s_write
+s_next
+s_read
+s_alu
+R 3 2 s_write s_next s_read
+V 3
+s_write
+s_next
+s_wait
+$END
+$ENDWAVE

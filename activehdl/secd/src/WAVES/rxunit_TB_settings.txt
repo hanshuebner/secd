@@ -1,0 +1,49 @@
+[SETTINGS]
+UUT_entity%rxunit%
+UUT_architecture%behaviour%
+WAVES_entity%rxunit_wb%
+WAVES_architecture%TB_ARCHITECTURE%
+MONITOR%YES%
+DSN_PATH%$DSN\src\WAVES%
+WAVES_STANDARD_PATH%$ALDEC\DAT\WAVES%
+OUTPUT_DIRECTORY%h:\fpga\secd\activehdl\secd\src\WAVES%
+VECTORS_FILE%wf.vec%
+TEST_PINS_FILE%rxunit_TB_pins.vhd%
+TB_FILE%rxunit_TB.vhd%
+DECLARATIONS_FILE%rxunit_TB_declaration.vhd%
+HEADER_FILE%rxunit_TB_header%
+MACRO_FILE%rxunit_TB_runtest.do%
+UUT_entity_FILE%rxunit3.vhd%
+TIMING_CONFIGURATION%NO%
+LIBRARY_NAME%secd%
+LIBRARY_TYPE%work%
+ENABLE_FILE%none%
+
+[GENERICS]
+
+[PORTS]
+RxDat%in%std_logic%YES%NOCLK%
+Clk%in%std_logic%NO%NOCLK%
+Reset%in%std_logic%NO%NOCLK%
+ReadD%in%std_logic%NO%NOCLK%
+WdFmt%in%std_logic_vector(2 downto 0)%NO%NOCLK%
+BdFmt%in%std_logic_vector(1 downto 0)%NO%NOCLK%
+RxClk%in%std_logic%NO%NOCLK%
+FRErr%out%std_logic%NO%NOCLK%
+ORErr%out%std_logic%NO%NOCLK%
+PAErr%out%std_logic%NO%NOCLK%
+DARdy%out%std_logic%NO%NOCLK%
+DAOut%out%std_logic_vector(7 downto 0)%NO%NOCLK%
+
+[CLOCKS]
+
+[SDF]
+
+[INCLUDE]
+library ieee;
+use ieee.std_logic_unsigned.all;
+use ieee.std_logic_1164.all;
+
+[VHDL_FILES]
+h:\fpga\secd\fep\rxunit3.vhd
+
