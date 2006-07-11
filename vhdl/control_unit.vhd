@@ -58,22 +58,28 @@ architecture my_control_unit of control_unit is
                                 opcode, button, stack, next_mpc, sp)
     begin
       if reset = '1' then
-        mpc        <= (others => '0');
-        push_stack <= '0';
-        pop_stack  <= '0';
+        mpc                     <= (others => '0');
+        push_stack              <= '0';
+        pop_stack               <= '0';
+        stop_instruction        <= '0';
       elsif rising_edge(phi_next) then
-        push_stack <= '0';
-        pop_stack  <= '0';
+        push_stack              <= '0';
+        pop_stack               <= '0';
+        stop_instruction        <= '0';
         if mi_test = jump then
           mpc <= mi_a;
         elsif mi_test = dispatch then
-          report "executing instruction " & integer'image(to_integer(unsigned(opcode))) & " " & secd_ins_name(to_integer(unsigned(opcode)));
+--          report "executing instruction " & integer'image(to_integer(unsigned(opcode))) & " " & secd_ins_name(to_integer(unsigned(opcode)));
           mpc <= opcode;
         elsif mi_test = markp and flags(mark) = '1' then
           mpc <= mi_a;
         elsif mi_test = fieldp and flags(field) = '1' then
           mpc <= mi_a;   
         elsif mi_test = eqp and flags(eq) = '1' then
+          mpc <= mi_a;
+        elsif mi_test = leqp and flags(leq) = '1' then
+          mpc <= mi_a;
+        elsif mi_test = zerop and flags(zero) = '1' then
           mpc <= mi_a;
         elsif mi_test = nump and flags(num) = '1' then
           mpc <= mi_a;
@@ -85,10 +91,10 @@ architecture my_control_unit of control_unit is
           mpc <= mi_a;
         elsif mi_test = call then
           mpc <= mi_a;
-          stack(sp + 1) <= next_mpc;
+          stack(sp) <= next_mpc;
           push_stack <= '1';
         elsif mi_test = returnx then
-          mpc <= stack(sp);
+          mpc <= stack(sp - 1);
           pop_stack <= '1';
         elsif mi_test = stop then
           stop_instruction <= '1';

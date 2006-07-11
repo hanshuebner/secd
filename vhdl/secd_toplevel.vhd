@@ -35,6 +35,9 @@ architecture my_secd_system of secd_system is
   signal phi_write : std_logic;
   signal phi_next  : std_logic;
 
+  attribute buffer_type                 : string;
+  attribute buffer_type of phi_next     : signal is "BUFG";
+
   signal alu_ins   : std_logic;
 
   signal opcode    : std_logic_vector(8 downto 0);
@@ -47,7 +50,6 @@ architecture my_secd_system of secd_system is
 begin
   my_datapath : entity datapath port map (
     clk       => clk,
-    reset     => reset,
     phi_read  => phi_read,
     phi_alu   => phi_alu,
     phi_write => phi_write,

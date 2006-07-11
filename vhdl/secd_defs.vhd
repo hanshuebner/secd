@@ -105,15 +105,16 @@ package secd_defs is
   constant dispatch : std_logic_vector := "0010";
   constant markp    : std_logic_vector := "0011";
   constant fieldp   : std_logic_vector := "0100";
-  constant eqp      : std_logic_vector := "0101";
-  constant leqp     : std_logic_vector := "0110";
-  constant nump     : std_logic_vector := "0111";
-  constant atomp    : std_logic_vector := "1000";
-  constant nilp     : std_logic_vector := "1001";
-  constant buttonp  : std_logic_vector := "1010";
-  constant call     : std_logic_vector := "1011";
-  constant returnx  : std_logic_vector := "1100";
-  constant stop     : std_logic_vector := "1101";
+  constant zerop    : std_logic_vector := "0101";
+  constant eqp      : std_logic_vector := "0110";
+  constant leqp     : std_logic_vector := "0111";
+  constant nump     : std_logic_vector := "1000";
+  constant atomp    : std_logic_vector := "1001";
+  constant nilp     : std_logic_vector := "1010";
+  constant buttonp  : std_logic_vector := "1011";
+  constant call     : std_logic_vector := "1100";
+  constant returnx  : std_logic_vector := "1101";
+  constant stop     : std_logic_vector := "1110";
 
   -- Cell types
   constant cell_symbol : std_logic_vector := "10";

@@ -21,70 +21,75 @@ end;
 
 architecture my_clock_gen of clock_gen is
 
-  type state is (s_idle, s_read, s_alu, s_write, s_wait, s_next);
+  type state_type is (s_idle, s_read, s_alu, s_write, s_wait, s_next);
 
-  signal current_state : state := s_idle;
-  signal next_state    : state := s_idle;
+  signal state : state_type := s_idle;
 
+begin
+  clock_gen : process(clk, reset, state, ram_busy, alu_ins)
   begin
-    clock_gen : process(current_state, ram_busy, alu_ins)
-    begin
+    if reset = '1' then
+
       phi_read  <= '0';
       phi_alu   <= '0';
       phi_write <= '0';
       phi_next  <= '0';
+      state <= s_idle;
 
-      case current_state is
+    elsif rising_edge(clk) then
 
-        when s_idle =>
-          next_state <= s_read;
+      if stop = '1' then
 
-        when s_read =>
-          phi_read <= '1';
-          if alu_ins = '0' then
-            next_state <= s_write;
-          else
-            next_state <= s_alu;
-          end if;
+        stopped <= '1';
 
-        when s_alu =>
-          phi_alu <= '1';
-          next_state <= s_write;
+      else 
 
-        when s_write =>
-          phi_write <= '1';
-          next_state <= s_next;
+        stopped <= '0';
 
-        when s_next =>
-          phi_next <= '1';
-          if ram_busy = '1' then
-            next_state <= s_wait;
-          else
-            next_state <= s_read;
-          end if;
+        phi_read  <= '0';
+        phi_alu   <= '0';
+        phi_write <= '0';
+        phi_next  <= '0';
 
-        when s_wait =>
-          if ram_busy = '0' then
-            next_state <= s_read;
-          else
-            next_state <= s_wait;
-          end if;
-      end case;
-    end process;
+        case state is
 
-    set_next_state : process(clk, next_state, reset)
-    begin
-      if reset = '1' then
-        current_state <= s_idle;
-      elsif rising_edge(clk) then
-        if stop = '1' then
-          stopped <= '1';
-          current_state <= current_state;
-        else 
-          stopped <= '0';
-          current_state <= next_state;
-        end if;
+          when s_idle =>
+            state <= s_read;
+
+          when s_read =>
+            phi_read <= '1';
+            if ram_busy = '0' then
+              if alu_ins = '0' then
+                state <= s_write;
+              else
+                state <= s_alu;
+              end if;
+            end if;
+
+          when s_alu =>
+            phi_alu <= '1';
+            state <= s_write;
+
+          when s_write =>
+            phi_write <= '1';
+            state <= s_next;
+
+          when s_next =>
+            phi_next <= '1';
+            if ram_busy = '1' then
+              state <= s_wait;
+            else
+              state <= s_read;
+            end if;
+
+          when s_wait =>
+            if ram_busy = '0' then
+              state <= s_read;
+            else
+              state <= s_wait;
+            end if;
+        end case;
       end if;
-    end process;
-
-  end;
+    end if;
+  end process;
+end;

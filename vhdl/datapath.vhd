@@ -8,7 +8,6 @@ use work.secd_ram_defs.all;
 
 entity datapath is
   port( clk         : in std_logic;
-        reset       : in std_logic;
         -- phase selection signals from top-level fsm
         phi_read    : in std_logic;
         phi_alu     : in std_logic;
@@ -190,16 +189,16 @@ architecture datapath_arch of datapath is
               root <= arg(27 downto 14);
               parent <= y2;
 
-              -- accept status register pseudo ops
+            -- status register pseudo ops
             when running =>
-              null;
+              state_reg <= "00";
 
             when halted =>
-              null;
+              state_reg <= "01";
 
             when gc =>
-              null;
-              
+              state_reg <= "10";
+
             when others =>
               report "Warning, unsupported ALU operation";
           end case;
@@ -289,41 +288,22 @@ architecture datapath_arch of datapath is
       opcode <= arg(8 downto 0);
     end process;
 
-    status_register_gen : process(phi_read, clk)
-    begin
-      if falling_edge(phi_read)
-      then
-        case alu_sel is
-          when running =>
-            state_reg <= "00";
-
-          when halted =>
-            state_reg <= "01";
-
-          when gc =>
-            state_reg <= "10";
-
-          when others =>
-            null;
-        end case;
-      end if;
-    end process;
-
     ram_rw_gen : process(clk, phi_write, read_sel, write_sel)
     begin
       if rising_edge(clk) then
         if phi_write = '1' then
           -- RAM access
-          if write_sel = wmar then
-            ram_read <= '1';
-            ram_write <= '0';
-          elsif write_sel = bidir then
-            ram_write <= '1';
-            ram_read <= '0';
-          else
-            ram_read <= '0';
-            ram_write <= '0';
-          end if;
+          case write_sel is
+            when wmar =>
+              ram_read <= '1';
+              ram_write <= '0';
+            when bidir =>
+              ram_write <= '1';
+              ram_read <= '0';
+            when others =>
+              ram_read <= '0';
+              ram_write <= '0';
+          end case;
         else
           ram_read <= '0';
           ram_write <= '0';
