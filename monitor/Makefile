@@ -3,7 +3,7 @@ AS	= /usr/local/m6809/bin/as6809
 LINK	= /usr/local/m6809/bin/aslink
 S192VHD = ../tools/s19-to-vhdl.pl
 
-CFLAGS	= -std=c99 # -O
+CFLAGS	= -std=c99 -fomit-frame-pointer # -O
 
 ASFLAGS	= -gloaxsff
 

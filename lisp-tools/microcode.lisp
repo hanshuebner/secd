@@ -258,8 +258,8 @@ begin
 
   process (clk)
   begin
-    if (clk'event and clk = '1') then
-      if (en = '1') then
+    if falling_edge(clk) then
+      if en = '1' then
         data <= MICROCODE_ROM(conv_integer(addr));
       end if;
     end if;

@@ -8,9 +8,8 @@ secd-app
 -g _lcd = 0xe0f0
 -g _joystick = 0xe0d0
 -g _secd_status = 0xe140
--g _secd_address_low = 0xe141
--g _secd_address_high = 0xe142
--g _secd_data = 0xe143
+-g _secd_address_high = 0xe141
+-g _secd_data = 0xe200
 -g _vdu_char = 0xe020
 -g _vdu_color = 0xe021
 -g _vdu_hcursor = 0xe022

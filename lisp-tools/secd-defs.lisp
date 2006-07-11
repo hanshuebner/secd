@@ -28,6 +28,7 @@
                          dispatch
                          mark?
                          field?
+                         zero?
                          eq?
                          leq?
                          num?

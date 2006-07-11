@@ -339,8 +339,8 @@
 305      stop                s          mar                    
 306                          mem        car                    
 307                          car        s                      
-308                          num        mar                    
-309                          s          bidir                  jump      boot
+308                          num        mar
+309                          s          bidir                  stop
      -------------------------------------------------------------------------------------
 310      setup-alu-args      s          mar                    
 311                          mem        x1                     

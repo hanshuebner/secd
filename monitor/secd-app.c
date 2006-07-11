@@ -50,19 +50,20 @@ puthex(unsigned short x)
 void
 dump_page(unsigned page)
 {
+  unsigned low;
   secd_address_high = page;
-  secd_address_low = 0;
+  low = 0;
   putstring("\x16\x1A");
   do {
     puthex(secd_address_high);
-    puthex(secd_address_low);
+    puthex(low);
     do {
       outc(' ');
-      puthex(secd_data);
-    } while (++secd_address_low & 0x0F);
+      puthex(secd_data[low]);
+    } while (++low & 0x0F);
     outc('\r');
     outc('\n');
-  } while (secd_address_low);
+  } while (low);
 }
 
 void
@@ -83,10 +84,9 @@ clear_secd_memory(unsigned value)
   for (high = 0; high < 256; high++) {
     secd_address_high = high;
     for (low = 0; low < 256; low++) {
-      secd_address_low = low;
-      secd_data = value;
-      if (secd_data != value) {
-        putstring("Failed to set "); puthex(secd_address_high); puthex(secd_address_low); putstring("\r\n");
+      secd_data[low] = value;
+      if (secd_data[low] != value) {
+        putstring("Failed to set "); puthex(secd_address_high); puthex(low); putstring("\r\n");
         break;
       }
     }
@@ -101,10 +101,9 @@ pattern_secd_memory()
   for (high = 0; high < 256; high++) {
     secd_address_high = high;
     for (low = 0; low < 256; low++) {
-      secd_address_low = low;
-      secd_data = low;
-      if (secd_data != low) {
-        putstring("Failed to set "); puthex(secd_address_high); puthex(secd_address_low); putstring("\r\n");
+      secd_data[low] = low;
+      if (secd_data[low] != low) {
+        putstring("Failed to set "); puthex(secd_address_high); puthex(low); putstring("\r\n");
         break;
       }
     }
@@ -158,21 +157,15 @@ setup_secd_program()
   secd_address_high = 0x00;
 
   for (i = 0; i < sizeof program; i++) {
-    short buf = program[i];
-    secd_address_low = i;
-    secd_data = buf;
+    secd_data[i] = program[i];
   }
 
   secd_address_high = 0xff;
 
-  secd_address_low = 0xfc;
-  secd_data = 0xff;
-  secd_address_low = 0xfd;
-  secd_data = 0x7f;
-  secd_address_low = 0xfe;
-  secd_data = 0x03;
-  secd_address_low = 0xff;
-  secd_data = 0x00;
+  secd_data[0xfc] = 0xff;
+  secd_data[0xfd] = 0x7f;
+  secd_data[0xfe] = 0x03;
+  secd_data[0xff] = 0x00;
 }
 
 void screen_funk()
@@ -186,12 +179,61 @@ void screen_funk()
   vdu_color = 0x07;
 }
 
+void
+wait_for_down_key()
+{
+  while (joystick & JOYSTICK_DOWN_MASK) {
+  }
+  delay();
+  while (~joystick & JOYSTICK_DOWN_MASK) {
+  }
+}
+
 int
 main()
 {
   secd_status = SECD_CONTROL_STOP;
 
+#if 0
   putstring("\n\n\rSECD Monitor V1.0\r\n");
+
+  {
+    unsigned foo;
+
+    putstring("\r\nLooping, press DOWN to abort\n\r");
+    secd_address_high = 0;
+    while (joystick & JOYSTICK_DOWN_MASK) {
+      secd_data[0] = 0xA5;
+      foo += secd_data[0];
+      if (secd_data[0] != 0xA5) {
+        putstring("mismatch 0\r\n");
+        delay();
+      }
+    }
+  }
+
+  if (0) {
+    unsigned foo;
+    unsigned long address = 0;
+    putstring("Single address access test\r\n");
+
+    for (;;) {
+      secd_address_high = address >> 8;
+      secd_data[address & 0xff] = address & 0xff;
+      putstring("Wrote ");
+      puthex(address & 0xff);
+      putstring(" to ");
+      puthex(secd_address_high);
+      puthex(address & 0xff);
+      putstring("\r\n");
+      wait_for_down_key();
+      putstring("Read back ");
+      puthex(secd_data[address & 0xff]);
+      putstring("\r\n");
+      wait_for_down_key();
+      address++;
+    }
+  }
 
   putstring("Clearing memory\r\n");
   clear_secd_memory(0);
@@ -213,7 +255,7 @@ main()
       }
       if (~joystick & JOYSTICK_DOWN_MASK) {
         putstring("Overwriting memory\r\n");
-        clear_secd_memory(secd_data + 1);
+        clear_secd_memory(secd_data[0] + 1);
       }
     }
   }
@@ -226,14 +268,14 @@ main()
     for (high = 0; high < 256; high++) {
       secd_address_high = high;
       for (low = 0; low < 256; low++) {
-        secd_address_low = low;
-        foo += secd_data;
-        puthex(high); puthex(low); outc(' '); puthex(secd_data); outc('\r'); outc('\n');
+        foo += secd_data[low];
+        puthex(high); puthex(low); outc(' '); puthex(secd_data[low]); outc('\r'); outc('\n');
       }
     }
   }
+#endif
 
-#if 0
+#if 1
 /*   clear_secd_memory(); */
 
   setup_secd_program();
