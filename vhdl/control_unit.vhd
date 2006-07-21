@@ -1,7 +1,7 @@
 library ieee;
 
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+use ieee.std_logic_unsigned.all;
 use work.secd_defs.all;
 use work.all;
 
@@ -108,7 +108,7 @@ architecture my_control_unit of control_unit is
     set_next_mpc : process(phi_next)
     begin
       if falling_edge(phi_next) then
-        next_mpc <= std_logic_vector(unsigned(mpc) + 1);
+        next_mpc <= next_mpc + "000000001";
       end if;
     end process;
 

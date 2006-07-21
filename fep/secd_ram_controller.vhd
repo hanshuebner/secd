@@ -159,7 +159,7 @@ begin
     end if;
   end process;
 
-  secd_set_write_pulse : process(state, clk)
+  secd_set_write_pulse : process(state, clk, clear_write_pulse)
   begin
     if clear_write_pulse = '1' then
       secd_write_pulse <= '0';
