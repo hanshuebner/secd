@@ -1,4 +1,4 @@
-V 000039 11 239 1151645256241 char_rom
+V 000039 11 239 1153430268041 char_rom
 E char_rom VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -10,7 +10,7 @@ P addr _in std_logic_vector[10:0]
 P rdata _out std_logic_vector[7:0]
 P wdata _in std_logic_vector[7:0]
 X char_rom
-V 000040 11 301 1152101028266 clock_gen
+V 000040 11 301 1153430272447 clock_gen
 E clock_gen VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -25,7 +25,7 @@ P phi_next _out std_logic
 P stop _in std_logic
 P stopped _out std_logic
 X clock_gen
-V 000046 11 172 1152081244869 clock_synthesis
+V 000046 11 172 1153430269433 clock_synthesis
 E clock_synthesis VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -34,7 +34,7 @@ P vdu_clk _out std_logic
 P cpu_clk _out std_logic
 P locked _out std_logic
 X clock_synthesis
-V 000043 11 406 1152101028939 control_unit
+V 000043 11 406 1153575440128 control_unit
 E control_unit VHDL
 L IEEE;SECD;
 U ieee.std_logic_1164;secd.secd_defs;
@@ -50,7 +50,7 @@ P alu_sel _out std_logic_vector[4:0]
 P alu_ins _out std_logic
 P stop_instruction _out std_logic
 X control_unit
-V 000036 11 348 1151645256380 cpu09
+V 000036 11 348 1153430269983 cpu09
 E cpu09 VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -67,7 +67,7 @@ P irq _in std_logic
 P firq _in std_logic
 P nmi _in std_logic
 X cpu09
-V 000039 11 544 1152101027985 datapath
+V 000039 11 544 1153430272157 datapath
 E datapath VHDL
 L IEEE;SECD;
 U ieee.std_logic_1164;secd.secd_defs;
@@ -87,7 +87,7 @@ P opcode _out std_logic_vector[8:0]
 P flags _out flagsunit
 P state _out std_logic_vector[1:0]
 X datapath
-V 000041 11 3706 1151684039773 idt71v416
+V 000041 11 3706 1153430274550 idt71v416
 E idt71v416 VHDL
 L IEEE;STD;
 U ieee.vital_timing;STD.STANDARD;ieee.std_logic_1164;
@@ -186,7 +186,7 @@ P OENeg _in std_ulogic = 'U'
 P WENeg _in std_ulogic = 'U'
 P CENeg _in std_ulogic = 'U'
 X idt71v416
-V 000039 11 216 1151645257265 kbug_ram
+V 000039 11 216 1153430269763 kbug_ram
 E kbug_ram VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -197,7 +197,7 @@ P en _in std_logic
 P we _in std_logic
 P clk _in std_logic
 X kbug_ram
-V 000037 11 234 1151645257179 key_b4
+V 000037 11 234 1153430271736 key_b4
 E key_b4 VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -209,7 +209,7 @@ P addr _in std_logic_vector[8:0]
 P rdata _out std_logic_vector[7:0]
 P wdata _in std_logic_vector[7:0]
 X key_b4
-V 000039 11 307 1151645259315 keyboard
+V 000039 11 307 1153430273969 keyboard
 E keyboard VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -224,7 +224,7 @@ P irq _out std_logic
 P kbd_clk _inout std_logic
 P kbd_data _inout std_logic
 X keyboard
-V 000044 11 175 1151846447984 microcode_rom
+V 000044 11 175 1153430266028 microcode_rom
 E microcode_rom VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -233,7 +233,7 @@ P en _in std_logic
 P addr _in std_logic_vector[8:0]
 P data _out std_logic_vector[27:0]
 X microcode_rom
-V 000039 11 398 1151645258594 miniuart
+V 000039 11 398 1153430273328 miniuart
 E miniUART VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -253,7 +253,7 @@ P DCD_n _in std_logic
 P CTS_n _in std_logic
 P RTS_n _out std_logic
 X miniUART
-V 000038 11 164 1151645257071 mon_rom
+V 000038 11 164 1153430269643 mon_rom
 E mon_rom VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -262,7 +262,7 @@ P cs _in std_logic
 P addr _in std_logic_vector[10:0]
 P rdata _out std_logic_vector[7:0]
 X mon_rom
-V 000053 11 500 1151645258334 ps2_keyboard_interface
+V 000053 11 500 1153430272938 ps2_keyboard_interface
 E ps2_keyboard_interface VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -281,7 +281,7 @@ P tx_write _in std_logic
 P tx_write_ack _out std_logic
 P tx_error_no_keyboard_ack _out std_logic
 X ps2_keyboard_interface
-V 000037 11 235 1151645258203 ram_2k
+V 000037 11 235 1153430271556 ram_2k
 E ram_2k VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -293,7 +293,7 @@ P addr _in std_logic_vector[10:0]
 P rdata _out std_logic_vector[7:0]
 P wdata _in std_logic_vector[7:0]
 X ram_2k
-V 000037 11 357 1151645257342 rxunit
+V 000037 11 357 1153430270965 rxunit
 E RxUnit VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -330,7 +330,7 @@ P ram_a _out std_logic_vector[20:0]
 P ram_bhen _out std_logic
 P ram_blen _out std_logic
 X secd_ram
-V 000050 11 687 1152042339152 secd_ram_controller
+V 000050 11 709 1153655361419 secd_ram_controller
 E secd_ram_controller VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -348,6 +348,7 @@ P dout8 _out std_logic_vector[7:0]
 P addr8 _in std_logic_vector[15:0]
 P rw8 _in std_logic
 P cs8 _in std_logic
+P hold _out std_logic
 P ram_oen _out std_logic
 P ram_cen _out std_logic
 P ram_wen _out std_logic
@@ -356,7 +357,7 @@ P ram_a _out std_logic_vector[20:0]
 P ram_bhen _out std_logic
 P ram_blen _out std_logic
 X secd_ram_controller
-V 000042 11 404 1152101028998 secd_system
+V 000042 11 404 1153430273809 secd_system
 E secd_system VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -373,7 +374,7 @@ P stop_input _in std_logic
 P stopped _out std_logic
 P state _out std_logic_vector[1:0]
 X secd_system
-V 000037 11 285 1151645257686 txunit
+V 000037 11 285 1153430272627 txunit
 E TxUnit VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -387,7 +388,7 @@ P TxClk _in std_logic
 P TxDat _out std_logic
 P TBE _out std_logic
 X TxUnit
-V 000039 11 216 1151645257575 user_ram
+V 000039 11 216 1153430271165 user_ram
 E user_ram VHDL
 L IEEE;
 U ieee.std_logic_1164;
@@ -398,7 +399,7 @@ P en _in std_logic
 P we _in std_logic
 P clk _in std_logic
 X user_ram
-V 000034 11 403 1152084030154 vdu
+V 000034 11 403 1153430271896 vdu
 E vdu VHDL
 L IEEE;
 U ieee.std_logic_1164;

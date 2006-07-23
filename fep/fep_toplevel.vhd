@@ -402,6 +402,7 @@ begin
     addr8(7 downto 0)   => cpu_addr(7 downto 0),
     cs8			=> secd_ram_cs,
     rw8			=> cpu_rw,
+    hold                => cpu_hold,
 
     -- external interface
     ram_oen 		=> ram_oen,
@@ -553,7 +554,6 @@ begin
     cpu_irq   <= keyboard_irq;
     cpu_nmi   <= not joy_up;
     cpu_firq  <= uart_irq;
-    cpu_hold  <= '0';
     cpu_halt  <= '0';
   end process;
 

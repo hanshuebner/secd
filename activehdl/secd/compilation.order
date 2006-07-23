@@ -23,7 +23,6 @@
 .\..\..\fep\fep_toplevel.vhd
 .\..\..\fmf\idt71v416.vhd
 .\..\..\fep\secd_ram_controller_TB.vhd
-.\..\..\fep\icon.edn
 .\..\..\vhdl\control_unit_TB.vhd
 .\..\..\fep\clock_synthesis_TB.vhd
 .\..\..\vhdl\clock_gen_TB.vhd

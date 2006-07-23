@@ -1,0 +1,5 @@
+E icon EDIF
+L IEEE;STD;
+U IEEE.STD_LOGIC_1164;
+P control0 _inout std_logic_vector[35:0]
+X icon

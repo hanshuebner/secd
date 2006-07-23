@@ -80,7 +80,9 @@ begin
       elsif ch /= '9' then
         report "Invalid S19 file, line does not begin with S1 or S9" severity failure;
       end if;
-    end loop;
+    end loop;		
+	
+	report "S19 file read";
 
     loop
       wait until rising_edge(clk);

@@ -1,4 +1,4 @@
-timestamp=1152648834802
+timestamp=1153673844996
 
 [char_rom]
 A/rtl=21|./../../fep/char_rom_b16.vhd|30|
@@ -72,7 +72,7 @@ A/internal_ram=21|./../../vhdl/secd_ram.vhd|147|
 S/secd_ram=40|0|2*75418
 
 [secd_ram_controller]
-A/external_ram=21|./../../fep/secd_ram_controller.vhd|46|
+A/external_ram=21|./../../fep/secd_ram_controller.vhd|47|
 A/my_dual_port_ram=21|./../../fep/secd_ram_controller.vhd|107|
 S/secd_ram_controller=40|0|2*81264
 
@@ -95,11 +95,11 @@ A/arch=21|./../../fep/vdu8.vhd|41|
 S/vdu=40|0|2*99840
 
 [~A]
-ModifyID=32357
+ModifyID=33528
 Version=73
 
 [~MFT]
-0=0|0secd.mgf|11238|0
+0=0|0secd.mgf|11260|0
 2=0|2secd.mgf|99840|0
 
 [~U]
@@ -121,8 +121,8 @@ ram_2k=11|0*8283||0x3
 rxunit=RxUnit 11|0*8555||0x3
 secd_ram=11|0*8949||0x3
 secd_ram_controller=11|0*9478||0x3
-secd_system=11|0*10215||0x3
-txunit=TxUnit 11|0*10661||0x3
-user_ram=11|0*10983||0x3
-vdu=11|0*11238||0x3
+secd_system=11|0*10237||0x3
+txunit=TxUnit 11|0*10683||0x3
+user_ram=11|0*11005||0x3
+vdu=11|0*11260||0x3
 

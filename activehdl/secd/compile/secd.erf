@@ -1,0 +1,4 @@
+MESSAGE "File: h:\fpga\secd\fep\secd_ram_controller.vhd" 
+MESSAGE "Compile Entity "secd_ram_controller"" 
+MESSAGE "Compile Architecture "external_ram" of Entity "secd_ram_controller"" 
+SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  0.3 [s]" 

@@ -194,7 +194,7 @@ main()
 {
   secd_status = SECD_CONTROL_STOP;
 
-#if 0
+#if 1
   putstring("\n\n\rSECD Monitor V1.0\r\n");
 
   {
@@ -203,9 +203,9 @@ main()
     putstring("\r\nLooping, press DOWN to abort\n\r");
     secd_address_high = 0;
     while (joystick & JOYSTICK_DOWN_MASK) {
-      secd_data[0] = 0xA5;
+      secd_data[1] = 0xA5;
       foo += secd_data[0];
-      if (secd_data[0] != 0xA5) {
+      if (secd_data[1] != 0xA5) {
         putstring("mismatch 0\r\n");
         delay();
       }
@@ -273,10 +273,10 @@ main()
       }
     }
   }
-#endif
-
-#if 1
+#else
 /*   clear_secd_memory(); */
+
+  puthex(secd_data[0x23]);
 
   setup_secd_program();
 

@@ -31,6 +31,7 @@ entity secd_ram_controller is
     addr8               : in std_logic_vector(15 downto 0);
     rw8                 : in std_logic;
     cs8                 : in std_logic;
+    hold                : out std_logic;
 
     -- External interface
     ram_oen          : out std_logic;
@@ -56,7 +57,7 @@ architecture external_ram of secd_ram_controller is
   signal oe8  : std_logic := '0';
   signal oe32 : std_logic := '0';
 
-  signal secd_write_pulse       : std_logic := '0';
+  signal write_pulse            : std_logic := '0';
   signal clear_write_pulse      : std_logic := '0';
 
 begin
@@ -123,8 +124,8 @@ begin
   begin
     if secd_stopped = '1' then
       ram_a(14 downto 0) <= addr8(15 downto 1);
-      ram_blen <= addr8(0);
-      ram_bhen <= not addr8(0);
+      ram_blen <= not addr8(0);
+      ram_bhen <= addr8(0);
     else
       ram_a(14 downto 1) <= addr32;
       if state = read32_high or state = write32_high or state = write32_high_deselect then
@@ -146,36 +147,31 @@ begin
     end if;
   end process;
 
-  control_wen : process(secd_stopped, secd_write_pulse, rw8, cs8)
-  begin
-    if secd_stopped = '1' then
-      if cs8 = '1' then
-        ram_wen <= rw8;
-      else
-        ram_wen <= '1';
-      end if;
-    else
-      ram_wen <= not secd_write_pulse;
-    end if;
-  end process;
+  hold <= write_pulse and secd_stopped;
+  ram_wen <= not write_pulse;
 
-  secd_set_write_pulse : process(state, clk, clear_write_pulse)
+  set_write_pulse : process(state, clk, cs8, rw8, clear_write_pulse)
   begin
     if clear_write_pulse = '1' then
-      secd_write_pulse <= '0';
+      write_pulse <= '0';
     elsif falling_edge(clk) then
-      if state = write32_high or state = write32_low then
-        secd_write_pulse <= '1';
+      write_pulse <= '0';
+      if secd_stopped = '1' then
+        if cs8 = '1' and rw8 = '0' then
+          write_pulse <= '1';
+        end if;
       else
-        secd_write_pulse <= '0';
+        if state = write32_high or state = write32_low then
+          write_pulse <= '1';
+        end if;
       end if;
     end if;
   end process;
 
-  secd_clear_write_pulse : process(clk, secd_write_pulse)
+  clear_write_pulse_process : process(clk, write_pulse)
   begin
     if rising_edge(clk) then
-      if secd_write_pulse = '1' then
+      if write_pulse = '1' then
         clear_write_pulse <= '1';
       else
         clear_write_pulse <= '0';
@@ -220,8 +216,11 @@ begin
         else
           dout8 <= ram_io(15 downto 8);
         end if;
+      else
+        dout8 <= (others => 'X');
       end if;
     elsif falling_edge(clk) then
+      dout8 <= (others => 'X');
       if state = read32_low then
         read32_buf(15 downto 0) <= ram_io;
       elsif state = read32_high then

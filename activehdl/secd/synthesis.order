@@ -21,10 +21,3 @@ i<>.\..\..\vhdl\control_unit.vhd
 i<>.\..\..\vhdl\secd_toplevel.vhd
 i<>.\..\..\fep\keyboard.vhd
 i<>.\..\..\fep\fep_toplevel.vhd
-i<>.\..\..\fep\icon.edn
-i<>.\src\WAVES\rxunit_TB_pins.vhd
-i<>.\src\WAVES\rxunit_TB_declaration.vhd
-i<>C:\Programme\Aldec\Active-HDL 7.1\dat\waves\waves_objects.vhd
-i<>C:\Programme\Aldec\Active-HDL 7.1\dat\waves\monitor_utilities.vhd
-i<>C:\Programme\Aldec\Active-HDL 7.1\dat\waves\waves_generator.vhd
-i<>.\src\WAVES\rxunit_TB.vhd
