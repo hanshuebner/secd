@@ -1,0 +1,317 @@
+<html><head><title>an601-leesmij</title>
+<style>
+body{font:10pt verdana;margin-left:5%;margin-right:10%;background-color:#ffc;color:#000}
+a {color:#f00;text-decoration:none}
+ol li{font-size:10pt;margin-bottom:3em;margin-top:3em}
+ul li{font-size:10pt;margin-bottom:0em;margin-top:0em}
+td{font-size:10pt}
+ul {list-style:disc}
+h5{font-size:12pt;font-weight:400;text-align:center;margin:1.5em;color:#224}
+pre,tt {font:11pt "letter gothic MT",monospace;font-weight:600;color:#00f}
+h6{font:8pt "letter gothic MT",monospace;color:#000}
+.box{border:1px solid #888}
+</style></head>
+<body>
+
+<h6>20apr2006
+</h6>
+
+<h5>MaisForth an601 -- Albert Nijhof
+<br>juli 2005
+<br>(HCC Forth-gg)
+</h5>
+<ol>
+
+<li>Achtergrond
+
+<p>CamelForth (1995) van Bradford J. Rodriguez stond aan de wieg van MaisForth an601 hoewel dat nu nauwelijks nog te merken is.
+<br>De metacompiler is volledig nieuw en lijkt in niets op die van CamelForth.
+<br>De targetcode is ingrijpend veranderd. De keuze van de Forthregisters is gehandhaafd en heel af en toe kunt u nog CamelForth code tegenkomen (gemarkeerd met BJR).
+<br>De assembler notatie is vernieuwd.
+
+
+<li>Email
+
+<p>MaisForth an601 kan nog fouten bevatten. Neem contact op met ons als u vragen of opmerkingen over MaisForth an601 heeft. We zijn te bereiken via de rubriek "Mail ons" op <a href="http://www.forth.hccnet.nl" target="_blank"> de website van de HCC Forth-gg</a>.
+
+
+<li>Files
+
+<p>
+<table cellspacing=0 cellpadding=0>
+<tr><td><tt>an601-leesmij.html</tt>              <td>Deze file
+<tr><td><tt>an601-readme.html</tt>               <td>idem, Engelse versie
+<tr><td>&nbsp;
+<tr><td nowrap><tt>an601extra-nl.html &nbsp;</tt><td>Uitleg bij de niet-standaard woorden
+<tr><td nowrap><tt>an601extra-gb.html &nbsp;</tt><td>idem, Engelse versie
+<tr><td>&nbsp;
+<tr><td><tt>an601assembler.html</tt>             <td>Over 6809 assembler notatie
+<tr><td><tt>an601color.html</tt>                   <td>Target code in kleur
+<tr><td><tt>an601.bin</tt>                       <td>ROM image (<tt>C000-FFFF</tt>) van de MaisForth
+<tr><td>&nbsp;
+<tr><td><tt>meta601.f</tt>                       <td>Metacompiler code
+<tr><td><tt>cras601.f</tt>                       <td>Cross assembler code (onderdeel van metacompiler)
+<tr><td><tt>targ601.f</tt>                       <td>Target code
+</table>
+
+
+<li>Hardware
+
+<p>MaisForth an601 is een 6809 Forth voor het "maiskastje". De woorden die de hardware aanspreken zijn:
+
+<pre>
+   KEY? ( -- vlag )
+   KEY ( -- char )
+   EMIT? ( -- vlag )
+   EMIT ( char -- )
+   !USART ( baudfactor -- )
+</pre>
+
+
+<li>MaisForth an601
+
+<p>Raadpleeg file<tt> an601extra-nl.html </tt>voor de niet-standaard Forth woorden in deze tekst.
+
+<p>MaisForth an601 <b>start op met:</b>
+
+<p><ul>
+<li><tt> 7F !USART </tt>d.w.z. met Baud Rate 19200 (zie<tt> !USART</tt>). Tijdens het zenden van een file moet de terminal aan het eind van iedere regel <b>ca. 10 MS wachten</b> om te voorkomen dat MaisForth het begin van de volgende regel misschien zal missen.
+<li><tt> DECIMAL </tt>
+<li><tt> FRESH </tt>(zie<tt> FRESH</tt>)
+<li><tt> 5 >OK </tt>(zie<tt> >OK</tt>)
+<li><tt> HERE = HX 300 </tt>
+</ul>
+
+<p> Het interne werkgebied van Forth (<tt>0000-02FF</tt>):
+
+<p> <tt> 000-07F </tt>Dictionary draden, Users, Find Stack
+<br><tt> 080-0FF </tt>Terminal Input Buffer
+<br><tt> 100-17F </tt>Data Stack, dalend
+<br><tt> 180-1FF </tt>Return Stack, dalend
+<br><tt> 200-27F </tt>Circulaire Buffer voor tijdelijke opslag, o.a. strings
+<br><tt> 280-2FF </tt>Compiler Stack, dalend
+
+<p> Bij de koude start wordt de beschikbare hoeveelheid RAM vastgesteld (zie<tt> HIMEM</tt>) en op de terminal gemeld.
+
+
+<li>Standaard/niet-standaard woorden (ANS)
+
+<p>Vocabularies in MaisForth:<tt> FORTH ONLY EXTRA INSIDE ASSEMBLER </tt>
+
+<p>De <b>standaard woorden</b> in<tt> FORTH </tt>en<tt> ONLY </tt>worden bekend verondersteld.
+
+<p>De ruim 80 <b>niet-standaard woorden</b> in<tt> EXTRA </tt>en<tt> ONLY </tt>staan beschreven in file<tt> an601extra-nl.html </tt>
+
+<p>De <b>interne hulpwoordjes</b> in<tt> INSIDE </tt>zullen voor de gemiddelde programmeur niet van belang zijn. Wie er meer over wil weten, kan de target code in file<tt> targ601.f </tt>bestuderen.
+
+
+<li>Hoe maak je een nieuwe ROM image, bijvoorbeeld na veranderingen in de targetcode?
+
+<p>De metacompiler zou moeten werken op iedere standaard 32-bits Forth. (Ik heb o.a. Win32forth gebruikt.)
+
+<p><ul>
+<li> Zet deze drie files in een directory:<tt> &nbsp; meta601.f &nbsp; cras601.f &nbsp; targ601.f </tt>
+<li> Maak een file aan met de naam<tt> an601.bin </tt>
+<li> Voer<tt> -META </tt>uit (wis eventuele resten van de metacompiler).
+<li> Laad file<tt> meta601.f </tt>
+<li> Voer het woord<tt> ROMIMAGE </tt>uit.
+</ul>
+
+<p>De MaisForth image voor<tt> HX C000-FFFF </tt>is nu opgeslagen in file<tt> an601.bin </tt>
+
+<!--
+<p>Als je de ROM image geschikt wilt maken voor een ander adres, bijvoorbeeld HX 6000-9FFF, moet je twee dingen in de definitie van ROMIMAGE veranderen (in file<tt> meta601.f</tt>):
+
+<p><ul>
+<li><tt> C000 TO ORIGIN-TARGA </tt>wordt<tt> 6000 TO ORIGIN-TARGA </tt>
+<li>zet een backslash vooraan de regel met de tekst:<tt> ORIGINHOSTA 10 - HERE 10 - 10 MOVE </tt>
+<br>(de interrupt vectoren hebben namelijk alleen zin op<tt> HX FFF0-FFFF</tt>).
+</ul>
+-->
+
+<li>Decompileren met<tt> SEE </tt>
+
+<p>De decompiler wandelt door het geheugen en kijkt bij ieder adres of er een (16 bit) Forthwoord gecompileerd staat. Zo ja, dan drukt hij de naam af.
+
+<p>Als bijvoorbeeld op<tt> D08E </tt>en op<tt> D08F </tt>beide een gecompileerd woord lijkt te staan, laat<tt> SEE </tt>beide zien, hoewel minstens een van beide een toevalstreffer moet zijn. In zo'n geval worden de namen niet recht onder elkaar afgedrukt. De lezer moet zelf de juiste lezing kiezen.
+
+<pre>
+   see accept 
+   D089: BD   C0   BDC0.   --  ACCEPT  --  doer DO:  --  FORTH Word
+   D08A: C0   FF   C0FF  
+   D08B: FF   C8   FFC8. 
+   D08C: C8    8   C808      SWAP
+   D08E: C5   D4   C5D4      FALSE
+   D08F: D4   D0   D4D0.         COMPILE,
+   D090: D0   23 # D023      ACCEPTING
+   D092: C0   7E ~ C07E      EXIT
+</pre>
+
+<p>De manier om snel de decompiler te leren lezen is: maak zelf een paar kleine woordjes en laat er<tt> SEE </tt>op los.
+
+<p> &lt;>
+
+<p> Woorden met een naam eindigend op<tt> () </tt>,<tt> (C) </tt>of<tt> (S) </tt>hebben een <b>inline argument</b>:
+
+<p><table>
+<tr><td>naam <td>inline &nbsp; &nbsp;<td>voorbeelden
+<tr><td class=box><tt> ..()  </tt><td class=box>cel<td class=box><tt> IF() GOTO() COMPILE() () &nbsp; &nbsp;</tt>
+<tr><td class=box><tt> ..(C) </tt><td class=box>byte<td class=box><tt> (C) </tt>
+<tr><td class=box><tt> ..(S) &nbsp;</tt><td class=box>counted string &nbsp;<td class=box><tt> ."(S) "(S) ABORT"(S)</tt>
+</table>
+
+<p>Het is handig dit te weten, want<tt> SEE </tt>laat zien <b>wat</b> er in het geheugen staat en niet <b>hoe</b> het daar gekomen is.
+
+<p> Voorbeelden:
+<br> Het getal 1000 wordt gecompileerd als<tt> () </tt>gevolgd door een cel met 1000 erin.
+<br> Het getal 1 wordt gecompileerd als<tt> (C) </tt>gevolgd door een byte met 1 erin.
+<br><tt> ." Hallo!" </tt>compileert<tt> ."(S) </tt>met de counted string<tt> "Hallo!" </tt>erachter.
+<br><tt> AHEAD </tt>compileert<tt> GOTO() </tt>met daarachter het 16 bits doeladres.
+<br> enz.
+
+<p> &lt;>
+
+<p>Na<tt> TO() </tt>,<tt> +TO() </tt>en<tt> INCR() </tt>volgt het data-adres van een <b>Value</b>. Dat kan een gewone Value zijn of een indirecte ROM Value.
+
+<p>Voorbeeld:
+
+<pre>
+   see allot 
+   CCE2: BD   C0   BDC0    --  ALLOT  --  doer DO:  --  FORTH Word
+   CCE3: C0   FF   C0FF. 
+   CCE4: FF   C2   FFC2  
+   CCE5: C2   E4   C2E4.         +TO()
+   CCE7:  0   49 I   49. 
+   CCE8: 49 I C0   49C0  
+   CCE9: C0   7E ~ C07E.         EXIT
+</pre>
+
+<tt>0049 </tt>is het data adres (RAM) van<tt> HERE</tt>
+
+
+<p>De RAM adressen van alle indirecte ROM values:
+
+<p>
+<table><tr>
+<td><pre>
+   0023 TOPVOC 
+   002B HLD    
+   0033 MODE   
+   003B IB     
+   0043 HIMEM  
+</pre>
+<td><pre>
+   0025 TOPMSG  
+   002D CONTEXT 
+   0035 SECTION 
+   003D THERE   
+   0045 OK      
+</pre>
+<td><pre>
+   0027 TOPPFX 
+   002F CS#    
+   0037 #TIMES 
+   003F HOR    
+   0047 DOT?   
+</pre>
+<td><pre>
+   0029 TOPNFA 
+   0031 MSG#-2 
+   0039 #IB    
+   0041 VER    
+   0049 HERE   
+</pre>
+</table>
+
+Deze ROM values gedragen zich voor de programmeur als constanten. Het systeem kan hun waarde wijzigen, de programmeur kan dat alleen indirect.
+
+
+<li> De metacompiler
+
+<p> Als het metacompileren begint is de metacompiler af, daar komt dus niets meer bij. Daarom kan de target image er gewoon achter komen te staan. De<tt> HERE </tt>tijdens het metacompileren is de gewone<tt> HERE </tt>van de host Forth. Voor de overzichtelijkheid laat ik de target image beginnen op het eerst beschikbare adres dat in hex op 000 eindigt.
+
+<p>De metacompiler<tt> meta601.f </tt>is nog wat rommelig en niet al te uitvoerig gedocumenteerd. Hier volgt een oriënterende rondleiding met enige hints:
+
+<p>Tekst tussen<tt> &lt;---- </tt>en<tt> ----> </tt>wordt door Forth overgeslagen.
+
+<p> &lt;>
+
+<p> De metacompiler wordt gestart met<tt> :::MAIS::: </tt>en heeft zijn eigen QUERY-INTERPRET lus.
+<br> Hij wordt verlaten met<tt> ;;;MAIS;;; </tt>of als er een fout optreedt.
+
+<p> <b>Bestudeer allereerst het woord<tt> METACOMPILING </tt></b>dat de kern van<tt> :::MAIS::: </tt>is.
+
+<p> &lt;>
+
+<p>De Target code
+
+<p> Door<tt> TRACE </tt>en<tt> NOTRACE </tt>om een stuk programmatekst in de target code te zetten, is tot in detail te volgen wat daar bij het metacompileren gebeurt. (spatiebalk: wacht/doorgaan)
+
+<p> &lt;>
+
+<p>Zie file<tt> an601color.html </tt>voor de Target code in kleur.
+
+<p> <b>Rode</b> woorden in de target code staan in het<tt> META </tt>vocabulary. Zij zijn <b>actief</b> tijdens het metacompileren. Zie<tt> META-WORDS: </tt>gevolgd door de woordenlijst, bijna aan het eind van file<tt> meta601.f </tt>
+
+<p> <b>Blauwe</b> woorden worden tijdens het metacompileren <b>gecompileerd</b>. Ze worden ter plekke opgezocht in de target-image voorzover die tot dan toe opgebouwd is. Er volgt een foutmelding als ze niet kunnen worden gevonden.
+
+<p> &lt;>
+
+<p> De metacompiler kent geen voorwaartse referenties, de target code moet dus in de natuurlijke Forth volgorde staan.
+
+<br>Dit lijkt misschien een probleem, maar zie hoe dat opgelost is:
+
+<p>Het DOES-deel van een definiërend woord wordt los van het CREATE-deel gedefinieerd (bijv. <tt>DOCREATE DOVAR DO: DOCON </tt>enz.).
+<pre>
+   DOER: ccc1      <small>&lt;high level Forth code></small>  ;
+   DOERCODE ccc2   <small>&lt;assembler code></small>         NEXT END-CODE
+</pre>
+
+zijn functioneel gelijk aan
+
+<pre>
+   : ccc1 DOES>    <small>&lt;high level Forth code></small>  ;
+   : ccc2 ;CODE    <small>&lt;assembler code></small>         NEXT END-CODE
+</pre>
+
+<p><ul><li> Voorbeeld met<tt> MET-DOER </tt>in<tt> CREATE </tt>
+<p>In<tt> xCREATE </tt>wordt "DOCREATE" <b>als string</b> gecompileerd.
+<pre>
+   \ in metacompiler:
+   : xCREATE   ( <naam> -- )   xHEADER MET-DOER DOCREATE ;
+
+   \ in target:
+   DOERCODE DOCREATE REG X PULS  REG D PSHS  X D TFR NEXT END-CODE
+</pre>
+
+Pas tijdens het metacompileren, als<tt> xCREATE </tt>wordt uitgevoerd, wordt het adres van "DOCREATE" opgezocht en in het cfa bij de zojuiste gebouwde header gezet.
+
+<p><li> Zo ook<tt> KOMPILE </tt>
+<p>In <tt>xAHEAD </tt>wordt "GOTO()" als string gecompileerd. 
+
+<pre>
+   : xAHEAD ( -- AHEADa 11 ) KOMPILE GOTO() HERE 0 x, HX 11 ;
+</pre>
+
+Tijdens het metacompileren, als<tt> xAHEAD </tt>wordt uitgevoerd, wordt het adres van<tt> GOTO() </tt>opgezocht en gecompileerd.
+</ul>
+
+<p>Met deze late bindingen zijn we in principe van de voorwaartse referenties af.
+
+<p> &lt;>
+
+<p> <b>x-woorden</b>
+
+<p> Woorden in de metacompiler beginnen vaak met een x (<tt>x: x; xIF </tt>enz.) Zij worden later en masse zonder die x in het<tt> META </tt>vocabulary herdefinieerd. Deze wat omslachtige werkwijze maakt het voor de lezer veel gemakkelijker om de metacompiler te doorgronden.
+<br> Zo kennen de immediate woorden vier varianten, bijv. de punt-komma:
+
+<p><ul>
+<li> de<tt> ; </tt>van de host Forth.
+<li> de<tt> x; </tt>in de metacompiler (voorlopige vorm, die geen verwarring zaait).
+<li> de<tt> ; </tt>als herdefinitie van<tt> x; </tt>in het<tt> META </tt>vocabulary. Dit is de<tt> ; </tt>die bij het metacompileren in actie komt om een nieuw target woord af te sluiten. (rood)
+<li> de<tt> ; </tt>zoals die in de target gedefinieerd wordt, maar die tijdens het metacompileren nooit in actie kan komen! (groen)
+</ul>
+
+<p>(an)
+
+</body></html>

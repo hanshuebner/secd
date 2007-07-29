@@ -1,8 +1,7 @@
-MESSAGE "File: h:\fpga\secd\activehdl\secd\implement\TIME_SIM.VHD" 
-BEGINPROGRESS h:\fpga\secd\activehdl\secd\implement\TIME_SIM.VHD
+MESSAGE "File: h:\fpga\secd\activehdl\secd\implement\time_sim.vhd" 
+BEGINPROGRESS h:\fpga\secd\activehdl\secd\implement\time_sim.vhd
 MESSAGE "Compile Entity "secd_fep_trenz"" 
 MESSAGE "Compile Architecture "Structure" of Entity "secd_fep_trenz"" 
-MESSAGE "Start Netlist compilation mode." 
 UPDATEPROGRESS 2
 UPDATEPROGRESS 3
 UPDATEPROGRESS 4
@@ -85,5 +84,16 @@ UPDATEPROGRESS 80
 UPDATEPROGRESS 81
 UPDATEPROGRESS 82
 UPDATEPROGRESS 83
-ENDPROGRESS h:\fpga\secd\activehdl\secd\implement\TIME_SIM.VHD
-SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  3.0 [s]" 
+UPDATEPROGRESS 84
+UPDATEPROGRESS 85
+UPDATEPROGRESS 86
+UPDATEPROGRESS 87
+UPDATEPROGRESS 88
+UPDATEPROGRESS 89
+UPDATEPROGRESS 90
+UPDATEPROGRESS 91
+UPDATEPROGRESS 100
+ENDPROGRESS h:\fpga\secd\activehdl\secd\implement\time_sim.vhd
+MESSAGE "Top-level unit(s) detected:" 
+MESSAGE "Entity  =>   secd_fep_trenz" 
+SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  6.0 [s]" 

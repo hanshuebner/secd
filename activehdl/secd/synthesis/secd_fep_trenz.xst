@@ -1,0 +1,59 @@
+set -tmpdir .
+set -xsthdpdir "h:/fpga/secd/activehdl/secd/synthesis/xst"
+run
+-ifn secd_fep_trenz.prj
+-ifmt mixed
+-ofn secd_fep_trenz
+-ofmt NGC
+-vlgincdir {"h:/fpga/secd/activehdl/secd/src" }
+-p xc3s1000ft256-5
+-top secd_fep_trenz
+-uc H:\fpga\secd\fep\constraints.xcf
+-opt_mode speed
+-opt_level 2
+-iuc no
+-glob_opt allclocknets
+-write_timing_constraints no
+-verilog2001 yes
+-keep_hierarchy no
+-hierarchy_separator /
+-bus_delimiter <>
+-case maintain
+-cross_clock_analysis no
+-slice_utilization_ratio 100
+-bram_utilization_ratio 100
+-read_cores yes
+-generics {  }
+-define {  }
+-fsm_extract yes -fsm_encoding Auto
+-vlgcase full-parallel
+-resource_sharing yes
+-fsm_style lut
+-ram_extract yes
+-ram_style auto
+-rom_extract yes
+-rom_style auto
+-auto_bram_packing no
+-mux_extract yes
+-mux_style auto
+-decoder_extract yes
+-priority_extract yes
+-shreg_extract yes
+-shift_extract yes
+-xor_collapse yes
+-mult_style auto
+-async_to_sync no
+-iobuf yes
+-max_fanout 500
+-bufg 8
+-register_duplication yes
+-equivalent_register_removal yes
+-register_balancing no
+-iob auto
+-slice_packing yes
+-optimize_primitives no
+-safe_implementation no
+-use_clock_enable yes
+-use_sync_set yes
+-use_sync_reset yes
+-slice_utilization_ratio_maxmargin 5

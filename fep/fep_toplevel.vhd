@@ -6,7 +6,7 @@ use ieee.std_logic_1164.all;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use ieee.numeric_std.all;
-use work.all;
+use config.all;
 
 entity secd_fep_trenz is
   port(
@@ -86,21 +86,6 @@ end secd_fep_trenz;
 architecture rtl of secd_fep_trenz is
 
   -----------------------------------------------------------------------------
-  -- Configurable components
-  -----------------------------------------------------------------------------
-
-  component user_ram
-    port (
-      clk: IN std_logic;
-      din: IN std_logic_VECTOR(7 downto 0);
-      addr: IN std_logic_VECTOR(13 downto 0);
-      en: IN std_logic;
-      we: IN std_logic;
-      dout: OUT std_logic_VECTOR(7 downto 0)
-      );
-  end component;
-
-  -----------------------------------------------------------------------------
   -- Signals
   -----------------------------------------------------------------------------
 
@@ -122,12 +107,8 @@ architecture rtl of secd_fep_trenz is
   -- RAM
   signal int_ram_we    : std_logic;
 
-  -- We have two internal RAM areas.  One for the KBUG9 monitor mapped
-  -- from $F000 to $F7FF (2K) and a user area mapped from $0000 (16K)
   signal user_ram_en   : std_logic;
-  signal kbug_ram_en   : std_logic;
   signal user_ram_dout : std_logic_vector(7 downto 0);
-  signal kbug_ram_dout : std_logic_vector(7 downto 0);
 
   -- UART Interface signals
   signal uart_data_out : Std_Logic_Vector(7 downto 0);  
@@ -186,7 +167,7 @@ architecture rtl of secd_fep_trenz is
   -- SECD interface
   signal secd_button           : std_logic := '0';
   signal secd_stop             : std_logic := '1';
-  signal secd_stopped          : std_logic;
+  signal secd_stopped          : std_logic := '1';
   signal secd_state            : std_logic_vector(1 downto 0);
   signal secd_ram_addr_hi      : std_logic_vector(7 downto 0) := (others => '0');
   signal secd_ram_addr_high_cs : std_logic := '0';
@@ -195,6 +176,13 @@ architecture rtl of secd_fep_trenz is
 
   -- SECD RAM Controller interface
   signal secd_ram_busy          : std_logic;
+
+  -- RAM signal taps
+  signal ram_bhenx : std_logic;
+  signal ram_blenx : std_logic;
+  signal ram_cenx : std_logic;
+  signal ram_oenx : std_logic;
+  signal ram_wenx : std_logic;
 
   -- Interface signals for SECD
   signal secd_ram_din32         : std_logic_vector(31 downto 0);
@@ -234,45 +222,30 @@ begin
 
   ----------------------------------------
   --
-  -- Block RAM Monitor ROM
+  -- Maisforth ROM (Xilinx Block RAM, 16k)
   --
   ----------------------------------------
 
-  my_mon_rom : entity mon_rom port map (
+  my_rom : entity rom port map (
     clk   => cpu_clk,
     cs    => rom_cs,
-    addr  => cpu_addr(10 downto 0),
-    rdata => rom_data_out
+    addr  => cpu_addr(13 downto 0),
+    data  => rom_data_out
     );
 
   -----------------------------------------------------------------------------
   --
-  -- Internal RAM (Xilinx Block RAM, 16k)
+  -- Internal RAM (Xilinx Block RAM, 4k)
   --
   -----------------------------------------------------------------------------
 
-  my_user_ram : user_ram port map (
+  my_user_ram : entity user_ram port map (
     clk   => cpu_clk,
     en    => user_ram_en,
     we    => int_ram_we,
-    addr  => cpu_addr(13 downto 0),
+    addr  => cpu_addr(11 downto 0),
     din   => cpu_data_out,
     dout  => user_ram_dout
-    );
-
-  -----------------------------------------------------------------------------
-  --
-  -- KBUG RAM (Xilinx Block RAM, 2k)
-  --
-  -----------------------------------------------------------------------------
-
-  my_kbug_ram : entity kbug_ram port map (
-    clk  => cpu_clk,
-    en   => kbug_ram_en,
-    we   => int_ram_we,
-    addr => cpu_addr(10 downto 0),
-    din  => cpu_data_out,
-    dout => kbug_ram_dout
     );
 
   -----------------------------------------------------------------
@@ -354,7 +327,8 @@ begin
     vdu_clk         => vdu_clk,
     cpu_clk         => cpu_clk,
     locked          => clock_locked);
-  
+
+make_secd: if fep_only /= '1' generate
   ----------------------------------------
   --
   -- SECD CPU instantiation
@@ -375,7 +349,8 @@ begin
     stopped     => secd_stopped,
     state       => secd_state
     );
-
+end generate;
+           
   ----------------------------------------
   --
   -- SECD RAM Controller instantiation
@@ -405,13 +380,13 @@ begin
     hold                => cpu_hold,
 
     -- external interface
-    ram_oen 		=> ram_oen,
-    ram_cen 		=> ram_cen,
-    ram_wen 		=> ram_wen,
+    ram_oen 		=> ram_oenx,
+    ram_cen 		=> ram_cenx,
+    ram_wen 		=> ram_wenx,
     ram_io 		=> ram_io,
     ram_a 		=> ram_a,
-    ram_bhen 		=> ram_bhen,
-    ram_blen		=> ram_blen
+    ram_bhen 		=> open,
+    ram_blen		=> open
     );
 
   ----------------------------------------------------------------------
@@ -423,7 +398,7 @@ begin
   mem_decode : process( cpu_clk, reset,
                         cpu_addr, cpu_rw, cpu_vma,
                         rom_data_out,
-                        user_ram_dout, kbug_ram_dout,
+                        user_ram_dout,
                         uart_data_out,
                         keyboard_data_out,
                         joystick,
@@ -433,7 +408,6 @@ begin
 
   begin
     user_ram_en      <= '0';
-    kbug_ram_en      <= '0';
     rom_cs           <= '0';
     uart_cs          <= '0';
     keyboard_cs      <= '0';
@@ -446,50 +420,58 @@ begin
     secd_ram_cs           <= '0';
     secd_ram_addr_high_cs <= '0';
 
-    case cpu_addr(15 downto 11) is
+    case cpu_addr(15 downto 14) is
 
-      -- Monitor ROM - $F800 - $FFFF
-      when "11111" => -- $F800 - $FFFF
+      -- Maisforth ROM - $C000 - $FFFF
+      when "11" =>
         cpu_data_in     <= rom_data_out;
         rom_cs          <= cpu_vma;              -- read  ROM
 
-      -- IO Devices - $E000 - $E7FF
-      when "11100" =>
+      -- RAM - $0000-$3FFF
+      when "00" =>
+        cpu_data_in <= user_ram_dout;
+        user_ram_en <= cpu_vma;
 
-        case cpu_addr(10 downto 8) is
+      -- Unmapped - $4000-$7FFF, read as FF
+      when "01" =>
+        cpu_data_in <= X"FF";
 
-          -- Real I/O $E000 - $E0FF
-          when "000" =>
+      -- I/O - $8000-$BFFF - Do additional decoding
+      when "10" =>
+        case cpu_addr(13 downto 8) is
+
+          -- Real I/O $B000 - $B0FF
+          when "110000" =>
             case cpu_addr(7 downto 4) is
 
-              -- UART / ACIA $E000
+              -- UART / ACIA $B000
               when X"0" =>
                 cpu_data_in <= uart_data_out;
                 uart_cs     <= cpu_vma;
 
-              -- Keyboard port $E010 - $E01F
+              -- Keyboard port $B010 - $B01F
               when X"1" =>
                 cpu_data_in <= keyboard_data_out;
                 keyboard_cs <= cpu_vma;
 
-              -- VDU port $E020 - $E02F
+              -- VDU port $B020 - $B02F
               when X"2" =>
                 cpu_data_in <= vdu_data_out;
                 vdu_cs      <= cpu_vma;
 
-              -- Joystick $E0D0 (read only)
+              -- Joystick $B0D0 (read only)
               when X"D" =>
                 if cpu_addr(3 downto 0) = "0000" then
                   cpu_data_in <= joystick;
                 end if;
 
-              -- LED $E0E0 (write only)
+              -- LED $B0E0 (write only)
               when X"E" =>
                 if cpu_addr(3 downto 0) = "0000" then
                   led_cs <= cpu_vma;
                 end if;
 
-              -- LCD Display $E0F0 (write only)
+              -- LCD Display $B0F0 (write only)
               when X"F" =>
                 if cpu_addr(3 downto 0) = "0000" then
                   lcd_cs <= cpu_vma;
@@ -499,19 +481,19 @@ begin
                 null;
             end case;
 
-          -- SECD Control registers - $E100
-          when "001" =>
+          -- SECD Control registers - $B100
+          when "110001" =>
 
-            case cpu_addr(3 downto 0) is
+            case cpu_addr(7 downto 0) is
 
-              -- $E140 -> SECD Status
-              when X"0" =>
+              -- $B140 -> SECD Status
+              when X"40" =>
                 secd_control_cs         <= cpu_vma;
                 cpu_data_in(0)          <= secd_stopped;
                 cpu_data_in(2 downto 1) <= secd_state;
 
-              -- $E141 -> SECD Address High
-              when X"1" =>
+              -- $B141 -> SECD Address High
+              when X"41" =>
                 secd_ram_addr_high_cs   <= cpu_vma;
                 cpu_data_in             <= secd_ram_addr_hi;
 
@@ -520,8 +502,8 @@ begin
 
             end case;
 
-          -- SECD mapped memory page - $E200
-          when "010" =>
+          -- SECD mapped memory page - $B200
+          when "110010" =>
             cpu_data_in                 <= secd_ram_dout8;
             secd_ram_cs                 <= cpu_vma;
 
@@ -530,19 +512,9 @@ begin
 
         end case;
 
-      -- Everything else is RAM
       when others =>
+        null;
 
-        if cpu_addr(15 downto 11) = "11110" then
-          cpu_data_in <= kbug_ram_dout;
-          kbug_ram_en <= cpu_vma;
-
-        elsif cpu_addr(15 downto 14) = "00" then
-          cpu_data_in <= user_ram_dout;
-          user_ram_en <= cpu_vma;
-        else
-          cpu_data_in <= "00000000";
-        end if;
     end case;
   end process;
 
@@ -690,11 +662,26 @@ begin
   aud_out <= (others => '0');
   int_ram_we <= not cpu_rw;
 
-  cf_cs0 <= cpu_rw;
-  cf_cs1 <= secd_ram_cs;
-  cf_we <= cpu_clk;
-  cf_iord <= vdu_clk;
-  cf_iowr <= cpu_vma;
+  cf_cs0 <= ram_bhenx;
+  cf_cs1 <= ram_blenx;
+  cf_we <= ram_cenx;
+  cf_iord <= ram_oenx;
+  cf_iowr <= ram_wenx;
+
+  ram_bhen <= ram_bhenx;
+  ram_blen <= ram_blenx;
+  ram_cen <= ram_cenx;
+  ram_oen <= ram_oenx;
+  ram_wen <= ram_wenx;
+
+  ram_bhenx <= '0';
+  ram_blenx <= '0';
+
+  -- cf_cs0 <= cpu_rw;
+  -- cf_cs1 <= secd_ram_cs;
+  -- cf_we <= cpu_clk;
+  -- cf_iord <= vdu_clk;
+  -- cf_iowr <= cpu_vma;
 
 end;
 

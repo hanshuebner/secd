@@ -1,0 +1,5 @@
+53
+~E 1 "./../switch_pkg.vhd" 149 bilateral
+~A 1 "./../switch_pkg.vhd" 161 mixed
+~E 1 "./../switch_pkg.vhd" 126 tri_buf
+~A 1 "./../switch_pkg.vhd" 133 behavior

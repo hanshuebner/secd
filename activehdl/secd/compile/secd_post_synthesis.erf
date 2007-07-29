@@ -2,7 +2,6 @@ MESSAGE "File: h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd"
 BEGINPROGRESS h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
 MESSAGE "Compile Entity "secd_fep_trenz"" 
 MESSAGE "Compile Architecture "STRUCTURE" of Entity "secd_fep_trenz"" 
-MESSAGE "Start Netlist compilation mode." 
 UPDATEPROGRESS 2
 UPDATEPROGRESS 3
 UPDATEPROGRESS 4
@@ -84,5 +83,17 @@ UPDATEPROGRESS 79
 UPDATEPROGRESS 80
 UPDATEPROGRESS 81
 UPDATEPROGRESS 82
+UPDATEPROGRESS 83
+UPDATEPROGRESS 84
+UPDATEPROGRESS 85
+UPDATEPROGRESS 86
+UPDATEPROGRESS 87
+UPDATEPROGRESS 88
+UPDATEPROGRESS 89
+UPDATEPROGRESS 90
+UPDATEPROGRESS 91
+UPDATEPROGRESS 100
 ENDPROGRESS h:\fpga\secd\activehdl\secd\synthesis\secd_fep_trenz.vhd
-SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]" 
+MESSAGE "Top-level unit(s) detected:" 
+MESSAGE "Entity  =>   secd_fep_trenz" 
+SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  2.0 [s]" 

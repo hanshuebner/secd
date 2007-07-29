@@ -2,8 +2,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
-use work.secd_defs.all;
-use work.all;
+use secd_defs.all;
 
 entity control_unit is
   port (

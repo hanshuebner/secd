@@ -232,47 +232,17 @@ begin
         case vdu_addr is
           when "000" =>
             reg_character <= vdu_data_in;
-            reg_colour    <= reg_colour;
-            reg_hcursor   <= reg_hcursor;
-            reg_vcursor   <= reg_vcursor;
-            reg_voffset   <= reg_voffset;
             req_write     <= '1';
           when "001" =>
-            reg_character <= reg_character;
             reg_colour    <= vdu_data_in;
-            reg_hcursor   <= reg_hcursor;
-            reg_vcursor   <= reg_vcursor;
-            reg_voffset   <= reg_voffset;
-            req_write     <= req_write;
           when "010" =>
-            reg_character <= reg_character;
-            reg_colour    <= reg_colour;
             reg_hcursor   <= vdu_data_in(6 downto 0);
-            reg_vcursor   <= reg_vcursor;
-            reg_voffset   <= reg_voffset;
-            req_write     <= req_write;
           when "011" =>
-            reg_character <= reg_character;
-            reg_colour    <= reg_colour;
-            reg_hcursor   <= reg_hcursor;
             reg_vcursor   <= vdu_data_in(4 downto 0);
-            reg_voffset   <= reg_voffset;
-            req_write     <= req_write;
           when others =>
-            reg_character <= reg_character;
-            reg_colour    <= reg_colour;
-            reg_hcursor   <= reg_hcursor;
-            reg_vcursor   <= reg_vcursor;
             reg_voffset   <= vdu_data_in(4 downto 0);
-            req_write     <= req_write;
         end case;
       else
-        reg_character <= reg_character;
-        reg_colour    <= reg_colour;
-        reg_hcursor   <= reg_hcursor;
-        reg_vcursor   <= reg_vcursor;
-        reg_voffset   <= reg_voffset;
-
         if (req_write = '1') and (ack_write = '1') then
           req_write <= '0';
         else

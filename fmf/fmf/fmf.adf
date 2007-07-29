@@ -21,6 +21,17 @@ fmf=.\fmf.LIB
 [$LibMap$]
 fmf=.
 
+[Folders]
+Name3=Makefiles
+Directory3=h:\fpga\secd\fmf\fmf\
+Extension3=mak
+Name4=Memory
+Directory4=h:\fpga\secd\fmf\fmf\src
+Extension4=mem;mif;hex
+Name5=Dll Libraries
+Directory5=h:\fpga\secd\fmf\fmf\
+Extension5=dll
+
 [Files]
 /h:\fpga\secd\fmf\gen_utils.vhd=-1
 /h:\fpga\secd\fmf\memory.vhd=-1
@@ -39,13 +50,3 @@ h:\fpga\secd\fmf\ecl_utils.vhd=VHDL Source Code
 h:\fpga\secd\fmf\state_tab_package.vhd=VHDL Source Code
 h:\fpga\secd\fmf\switch_pkg.vhd=VHDL Source Code
 
-[Folders]
-Name3=Makefiles
-Directory3=h:\fpga\secd\fmf\fmf\
-Extension3=mak
-Name4=Memory
-Directory4=h:\fpga\secd\fmf\fmf\src
-Extension4=mem;mif;hex
-Name5=Dll Libraries
-Directory5=h:\fpga\secd\fmf\fmf\
-Extension5=dll

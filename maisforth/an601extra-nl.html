@@ -1,0 +1,849 @@
+<html>
+<head><title>an601extra-nl</title>
+<style>
+ body{font:10pt verdana;margin:10%;color:#300}
+ pre {font:11pt "letter gothic mt",monospace;color:#000}
+ tt  {font:11pt "letter gothic mt",monospace;color:#000}
+ a   {font:11pt "letter gothic mt",monospace;color:#f00;text-decoration:none}
+h2   {font:13pt "letter gothic mt",monospace;font-weight:100;color:#00f;margin-left:3em;margin-top:2em;margin-bottom:0.2em}
+
+ .kop{font-size:14pt;color:#300;text-align:center}
+ span{font:10pt verdana;color:#300}
+ td  {font-size:10pt;color:#300;vertical-align:top}
+ .rood{font-size:8pt;color:#300;background-color:#f00;font-weight:600;text-align:center}
+.klein{font-size:8pt;color:#300}
+</style>
+<body bgcolor=#ffff66>
+<div class=klein>20apr2006</div>
+
+   <table align=center cellpadding=4 cellspacing=16><tr>
+   <td class=rood>&nbsp; MaisForth an601 &nbsp;
+</table>
+<div align=center class=klein>Albert Nijhof<br> 12jul2005</div>
+
+<table cellspacing=32 align=center width=100%>
+<tr><td colspan=6 align=center class=kop> EXTRA en ONLY woorden (niet-standaard)
+<tr><td>
+<tt><b>EXTRA</b></tt>
+<pre>
+<a href="#bau">!USART</a>
+<a href="#!ve">!VECTOR</a>
+
+<a href="#wor">"</a>
+
+<a href="#!ve">'FIRQ</a>
+<a href="#!ve">'IRQ</a>
+<a href="#!ve">'NMI</a>
+<a href="#!ve">'SWI</a>
+<a href="#!ve">'SWI2</a>
+<a href="#!ve">'SWI3</a>
+
+<a href="#str">+TO</a>
+
+<a href="#msg">.MSG</a>
+<a href="#voc">.VOC</a>
+
+<a href="#xxx">1+!</a>
+<br></pre>
+<td>
+<pre>
+<a href="#bod">>NAME</a>
+<a href="#ok">>OK</a>
+
+<a href="#pai">?BASE</a>
+<a href="#pai">?COMP</a>
+<a href="#}">?EXIT</a>
+<a href="#neg">?DNEGATE</a>
+<a href="#neg">?NEGATE</a>
+<a href="#pai">?PAIR</a>
+<a href="#}">?RE</a><br>
+<a href="#pai">?STACK</a>
+<a href="#xxx">@+</a>
+
+<a href="#wid">ALLWORDS</a>
+<a href="#ane">ANEW</a>
+
+<a href="#pag">BACKSPACE</a>
+<a href="#him">BINARY</a>
+<a href="#xxx">BYTESWAP</a>
+<a href="#bod">BODY></a>
+</pre>
+<td>
+<pre>
+<a href="#xxx">C+!</a>
+<a href="#xxx">CELL</a>
+<a href="#xxx">CELL-</a>
+<a href="#him">COLD</a>
+<a href="#wor">CTRL</a>
+
+<a href="#du.">D.STRING</a>
+<a href="#dot">DIGIT></a>
+<a href="#!ve">DISABLE</a>
+<a href="#dot">DNUMBER?</a>
+<a href="#doe">DOER:</a>
+<a href="#doe">DOERCODE</a>
+<a href="#dot">DOT?</a>
+<a href="#DU*">DU*</a>
+<a href="#du*">DU/MOD</a> 
+<a href="#du.">DU.</a>
+<a href="#du.">DU.R</a>
+<a href="#du.">DU.STRING</a>
+<a href="#xxx">DU2/</a>
+
+<a href="#!ve">ENABLE</a>
+</pre>
+<td>
+<pre>
+<a href="#ane">HIDE</a>
+<a href="#him">HIMEM</a>
+<a href="#pag">HOR</a>
+
+<a href="#str">INCR</a>
+
+<a href="#man">MANY</a>
+<a href="#mse">MSEE</a>
+<a href="#msg">MSG"</a>
+
+<a href="#bod">NAME></a>
+
+<a href="#ok">OK</a>
+
+<a href="#wor">PARSE,</a>
+<a href="#upp">PLACE</a>
+
+<a href="#xxx">RDROP</a>
+<a href="#}">RE</a>
+<a href="#ane">REMOVE</a>
+<a href="#ane">REVEAL</a>
+<a href="#}">RE}</a>
+<a href="#du.">RTYPE</a>
+</pre>
+<td>
+<pre>
+<a href="#upp">S&lt;></a>
+<a href="#ski">SCAN</a>
+<a href="#ski">SKIP</a>
+<a href="#pai">STOP?</a>
+<a href="#str">STRING</a>
+
+<a href="#man">TIMES</a>
+
+<a href="#him">U.S</a>
+<a href="#xxx">UMAX</a>
+<a href="#xxx">UMIN</a>
+<a href="#upp">UPPER</a>
+
+<a href="#var">VARIABLES</a>
+<a href="#pag">VER</a>
+<a href="#voc">VOCABULARY</a>
+
+<a href="#wor">WORD></a>
+<a href="#wor">WORD,</a>
+
+<a href="#}">}&nbsp;</a>
+</pre>
+<td>
+<tt><b>ONLY</b></tt>
+<pre>
+<a href="#hx">BN</a>
+<a href="#hx">DM</a>
+<a href="#hx">HX</a>
+<a href="#wid">FRESH</a>
+<a href="#wid">EXTRA</a>
+<a href="#wid">INSIDE</a>
+</pre>
+</table>
+
+
+<!-- MSEE -->
+<div align=center></div> <a name="mse"></a>
+
+<h2>    MSEE ( adr -- )
+</h2>
+Decompileer vanaf<tt> adr </tt>(dit mag ieder adres zijn).
+
+<pre>
+: SEE ( &lt;naam> -- ) ' MSEE ;
+</pre>
+
+
+
+<!-- VOCABULARY .VOC -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="voc"></a>
+
+<h2>    VOCABULARY ( &lt;ccc> -- )
+</h2>
+Definieer een nieuwe woordenlijst met de naam<tt> ccc</tt>
+<br> Als<tt> ccc </tt>uitgevoerd wordt, vervangt hij de top-woordenlijst van de zoekvolgorde door zichzelf.
+     
+
+<h2>.VOC ( wid -- )
+</h2>
+Druk de naam die bij<tt> wid </tt>hoort af. Is er geen naam, druk dan een vraagteken af. <br>Alleen een even getal 0..126 kan een geldige<tt> wid </tt>zijn.
+
+
+
+<!-- FRESH EXTRA INSIDE ALLWORDS -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="wid"></a>
+
+
+<h2>EXTRA ( -- )
+</h2>
+Een vocabulary met niet-standaard woorden voor programmeurs.
+
+<h2>INSIDE ( -- )
+</h2>Een vocabulary met niet-standaard hulpwoorden voor Forth zelf. Programmeurs zouden die niet nodig moeten hebben.
+
+<h2>FRESH ( -- )
+</h2>
+    zet de zoekvolgorde op<tt> FORTH FORTH EXTRA ONLY</tt>
+<br>Forth start op met<tt> FRESH DEFINITIONS</tt>
+
+<h2>ALLWORDS ( -- )
+</h2>
+Geef alle woorden van alle woordenlijsten.
+
+<h2>ONLY ( -- )
+</h2>
+Een speciaal vocabulary dat, indien het uitgevoerd wordt, de zoekvolgorde keihard op<tt> ONLY ONLY </tt>zet.
+Het bevat de volgende woorden:
+
+<pre>
+ [AHEAD]  [IF]  [ELSE]  [THEN]  BN  DM  HX  WORDS  FRESH  ORDER 
+ SET-CURRENT  GET-CURRENT  DEFINITIONS  PREVIOUS  ALSO  ASSEMBLER 
+ EXTRA  INSIDE  FORTH
+</pre>
+
+
+<!-- HX DM BN -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="hx"></a>
+
+<h2>  HX ( &lt;ccc> -- )
+</h2>
+Handel het volgende getal of woord in de invoerstroom af. Tijdens die actie is<tt> BASE </tt>tijdelijk 16.
+
+<h2>DM ( &lt;ccc> -- )
+</h2>
+<tt> BASE </tt>is tijdelijk 10.
+
+<h2>BN ( &lt;ccc> -- )
+</h2>
+<tt> BASE </tt>is tijdelijk 2.
+
+<p>Voorbeelden:
+<p><ul><li>Voor getallen
+
+<pre>
+DECIMAL [rtn] <u>OK</u>
+HX 10 . [rtn] <u>16  OK</u>
+BN 10 . [rtn] <u>2  OK</u>
+: TEN HX A . ; TEN [rtn] <u>10  OK</u>
+</PRE>
+
+Bovenstaande werkt altijd, zowel binnen als buiten definities.
+
+<p><li>Voor Forth woorden
+<p><tt>HX DM en BN </tt>zijn ook zinvol onmiddellijk voor woorden die getallen afdrukken (of inlezen).
+
+<pre>
+DECIMAL 10 20 [rtn] <u>OK</u>
+.S [rtn] <u>( 10 20 )  OK</u>
+HX .S [rtn] <u>( A 14 )  OK</u>
+BN .S [rtn] <u>( 1010 10100 )  OK</u>
+HX . BN . [rtn] <u>14 1010  ok</u>
+</pre>
+
+Dit werkt alleen interactief en niet voor woorden die gecompileerd worden.
+<br><tt> HX DM en BN </tt>zijn immediate en laten geen sporen na in een definitie.
+
+</ul>
+
+
+<!-- ANEW REMOVE REVEAL HIDE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ane"></a>
+
+<h2>    ANEW ( &lt;ccc> -- )
+</h2>
+Definieer een marker met de naam<tt> ccc</tt>
+<br> Als<tt> ccc </tt>al bestaat, voer hem dan eerst uit en definieer dan de nieuwe marker.
+
+<h2>REMOVE ( -- )
+</h2>
+Wis de nieuwste definitie, indien "onvindbaar", en druk zijn naam daarbij af. Is hij "vindbaar", dan gebeurt er niets.
+
+<h2>REVEAL ( -- )
+</h2>
+Maak de nieuwste definitie "vindbaar".
+
+<h2>HIDE   ( -- )
+</h2>
+Maak de nieuwste definitie "onvindbaar".
+
+
+
+<!-- MSG" .MSG -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="msg"></a>
+
+<h2>    MSG" ( msg# &lt;ccc"> -- )
+</h2>
+ Definieer een<tt> THROW</tt> boodschap (message).
+
+<h2>.MSG     ( msg# -- )
+</h2>
+Druk de boodschap af die hoort bij<tt> msg#</tt>.
+
+
+<p> Vb:
+
+<pre>
+-100 MSG" tsssss" [rtn] <u>OK</u>
+-100 .MSG [rtn] <u>tsssss (Message # -100)  OK</u>
+-100 THROW [rtn]
+<u>THROW  tsssss (Message # -100) </u>
+</pre>
+
+
+
+<!-- ?COMP ?STACK ?PAIR STOP? -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="pai"></a>
+
+<h2>: ?COMP ( -- ) STATE @ ?EXIT -14 THROW ;
+<br>: ?PAIR ( x y -- ) = ?EXIT -22 THROW ;
+</h2>
+
+<h2>?STACK    ( -- )
+</h2>
+Test op Data Stack Overflow en Underflow.
+
+<h2>?BASE ( -- )
+</h2>
+Voer<tt> DECIMAL </tt>uit als<tt> BASE </tt>buiten [2..72] ligt.
+
+<h2>STOP? ( -- vlag )
+</h2>
+Test op een ingedrukte toets:
+
+<pre>
+<i>toets</i>           <i>effect</i>            <i>vlag</i>
+
+geen toets      -                 false
+
+[spatie]        wacht
+    <span>en daarna</span>
+[spatie]        ga door           false
+
+[esc]           -28 THROW         -        al dan niet na spatie
+anders          ga door           true     al dan niet na spatie
+</pre>
+
+<!-- RE ?RE RE} ?EXIT }  -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="}"></a>
+
+<h2>    ?EXIT
+</h2>
+is een afkorting voor<tt> IF EXIT THEN </tt>
+
+<h2>}
+</h2>
+is een afkorting voor<tt> EXIT THEN</tt>
+
+<h2>RE
+</h2>
+<tt> RE </tt>compileert een sprong terug naar het begin van de definitie en trekt zich daarbij niets aan van eventuele controlestructuren om hem heen.
+
+<h2>?RE
+</h2>
+ is een afkorting voor<tt> IF RE THEN </TT>
+
+<h2>RE}
+</h2>
+is een afkorting voor<tt> RE THEN</tt>
+
+<p><tt> RE ?RE </tt>en<tt> RE} </tt>zijn alleen geschikt voor colon definities (niet voor<tt> :NONAME</tt> woorden of Does-code).  
+<p><tt> RE </tt>is handig voor lussen met een reeks voorwaarden, al dan niet genest, waarbij je
+<br> 1) soms de lus wilt herhalen en
+<br> 2) soms het woord wilt verlaten.
+<br>In dat geval bespaar je je met<tt> RE </tt>en<tt> EXIT </tt>de paired-conditionals-gymnastiek voor het maken van geneste constructies met<tt> UNTIL</TT>s, <tt> WHILE</tt>s en<tt> REPEAT</tt>s. Evenals<tt> LEAVE </tt>hebben<tt> EXIT </tt>en<tt> RE </tt>tijdens het compileren geen last van controlestructuren waar ze tussen staan. 
+
+
+
+<!-- DISABLE ENABLE !VECTOR -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="!ve"></a>
+
+<h2>   'NMI  'SWI  'IRQ  'FIRQ  'SWI2  'SWI3 ( -- adr )
+</h2>
+6809 interrupt vectoren
+
+
+<h2>DISABLE ( 'vector -- )
+</h2>
+Vb:<tt> 'SWI3 DISABLE</tt>
+
+<h2>!VECTOR ( adr 'vector -- )
+</h2>
+Vb:<tt> 47AE 'SWI3 !VECTOR</tt>
+
+<h2>ENABLE ( 'vector -- )
+</h2>
+Vb:<tt> 'SWI3 ENABLE</tt>
+
+
+
+<!-- BAUDRATE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="bau"></a>
+
+<h2>    !USART ( baudfactor -- )
+</h2>
+Stel met behulp van de baudfactor de Baud Rate in waarmee MaisForth communiceert.
+
+<br> &nbsp;
+
+<table width=100%><tr>
+<td><pre>
+baudfactor,  Baud
+HX/DM          Rate
+
+7F/127      19200 (opstartwaarde)  
+7E/126       9600  
+7D/125       7200  
+7C/124       4800  
+7B/123       3600  
+7A/122       2400  
+79/121       2000  
+78/120       1800  
+</pre>
+<td><pre>
+baudfactor   Baud 
+HX/DM          Rate  
+
+77/119       1200  
+76/118        600  
+75/117        300  
+74/116        150  
+73/115        134.5  
+72/114        110  
+71/113         75  
+70/112         50  
+</pre>
+</table>
+
+<!-- DOER: DOERCODE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="doe"></a>
+
+<h2>    DOER: ( &lt;ccc> -- )
+</h2>
+<tt>DOER: ccc ... ; </tt>staat voor
+<br><tt> : ccc DOES> ... ;</tt>
+
+<h2>DOERCODE ( &lt;ccc> -- )
+</h2><tt> DOERCODE ccc ... END-CODE </tt>staat voor
+<br><tt> : ccc ;CODE ... END-CODE</tt>
+
+<p>Vb:
+
+<pre>
+DOER: DOKON  @ ;
+: KONSTANT   CREATE , DOKON ;
+<span> of </span>
+: KONSTANT   CREATE DOKON , ;
+</pre>
+
+
+
+<!-- HOR VER -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="pag"></a>
+
+<h2>    HOR ( -- q )
+</h2>
+<tt> q </tt>is de horizontale output positie (kolom#).
+
+<h2>VER ( -- q )
+</h2>
+<tt> q </tt>is de verticale output positie (rij#).
+
+<h2>BACKSPACE ( -- )
+</h2>
+Doe een backspace als<tt> HOR </tt>groter dan nul is.
+
+<p><TT> HOR </TT>en<TT> VER </TT>zijn nul na<TT> PAGE</TT>.
+<br><TT>CR </tt>maakt<tt> HOR </tt>nul en telt 1 bij<tt> VER </tt>op.
+
+
+
+
+<!-- STRING TO +TO INCR -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="str"></a>
+
+<table width=100%>
+<tr>
+<td><h2>
+    VALUE ( x &lt;ccc> -- )
+<br>TO  ( x &lt;ccc> -- )
+<br>+TO  ( y &lt;ccc> -- )
+<br>INCR  ( &lt;ccc> -- )
+</h2>
+
+<td width=5%>&nbsp;
+
+<td><h2>
+    STRING ( maxlen &lt;ccc> -- )
+<br>TO  ( a1 n &lt;name> -- )
+<br>+TO  ( a2 n &lt;ccc> -- )
+<br>INCR  ( char &lt;ccc> -- )
+</h2>
+
+<tr>
+<td>
+<p>Vb:
+
+<pre>
+10 VALUE N N . [rtn] <u>10  OK</u>
+7     TO N N . [rtn] <u>7  OK</u>
+8    +TO N N . [rtn] <u>15  OK</u>
+    INCR N N . [rtn] <u>16  OK</u>
+N    +TO N N . [rtn] <u>32  OK</u>
+N 2/  TO N N . [rtn] <u>16  OK</u>
+</PRE>
+
+<td width=5%>
+
+<td>
+<p>Vb:
+
+<pre>
+12   STRING NN NN TYPE [rtn] <u>OK</u>
+S" Mad"  TO NN NN TYPE [rtn] <u>Mad OK</u>
+S" rid" +TO NN NN TYPE [rtn] <u>Madrid OK</u>
+CHAR - INCR NN NN TYPE [rtn] <u>Madrid- OK</u>
+NN      +TO NN NN TYPE [rtn] <u>Madrid-Madri OK</u>
+NN 2/    TO NN NN TYPE [rtn] <u>Madrid OK</u>
+</PRE>
+</table>
+
+
+<!-- PARSE, WORD, WORD> -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="wor"></a>
+
+<h2>    " ( &lt;ccc"> -- adr len | -- )
+</h2>
+Zelfde als<tt> S"</tt>
+<br>Compilerend: compileer de string.
+<br>Executerend: zet de string (<tt>adr,len</tt>) op stack.
+
+<h2>PARSE, ( ch &lt;ccc> -- )
+</h2>
+Parse een string met<tt> ch </tt>en zet hem als counted string in het woordenboek.
+
+<h2>WORD, ( ch &lt;ccc> -- )
+</h2>
+Doe<tt> ch WORD </tt>en zet het resultaat als counted string in het woordenboek.
+
+<h2>WORD> ( ch &lt;ccc> -- adr )
+</h2>
+Doe<tt> ch WORD</tt>
+<br> Doe een<tt> REFILL </tt>als dat de nul-string oplevert en probeer opnieuw.
+<br><tt> -16 THROW </tt>volgt als de<tt> REFILL </tt>niet lukt.
+
+<h2>CTRL ( &lt;ccc> -- q | -- )
+</h2>
+<tt> AND </tt>het eerste karakter van<tt> ccc </tt>met<tt> hx 1F</tt> en
+<br>(uitvoerend:) zet het resultaat op stack;
+<br>(compilerend:) compileer het resultaat als een 'literal'.
+
+
+<!-- DOT? -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="dot"></a>
+
+<h2>      DIGIT> ( char -- x true | char false )
+</h2>
+Zet een cijfer (karakter) om in zijn waarde als dat kan. Een vlag geeft aan of dit gelukt is.<tt> BASE </tt>wordt hierbij gebruikt.
+
+<h2>  DNUMBER? ( adr len -- xlo xhi true | ? ? false )
+</h2>
+Zet de string<tt> adr len </tt>om in een dubbelgetal met behulp van<tt> BASE</tt>
+<br> Er wordt een vlag toegevoegd. Bij 'false' is de omzetting mislukt. Een minteken wordt geaccepteerd als het voorop staat en één punt wordt geaccepteerd, waar die ook staat. Zie<tt> DOT?</tt>).
+
+<h2>DOT? ( -- q )
+</h2>
+Na uitvoering van<tt> DNUMBER? </tt>geeft<tt> DOT? </tt>de positie van een punt in de string.
+
+<p> Vb:
+
+<pre>
+<i>string</i>    <i>DOT?</i>
+1234      0        (geen punt)
+1234.     1
+123.4     2
+.1234     5
+</pre>
+
+
+
+<!-- OK .OK -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ok"></a>
+
+<h2>    OK ( -- q )
+</h2>
+<tt> q </tt>bevat de prompt eigenschappen.
+
+<h2>>OK ( q -- )
+</h2>
+Leg de prompt eigenschappen vast.
+
+<p>Bij<tt> q=0 </tt>is er alleen een<tt> CR</tt>.
+<br>Als bit<tt> n </tt>van<tt> q </tt>gezet is:
+
+<br>&nbsp;
+    <table cellpadding=0 cellspacing=0>
+    <tr><td><tt>bit 0:</tt> <td>Druk<tt> OK </tt>(uitvoerend) of<tt> ok </tt>(compilerend) af, gevolgd door een<tt> CR</tt>.
+    <tr><td><tt>bit 1:</tt> <td>Voer<tt> .S </tt>(signed getallen) uit na de<tt> CR</tt>.
+    <tr><td><tt>bit 2:</tt> <td>Als bit 1 niet gezet is: voer<tt> U.S </tt>(unsigned getallen) uit. 
+    <tr><td><tt>bit 3:</tt> <td>Druk<tt> BASE </tt>af (indien ongelijk aan tien) in het tientallig stelsel.
+    <tr><td nowrap><tt>bit 4..7: &nbsp; </tt> <td> n.v.t.
+    </table>
+
+
+
+<!-- ?NEGATE ?DNEGATE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="neg"></a>
+
+<h2> : ?NEGATE ( x y -- x2 ) 0&lt; IF NEGATE THEN ;
+<br> : ?DNEGATE ( dx y -- dx2 ) 0&lt; IF DNEGATE THEN ;
+</h2>
+
+
+
+<!-- VARIABLES -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="var"></a>
+
+<h2>    VARIABLES ( n -- )
+</h2>
+<pre>
+: VARIABLES
+  CREATE CELLS ALLOT
+  DOES> ( index -- adr ) SWAP CELLS + ;
+
+\ Vb:
+3 VARIABLES Z ( index -- adr )
+111 0 Z !
+555 2 Z !              \ Index moet &lt;3 zijn, geen beveiliging.
+0 Z @ . [rtn] <u>111  OK</u>
+</pre>
+
+
+
+<!-- DU* DU/MOD -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="du*"></a>
+
+<h2>    DU* ( ud1 u2 -- ud3 )
+</h2> 32bit * 16bit >> prod=32bit
+<h2>    DU/MOD ( ud1 u2 -- u3 ud4 )
+</h2> 32bit / 16bit >> rest=16bit, quot=32bit
+
+
+
+<!-- BODY> >NAME NAME> -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="bod"></a>
+
+<h2>   : BODY> ( body -- xt ) 3 - ;
+</h2>
+
+<h2>    >NAME ( xt -- nfa )
+<br>    NAME> ( nfa -- xt )
+</h2>
+<p>In MaisForth geldt:<tt> xt = cfa </tt>
+
+
+<!-- SKIP SCAN -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ski"></a>
+
+<h2>    SCAN ( adr len ch -- adr2 len2 )
+</h2>
+Vb:
+
+<pre>
+S" AAABC" CHAR B SCAN TYPE [rtn] <u>BC OK</u>
+S" AAABC" CHAR F SCAN TYPE [rtn] <u>OK</u>
+</pre>
+
+
+<h2>SKIP ( adr len ch -- adr2 len2 )
+</h2>
+Vb:
+<pre>
+S" AAABC" CHAR A SKIP TYPE [rtn] <u>BC OK</u>
+S" AAABC" CHAR B SKIP TYPE [rtn] <u>AAABC OK</u>
+</pre>
+
+
+
+<!-- MANY TIMES -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="man"></a>
+
+<h2>    MANY  ( -- )
+</h2>
+Interpreteer de tekst vanaf het begin van de regel tot aan<tt> MANY </tt>steeds opnieuw. Ga verder met de tekst achter<tt> MANY </tt>als er een toets ingedrukt wordt.
+
+<p> Vb:
+<pre>
+0 [rtn] <u>OK</u>
+1+ DUP . MANY 0 . [rtn] <u>1 2 3 4 5 6 ...</u>
+</pre>
+
+<h2>    TIMES ( q -- )
+</h2>
+Interpreteer de tekst vanaf het begin van de regel<tt> q </tt>maal tot aan<tt> TIMES</tt>
+<br> Ga daarna verder met de tekst achter<tt> TIMES</tt>
+
+<p>Vb:
+<pre>
+0 [rtn] <u>OK</u>
+1+ DUP . 5 TIMES 0 . [rtn] <u>1 2 3 4 5 0  OK</u>
+</pre>
+
+
+<!-- DU. DU.R RTYPE D.STRING DU.STRING -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="du."></a>
+
+<h2>    DU. ( xlo xhi -- )
+<br>    DU.R ( xlo xhi r -- )
+</h2>
+<h2>    D.STRING ( xlo xhi -- adr len )
+</h2>
+Zet signed dubbelgetal om in string.
+
+<h2>DU.STRING ( xlo xhi -- adr len )
+</h2>
+Zet unsigned dubbelgetal om in string.
+
+<p>De levensduur van het resultaat van<tt> D.STRING </tt>of<tt> DU.STRING </tt>is kort, het wordt overschreven bij de volgende omzetting.
+
+<h2>RTYPE ( adr len r -- )
+</h2>
+Druk de string<tt> (adr,len) </tt>af, rechtsgericht in een veld van<tt> r </tt>posities.
+
+<pre>
+: D.   ( d -- )    D.STRING  TYPE SPACE ;
+: .R   ( n r -- )  >R S>D D.STRING  R> RTYPE ;
+</pre>
+
+
+
+
+
+<!-- UPPER PLACE S&lt;> -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="upp"></a>
+
+<h2>    UPPER ( adr len -- )
+</h2>
+Zet de kleine letters in de string om naar hoofdletters.
+
+<h2>PLACE ( adr len dest -- )
+</h2>
+Plaats de string<tt> (adr,len) </tt>als counted string op<tt> dest</tt>
+
+<h2>S&lt;> ( adr1 adr2 len -- q )
+</h2>
+Stel de alfabetische volgorde vast van string1<tt> (adr1,len) </tt>en string2<tt> (adr2,len)</tt>.
+
+<pre>
+string1  =   string2:    q =  0
+string1 voor string2:    q = -1
+string1  na  string2:    q =  1
+</pre>
+
+<!-- CELL  1+! C+! >&lt; -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="xxx"></a>
+
+<h2>RDROP  ( -- )
+</h2>
+staat voor<tt> R> DROP</tt>
+
+<h2>2RDROP  ( -- )
+</h2>staat voor<tt> RDROP RDROP</tt>
+
+<h2>    UMAX ( u1 u2 -- u )
+<br>    UMIN ( u1 u2 -- u )
+</h2>
+
+<h2>CELL ( -- 2 )
+<br>CELL- ( x -- x-2 )
+</h2>
+<h2>
+: 1+! ( a -- ) 1 SWAP +! ;
+<br>: C+! ( x a -- ) TUCK C@ + SWAP C! ;</h2>
+</h2>
+
+<h2>@+ ( adr -- adr+cell x )
+</h2>
+De 16 bit variant van<tt> COUNT</tt>.
+
+<h2>: DU2/ ( du1 -- du2 ) D2/ HX 7FFF AND ;
+</h2>
+logical shift right over een dubbelgetal
+
+
+<h2>BYTESWAP ( xy -- yx )
+</h2>
+Verwissel het hoge en lage byte van een 16-bits patroon.
+
+<p>Vb:
+<pre>
+HEX 1234 BYTESWAP . [rtn] <u>3412  OK</u>
+</pre>
+
+
+
+<!-- HIMEM -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="him"></a>
+
+<h2>    HIMEM ( -- q )
+</h2>
+<tt> q </tt>is de hoeveelheid RAM, of: het laagste niet bestaande RAM adres.
+
+
+<h2>   COLD ( ? -- )
+</h2>
+Doe een koude start.
+
+<h2> U.S ( -- )
+</h2>Een variant van<tt> .S </tt>die unsigned getallen afdrukt.
+
+<h2>   : BINARY ( -- ) 2 BASE ! ;
+</h2>
+
+<div align=center><a href="#top">top<br>^</a></div>
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body></html>

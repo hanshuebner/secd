@@ -1,1 +1,1 @@
--w -s "h:\fpga\secd\activehdl\secd\library.cfg"  -j "h:\fpga\secd\activehdl\secd\projlib.cfg"  -d "h:\fpga\secd\activehdl\secd\compile\"  -work secd -dbg -e 100 "h:\fpga\secd\fep\secd_ram_controller.vhd" 
+-w -s "h:\fpga\secd\activehdl\secd\library.cfg"  -j "h:\fpga\secd\activehdl\secd\projlib.cfg"  -d "h:\fpga\secd\activehdl\secd\compile\"  -work secd_timing -dbg -e 100 -o -nonetlist "h:\fpga\secd\activehdl\secd\implement\time_sim.vhd" 

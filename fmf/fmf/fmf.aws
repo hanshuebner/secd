@@ -1,0 +1,14 @@
+[Version]
+Version=7.2
+[Designs]
+fmf=fmf.adf
+[Settings]
+Active=fmf
+[Expand]
+fmf=1
+[Browser]
+sort=order
+mode=none
+[Order]
+order=1
+macro=

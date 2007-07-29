@@ -37,7 +37,7 @@
       (error "invalid ALU operation ~S specified in microinstruction" alu)))
   (apply #'make-microinstruction/unchecked args))
 
-(defconstant +microinstruction-format+ "~(~3A ~15A ~3A ~10A ~10A ~11A ~@[~*~9A ~A~]~)~%")
+(defparameter +microinstruction-format+ "~(~3A ~15A ~3A ~10A ~10A ~11A ~@[~*~9A ~A~]~)~%")
 
 (defun print-microinstruction-picture (&optional (stream *standard-output*))
   (format stream +microinstruction-format+
@@ -186,7 +186,7 @@
                  (etypecase (mi-a mi)
                    (symbol (setf (mi-a mi) (or (find-label (mi-a mi))
                                                (error "undefined jump target ~A" (mi-a mi)))))
-                   (number (warn "literal jump target ~A in line ~A")))
+                   (number (warn "literal jump target ~A in line ~A" mi (mi-line-number mi))))
                (error (e)
                  (incf errors)
                  (format *error-output* "~A line ~A: ~A~%" filename (mi-line-number mi) e))))

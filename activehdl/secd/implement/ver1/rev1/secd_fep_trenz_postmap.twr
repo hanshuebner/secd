@@ -1,0 +1,214 @@
+--------------------------------------------------------------------------------
+Release 9.2.01i Trace 
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx92i\bin\nt\trce.exe -e 3 -s 5 map.ncd secd_fep_trenz.pcf -o
+secd_fep_trenz_postmap.twr
+
+Design file:              map.ncd
+Physical constraint file: secd_fep_trenz.pcf
+Device,package,speed:     xc3s1000,ft256,-5 (PRODUCTION 1.39 2007-06-02)
+Report level:             error report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3284 - This timing report was generated using estimated delay 
+   information.  For accurate numbers, please refer to the post Place and Route 
+   timing report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock utmi_clkout
+------------+------------+------------+------------------+--------+
+            |  Setup to  |  Hold to   |                  | Clock  |
+Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+------------+------------+------------+------------------+--------+
+fpga_cts    |    5.727(F)|   -0.639(F)|cpu_clk           |   0.000|
+fpga_rxd    |    5.727(F)|   -0.381(F)|cpu_clk           |   0.000|
+joy_down    |    5.727(R)|   -3.154(R)|cpu_clk           |   0.000|
+joy_fire    |    5.727(R)|   -3.154(R)|cpu_clk           |   0.000|
+joy_left    |    5.727(R)|   -3.154(R)|cpu_clk           |   0.000|
+joy_right   |    5.727(R)|   -3.154(R)|cpu_clk           |   0.000|
+joy_up      |    5.727(R)|   -3.154(R)|cpu_clk           |   0.000|
+            |    3.134(F)|   -1.069(F)|cpu_clk           |   0.000|
+ps2_clk1    |    5.727(F)|   -3.154(F)|cpu_clk           |   0.000|
+ps2_data1   |    5.727(F)|   -3.154(F)|cpu_clk           |   0.000|
+ram_io<0>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<1>   |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<2>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<3>   |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<4>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<5>   |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<6>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<7>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<8>   |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<9>   |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<10>  |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<11>  |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<12>  |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<13>  |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+ram_io<14>  |    5.727(F)|   -0.381(F)|vdu_clk           |   0.000|
+ram_io<15>  |    5.727(F)|   -0.340(F)|vdu_clk           |   0.000|
+reset_sw    |    2.641(R)|   -0.967(R)|cpu_clk           |   0.000|
+            |    4.167(F)|   -1.069(F)|cpu_clk           |   0.000|
+            |    2.550(R)|   -0.967(R)|vdu_clk           |   0.000|
+------------+------------+------------+------------------+--------+
+
+Clock utmi_clkout to Pad
+------------+------------+------------------+--------+
+            | clk (edge) |                  | Clock  |
+Destination |   to PAD   |Internal Clock(s) | Phase  |
+------------+------------+------------------+--------+
+cf_iord     |    5.860(R)|cpu_clk           |   0.000|
+            |   12.297(F)|cpu_clk           |   0.000|
+cf_iowr     |    5.281(F)|vdu_clk           |   0.000|
+cf_we       |    5.860(R)|cpu_clk           |   0.000|
+            |   12.297(F)|cpu_clk           |   0.000|
+fpga_b<0>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_b<1>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_b<2>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_g<0>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_g<1>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_g<2>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_r<0>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_r<1>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_r<2>   |    4.971(F)|vdu_clk           |   0.000|
+fpga_rts    |    5.860(F)|cpu_clk           |   0.000|
+fpga_txd    |    5.860(F)|cpu_clk           |   0.000|
+hsync_b     |    5.281(F)|vdu_clk           |   0.000|
+lcd_d<0>    |    4.561(F)|cpu_clk           |   0.000|
+lcd_d<1>    |    4.561(F)|cpu_clk           |   0.000|
+lcd_d<2>    |    4.561(F)|cpu_clk           |   0.000|
+lcd_d<3>    |    4.561(F)|cpu_clk           |   0.000|
+lcd_e       |    4.561(F)|cpu_clk           |   0.000|
+lcd_rs      |    4.561(F)|cpu_clk           |   0.000|
+lcd_rw      |    4.561(F)|cpu_clk           |   0.000|
+led<0>      |    4.561(F)|cpu_clk           |   0.000|
+led<1>      |    4.561(F)|cpu_clk           |   0.000|
+led<2>      |    4.561(F)|cpu_clk           |   0.000|
+led<3>      |    4.561(F)|cpu_clk           |   0.000|
+mm_led      |    5.281(R)|vdu_clk           |   0.000|
+ps2_clk1    |    6.650(F)|cpu_clk           |   0.000|
+ps2_data1   |    6.964(F)|cpu_clk           |   0.000|
+ram_a<0>    |    5.921(R)|cpu_clk           |   0.000|
+            |   10.295(F)|cpu_clk           |   0.000|
+            |    6.174(R)|vdu_clk           |   0.000|
+ram_a<1>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.560(F)|cpu_clk           |   0.000|
+ram_a<2>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.806(F)|cpu_clk           |   0.000|
+ram_a<3>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.560(F)|cpu_clk           |   0.000|
+ram_a<4>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.560(F)|cpu_clk           |   0.000|
+ram_a<5>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.560(F)|cpu_clk           |   0.000|
+ram_a<6>    |    5.860(R)|cpu_clk           |   0.000|
+            |   10.560(F)|cpu_clk           |   0.000|
+ram_a<7>    |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<8>    |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<9>    |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<10>   |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<11>   |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<12>   |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<13>   |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_a<14>   |    5.860(R)|cpu_clk           |   0.000|
+            |    5.860(F)|cpu_clk           |   0.000|
+ram_cen     |    5.860(R)|cpu_clk           |   0.000|
+            |   12.297(F)|cpu_clk           |   0.000|
+ram_io<0>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<1>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<2>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<3>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<4>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<5>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<6>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<7>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<8>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<9>   |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<10>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<11>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<12>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<13>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<14>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_io<15>  |    7.597(R)|cpu_clk           |   0.000|
+            |   14.034(F)|cpu_clk           |   0.000|
+            |    7.018(R)|vdu_clk           |   0.000|
+ram_oen     |    5.860(R)|cpu_clk           |   0.000|
+            |   12.297(F)|cpu_clk           |   0.000|
+ram_wen     |    5.281(F)|vdu_clk           |   0.000|
+vsync_b     |    4.561(F)|vdu_clk           |   0.000|
+------------+------------+------------------+--------+
+
+Clock to Setup on destination clock utmi_clkout
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+utmi_clkout    |    4.925|    7.006|    5.048|   15.756|
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Sun Jul 29 20:59:40 2007 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 126 MB
+
+
+

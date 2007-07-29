@@ -1,0 +1,5 @@
+INFO:PhysDesignRules:772 - To achieve optimal frequency synthesis performance
+   with the CLKFX and CLKFX180 outputs of the DCM comp
+   my_clock_synthesis/vdu_clk_dcm/my_clock_synthesis/vdu_clk_dcm, consult the
+   device Interactive Data Sheet.
+DRC detected 0 errors and 0 warnings.

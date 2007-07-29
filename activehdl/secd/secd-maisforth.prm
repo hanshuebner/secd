@@ -1,0 +1,17 @@
+PROMGEN: Xilinx Prom Generator J.37
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o H:/fpga/secd/activehdl/secd//secd-maisforth.mcs -u 0 H:/fpga/secd/activehdl/secd/implement/ver1/rev1/secd_fep_trenz.bit -x xcf04s 
+
+PROM H:/fpga/secd/activehdl/secd//secd-maisforth.prm map: Tue Jul 24 10:19:41 2007
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          512K
+PROM start    0000:0000
+PROM end      0007:ffff
+PROM checksum 02439a87
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0006:25f7     Jul 24 10:09:11 2007 H:/fpga/secd/activehdl/secd/implement/ver1/rev1/secd_fep_trenz.bit

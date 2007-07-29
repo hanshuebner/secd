@@ -1,0 +1,853 @@
+<html>
+<head><title>an601extra-gb</title>
+<style>
+ body{font:10pt verdana;margin:10%;color:#300}
+ pre {font:11pt "letter gothic mt",monospace;color:#000}
+ tt  {font:11pt "letter gothic mt",monospace;color:#000}
+ a   {font:11pt "letter gothic mt",monospace;color:#f00;text-decoration:none}
+h2   {font:13pt "letter gothic mt",monospace;font-weight:100;color:#00f;margin-left:3em;margin-top:2em;margin-bottom:0.2em}
+
+ .kop{font-size:14pt;color:#300;text-align:center}
+ td  {font-size:10pt;color:#300;vertical-align:top}
+ span{font:10pt verdana;color:#300}
+
+ .rood{font-size:8pt;color:#300;background-color:#f00;font-weight:600;text-align:center}
+.klein{font-size:8pt;color:#300}
+</style>
+<body bgcolor=#ffff66>
+<div class=klein>20apr2006</div>
+
+   <table align=center cellpadding=4 cellspacing=16><tr>
+   <td class=rood>&nbsp; MaisForth an60x &nbsp;
+  </table>
+
+<div align=center class=klein>Albert Nijhof<br> 12jul2005</div>
+
+<table cellspacing=32 align=center width=100%>
+<tr><td colspan=6 align=center class=kop> EXTRA and ONLY words (non-standard)
+<tr><td>
+<tt><b>EXTRA</b></tt>
+<pre>
+<a href="#bau">!USART</a>
+<a href="#!ve">!VECTOR</a>
+
+<a href="#wor">"</a>
+
+<a href="#!ve">'FIRQ</a>
+<a href="#!ve">'IRQ</a>
+<a href="#!ve">'NMI</a>
+<a href="#!ve">'SWI</a>
+<a href="#!ve">'SWI2</a>
+<a href="#!ve">'SWI3</a>
+
+<a href="#str">+TO</a>
+
+<a href="#msg">.MSG</a>
+<a href="#voc">.VOC</a>
+
+<a href="#xxx">1+!</a>
+<br></pre>
+<td>
+<pre>
+<a href="#bod">>NAME</a>
+<a href="#ok">>OK</a>
+
+<a href="#pai">?BASE</a>
+<a href="#pai">?COMP</a>
+<a href="#}">?EXIT</a>
+<a href="#neg">?DNEGATE</a>
+<a href="#neg">?NEGATE</a>
+<a href="#pai">?PAIR</a>
+<a href="#}">?RE</a><br>
+<a href="#pai">?STACK</a>
+<a href="#xxx">@+</a>
+
+<a href="#wid">ALLWORDS</a>
+<a href="#ane">ANEW</a>
+
+<a href="#pag">BACKSPACE</a>
+<a href="#him">BINARY</a>
+<a href="#xxx">BYTESWAP</a>
+<a href="#bod">BODY></a>
+</pre>
+<td>
+<pre>
+<a href="#xxx">C+!</a>
+<a href="#xxx">CELL</a>
+<a href="#xxx">CELL-</a>
+<a href="#him">COLD</a>
+<a href="#wor">CTRL</a>
+
+<a href="#du.">D.STRING</a>
+<a href="#dot">DIGIT></a>
+<a href="#!ve">DISABLE</a>
+<a href="#dot">DNUMBER?</a>
+<a href="#doe">DOER:</a>
+<a href="#doe">DOERCODE</a>
+<a href="#dot">DOT?</a>
+<a href="#DU*">DU*</a>
+<a href="#du*">DU/MOD</a> 
+<a href="#du.">DU.</a>
+<a href="#du.">DU.R</a>
+<a href="#du.">DU.STRING</a>
+<a href="#xxx">DU2/</a>
+
+<a href="#!ve">ENABLE</a>
+</pre>
+<td>
+<pre>
+<a href="#ane">HIDE</a>
+<a href="#him">HIMEM</a>
+<a href="#pag">HOR</a>
+
+<a href="#str">INCR</a>
+
+<a href="#man">MANY</a>
+<a href="#mse">MSEE</a>
+<a href="#msg">MSG"</a>
+
+<a href="#bod">NAME></a>
+
+<a href="#ok">OK</a>
+
+<a href="#wor">PARSE,</a>
+<a href="#upp">PLACE</a>
+
+<a href="#xxx">RDROP</a>
+<a href="#}">RE</a>
+<a href="#ane">REMOVE</a>
+<a href="#ane">REVEAL</a>
+<a href="#}">RE}</a>
+<a href="#du.">RTYPE</a>
+</pre>
+<td>
+<pre>
+<a href="#upp">S&lt;></a>
+<a href="#ski">SCAN</a>
+<a href="#ski">SKIP</a>
+<a href="#pai">STOP?</a>
+<a href="#str">STRING</a>
+
+<a href="#man">TIMES</a>
+
+<a href="#him">U.S</a>
+<a href="#xxx">UMAX</a>
+<a href="#xxx">UMIN</a>
+<a href="#upp">UPPER</a>
+
+<a href="#var">VARIABLES</a>
+<a href="#pag">VER</a>
+<a href="#voc">VOCABULARY</a>
+
+<a href="#wor">WORD></a>
+<a href="#wor">WORD,</a>
+
+<a href="#}">}&nbsp;</a>
+</pre>
+<td>
+<tt><b>ONLY</b></tt>
+<pre>
+<a href="#hx">BN</a>
+<a href="#hx">DM</a>
+<a href="#hx">HX</a>
+<a href="#wid">FRESH</a>
+<a href="#wid">EXTRA</a>
+<a href="#wid">INSIDE</a>
+</pre>
+</table>
+
+
+<!-- MSEE -->
+<div align=center> </div> <a name="mse"></a>
+
+<h2>    MSEE ( adr -- )
+</h2>
+Decompile starting from<tt> adr </tt>(may be any address).
+
+<pre>
+: SEE ( &lt;name> -- ) ' MSEE ;
+</pre>
+
+
+
+<!-- VOCABULARY .VOC -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="voc"></a>
+
+<h2>    VOCABULARY ( &lt;ccc> -- )
+</h2>
+Create a wordlist with the name<tt> ccc </tt>
+<br> When<tt> ccc </tt>is executed, it replaces the top wordlist in the search order by itself.
+     
+
+<h2>.VOC ( wid -- )
+</h2>
+Display the name that corresponds with<tt> wid </tt>
+<br> If there is no name, display a question mark. Only an even number 0..126 can be a valid<tt> wid</tt>
+
+
+
+<!-- FRESH EXTRA INSIDE ALLWORDS -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="wid"></a>
+
+
+<h2>EXTRA ( -- )
+</h2>
+A vocabulary (wordlist) containing non-standard words for programmers.
+
+<h2>INSIDE ( -- )
+</h2>
+A vocabulary with non-standard auxiliary words for Forth itself. Programmers should not need them.
+
+<h2>FRESH ( -- )
+</h2>
+    Make <tt> FORTH FORTH EXTRA ONLY </tt>the search order.
+<br>Forth starts up with<tt> FRESH DEFINITIONS</tt>
+
+<h2>ALLWORDS ( -- )
+</h2>
+Display all words in all wordlists.
+
+<h2>ONLY ( -- )
+</h2>
+A special vocabulary that, when executed, sets the search order to<tt> ONLY ONLY </tt>
+<br>It contains the following words:
+
+<pre>
+ [AHEAD]  [IF]  [ELSE]  [THEN]  BN  DM  HX  WORDS  FRESH  ORDER 
+ SET-CURRENT  GET-CURRENT  DEFINITIONS  PREVIOUS  ALSO  ASSEMBLER 
+ EXTRA  INSIDE  FORTH
+</pre>
+
+
+<!-- HX DM BN -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="hx"></a>
+
+<h2>  HX ( &lt;ccc> -- )
+</h2>
+Handle the next number or word in the input stream.
+<br> During this process <tt> BASE </tt>is temporarily set to 16.
+
+<h2>DM ( &lt;ccc> -- )
+</h2>
+<tt> BASE </tt>is temporarily 10.
+
+<h2>BN ( &lt;ccc> -- )
+</h2>
+<tt> BASE </tt>is temporarily 2.
+
+<p>Examples:
+
+<ul>
+<li>Before numbers
+<pre>
+DECIMAL [rtn] <u>OK</u>
+HX 10 . [rtn] <u>16  OK</u>
+BN 10 . [rtn] <u>2  OK</u>
+: TEN HX A . ; TEN [rtn] <u>10  OK</u>
+</PRE>
+
+This works both executing and compiling.
+
+<p>
+<li>Before Forth words
+<p><tt>HX DM and BN </tt>are also useful before words that display numbers.
+
+<pre>
+DECIMAL 10 20 [rtn] <u>OK</u>
+.S [rtn] <u>( 10 20 )  OK</u>
+HX .S [rtn] <u>( A 14 )  OK</u>
+BN .S [rtn] <u>( 1010 10100 )  OK</u>
+HX . BN . [rtn] <u>14 1010  ok</u>
+</pre>
+
+This works only executing.
+<br><tt> HX DM en BN </tt>have no effects before words that are compiled.
+</ul>
+
+
+<!-- ANEW REMOVE REVEAL HIDE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ane"></a>
+
+<h2>    ANEW ( &lt;ccc> -- )
+</h2>
+Create a marker with the name<tt> ccc </tt>
+<br> If<tt> ccc </tt>already exists, execute it and then create the new marker<tt> ccc</tt>
+
+<h2>REMOVE ( -- )
+</h2>
+Erase the newest definition if "unfindable" and display its name.
+<br> Nothing happens when the newest definition can be found.
+
+<h2>REVEAL ( -- )
+</h2>
+Make the newest definition "findable".
+
+<h2>HIDE   ( -- )
+</h2>
+Make the newest definition "unfindable".
+
+
+
+<!-- MSG" .MSG -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="msg"></a>
+
+<h2>    MSG" ( msg# &lt;ccc"> -- )
+</h2>
+ Define a<tt> THROW</tt> message.
+
+<h2>.MSG     ( msg# -- )
+</h2>
+Display the message corresponding with<tt> msg#</tt>
+
+
+<p> Ex.:
+
+<pre>
+-100 MSG" tsssss" [rtn] <u>OK</u>
+-100 .MSG [rtn] <u>tsssss (Message # -100)  OK</u>
+-100 THROW [rtn]
+<u>THROW  tsssss (Message # -100) </u>
+</pre>
+
+
+
+<!-- ?COMP ?STACK ?PAIR STOP? -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="pai"></a>
+
+<h2>: ?COMP ( -- ) STATE @ ?EXIT -14 THROW ;
+<br>: ?PAIR ( x y -- ) = ?EXIT -22 THROW ;
+</h2>
+
+<h2>?STACK    ( -- )
+</h2>
+Test for Data Stack Overflow and Underflow.
+
+<h2>?BASE ( -- )
+</h2>
+Execute<tt> DECIMAL </tt>when<tt> BASE </tt>is not in [2..72].
+
+<h2>STOP? ( -- flag )
+</h2>
+Test for pressed key:
+
+<pre>
+<b>key</b>             <b>effect</b>           <b>flag</b>
+
+no key          -                 false
+
+[space]         wait 
+    <span>and then</span>
+[space]         continue          false
+
+[esc]           -28 THROW         -
+anything else   continue          true
+</pre>
+
+<!-- RE ?RE RE} ?EXIT }  -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="}"></a>
+
+<h2>    ?EXIT
+</h2>
+Short for<tt> IF EXIT THEN </tt>
+
+<h2>}
+</h2>
+Short for<tt> EXIT THEN</tt>
+
+<h2>RE
+</h2>
+<tt> RE </tt>compiles a jump back to the beginning of the current definition. Compile time it does not interfere with controle structures. From within a do-loop of course an<tt> UNLOOP </TT>is needed.
+
+<h2>?RE
+</h2>
+ Short for<tt> IF RE THEN </TT>
+
+<h2>RE}
+</h2>
+Short for<tt> RE THEN </tt>
+
+<p><tt> RE ?RE </tt>and<tt> RE} </tt>can be used only within colon definitions (not in<tt> :NONAME</tt> definitions or in Does-code).  
+<p><tt> RE </tt>is nice in loops with multiple conditions, whether nested or not, when you want to be able
+<br> 1) to repeat the loop or
+<br> 2) to leave the word.
+<br>Using<tt> RE </tt>and<tt> EXIT </tt>in such cases, you get rid of the paired conditionals gymnastics needed for nested constructions with <tt> UNTIL</TT>s, <tt> WHILE</tt>s and<tt> REPEAT</tt>s. Just as<tt> LEAVE </tt>the words <tt> EXIT </tt>en<tt> RE </tt>do not interfere with compile time control structures.
+
+
+
+<!-- DISABLE ENABLE !VECTOR -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="!ve"></a>
+
+<h2>   'NMI  'SWI  'IRQ  'FIRQ  'SWI2  'SWI3 ( -- adr )
+</h2>
+6809 interrupt vectors
+
+
+<h2>DISABLE ( 'vector -- )
+</h2>
+Ex.:<tt> 'SWI3 DISABLE</tt>
+
+<h2>!VECTOR ( adr 'vector -- )
+</h2>
+Vb:<tt> 47AE 'SWI3 !VECTOR</tt>
+
+<h2>ENABLE ( 'vector -- )
+</h2>
+Vb:<tt> 'SWI3 ENABLE</tt>
+
+
+
+<!-- BAUDRATE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="bau"></a>
+
+<h2>    !USART ( baudfactor -- )
+</h2>
+Using the "baudfactor", set the Baud Rate for communication.
+
+<br> &nbsp;
+
+<table width=100%><tr>
+<td><pre>
+<b>baudfactor  Baud rate
+HX/DM</b>
+
+7F/127      19200 (default)  
+7E/126       9600  
+7D/125       7200  
+7C/124       4800  
+7B/123       3600  
+7A/122       2400  
+79/121       2000  
+78/120       1800  
+</pre>
+<td><pre>
+<b>baudfactor  Baud rate 
+HX/DM</b>
+
+77/119       1200  
+76/118        600  
+75/117        300  
+74/116        150  
+73/115        134.5  
+72/114        110  
+71/113         75  
+70/112         50  
+</pre>
+</table>
+
+<!-- DOER: DOERCODE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="doe"></a>
+
+<h2>    DOER: ( &lt;ccc> -- )
+</h2>
+<tt>DOER: ccc ... ; </tt>
+<br>is short for
+<br><tt> : ccc DOES> ... ;</tt>
+
+<h2>DOERCODE ( &lt;ccc> -- )
+</h2><tt> DOERCODE ccc ... END-CODE </tt>
+<br>is short for
+<br><tt> : ccc ;CODE ... END-CODE</tt>
+
+<p>Ex.:
+
+<pre>
+DOER: DOKON  @ ;
+: KONSTANT   CREATE , DOKON ;
+<span>or</span>
+: KONSTANT   CREATE DOKON , ;
+</pre>
+
+
+
+
+
+<!-- HOR VER -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="pag"></a>
+
+<h2>    HOR ( -- q )
+</h2>
+<tt> q </tt>is the horizontal output position (column#).
+
+<h2>VER ( -- q )
+</h2>
+<tt> q </tt>is the vertical output position (row#).
+
+<h2>BACKSPACE ( -- )
+</h2>
+Do a backspace when<tt> HOR </tt>is not zero.
+
+<p><TT> HOR </TT>and<TT> VER </TT>are zero after<TT> PAGE</TT>
+<br><TT>CR </tt>makes<tt> HOR </tt>zero and adds 1 to<tt> VER </tt>
+
+
+
+
+<!-- STRING TO +TO INCR -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="str"></a>
+
+<table width=100%><tr>
+<td><h2>
+
+    VALUE ( x &lt;ccc> -- )
+<br>TO  ( x &lt;ccc> -- )
+<br>+TO  ( y &lt;ccc> -- )
+<br>INCR  ( &lt;ccc> -- )
+</h2>
+
+<td width=5%>
+
+<td><h2>
+    STRING ( maxlen &lt;ccc> -- )
+<br>TO  ( a1 n &lt;name> -- )
+<br>+TO  ( a2 n &lt;ccc> -- )
+<br>INCR  ( char &lt;ccc> -- )
+</h2>
+<tr>
+<td>
+<p>Ex.:
+
+<pre>
+10 VALUE N N . [rtn] <u>10  OK</u>
+7     TO N N . [rtn] <u>7  OK</u>
+8    +TO N N . [rtn] <u>15  OK</u>
+    INCR N N . [rtn] <u>16  OK</u>
+N    +TO N N . [rtn] <u>32  OK</u>
+N 2/  TO N N . [rtn] <u>16  OK</u>
+</PRE>
+
+<td width=5%>
+
+<td>
+<p>Ex.:
+
+<pre>
+12   STRING NN NN TYPE [rtn] <u>OK</u>
+S" Mad"  TO NN NN TYPE [rtn] <u>Mad OK</u>
+S" rid" +TO NN NN TYPE [rtn] <u>Madrid OK</u>
+CHAR - INCR NN NN TYPE [rtn] <u>Madrid- OK</u>
+NN      +TO NN NN TYPE [rtn] <u>Madrid-Madri OK</u>
+NN 2/    TO NN NN TYPE [rtn] <u>Madrid OK</u>
+</PRE>
+</table>
+
+
+<!-- PARSE, WORD, WORD> -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="wor"></a>
+
+<h2>    " ( &lt;ccc"> -- adr len | -- )
+</h2>
+The same as<tt> S"</tt>
+<br>Compiling: compile the string.
+<br>Executing: put the string (<tt>adr,len</tt>) on the stack.
+
+<h2>PARSE, ( ch &lt;ccc> -- )
+</h2>
+Parse a string with delimiter<tt> ch </tt>and put the result in the dictionary as a counted string.
+<h2>WORD, ( ch &lt;ccc> -- )
+</h2>
+Execute<tt> ch WORD </tt>and put the result in the dictionary as a counted string.
+
+<h2>WORD> ( ch &lt;ccc> -- adr )
+</h2>
+Execute<tt> ch WORD </tt>
+<br> Do a<tt> REFILL </tt>when the result is the nullstring, and try again.
+<br><tt> -16 THROW </tt>is executed when<tt> REFILL </tt>does not succeed.
+
+<h2>CTRL ( &lt;ccc> -- q | -- )
+</h2>
+<tt> AND </tt>the first character of<tt> ccc </tt>with<tt> HX 1F</tt> and
+<br>(executing:) put the result on the stack;
+<br>(compiling:) compile the result as a literal.
+
+
+<!-- DOT? -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="dot"></a>
+
+<h2>      DIGIT> ( char -- x true | char false )
+</h2>
+Convert a digit (character) into its value if possible. A false flag means: result not valid.<tt> BASE </tt>is implicitly used.
+
+<h2>  DNUMBER? ( adr len -- xlo xhi true | ? ? false )
+</h2>
+Convert the string<tt> adr len </tt>into a double number using<tt> BASE </tt>
+<br> A false flag means: result not valid. A minus sign is accepted only as the first character of the string. One dot is accepted in any position, see<tt> DOT?</tt>
+
+<h2>DOT? ( -- q )
+</h2>
+After execution of<tt> DNUMBER? </tt>the position of a dot is in the value<tt> DOT? </tt>
+
+<p> Ex.:
+
+<pre>
+<b>string</b>    <b>DOT?</b>
+
+1234      0        (no dot)
+1234.     1
+123.4     2
+.1234     5
+</pre>
+
+
+
+<!-- OK .OK -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ok"></a>
+
+<h2>    OK ( -- q )
+</h2>
+<tt> q </tt>contains the prompt properties.
+
+<h2>>OK ( q -- )
+</h2>
+Set<tt> OK </tt> to<tt> q </tt>
+
+<p>For<tt> q=0 </tt>there is only a<tt> CR</tt>
+<br>When bit<tt> n </tt>in<tt> q </tt>is set:
+
+<br>&nbsp;
+    <table cellpadding=0 cellspacing=0>
+    <tr><td><tt>bit 0:</tt> <td>Display<tt> OK </tt>(executing) or<tt> ok </tt>(compiling), followed by a<tt> CR</tt>
+    <tr><td><tt>bit 1:</tt> <td>Execute<tt> .S </tt>after<tt> CR</tt>
+    <tr><td><tt>bit 2:</tt> <td>If bit 1 is not set: execute<tt> U.S </tt>after<tt> CR <tt>
+    <tr><td><tt>bit 3:</tt> <td>Display<tt> BASE </tt>(if not ten)
+    <tr><td nowrap><tt>bit 4..7: &nbsp; </tt> <td> not used
+    </table>
+
+
+
+
+<!-- ?NEGATE ?DNEGATE -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="neg"></a>
+
+<h2> : ?NEGATE ( x y -- x2 ) 0&lt; IF NEGATE THEN  ;
+</h2>
+
+<h2> : ?DNEGATE ( dx y -- dx2 ) 0&lt; IF DNEGATE THEN ;
+</h2>
+
+
+
+<!-- VARIABLES -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="var"></a>
+
+<h2>    VARIABLES ( n -- )
+</h2>
+<pre>
+: VARIABLES
+  CREATE CELLS ALLOT
+  DOES> ( index -- adr ) SWAP CELLS + ;
+
+<span>Ex.:</span>
+3 VARIABLES Z ( index -- adr )
+111 0 Z !
+555 2 Z !              \ <span>Index must be &lt;3</span>
+0 Z @ . [rtn] <u>111  OK</u>
+</pre>
+
+
+
+<!-- DU* DU/MOD -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="du*"></a>
+
+<h2>    DU* ( ud1 u2 -- ud3 )
+</h2> 32bit * 16bit >> prod=32bit
+<h2>    DU/MOD ( ud1 u2 -- u3 ud4 )
+</h2> 32bit / 16bit >> rem=16bit, quot=32bit
+
+
+
+<!-- BODY> >NAME NAME> -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="bod"></a>
+
+<h2>   : BODY> ( body -- xt ) 3 - ;
+</h2>
+
+<h2>    >NAME ( xt -- nfa )
+<br>    NAME> ( nfa -- xt )
+</h2>
+<p>In MaisForth<tt> xt = cfa </tt>
+
+
+
+<!-- SKIP SCAN -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="ski"></a>
+
+<h2>    SCAN ( adr len ch -- adr2 len2 )
+</h2>
+Ex.:
+
+<pre>
+S" AAABC" CHAR B SCAN TYPE [rtn] <u>BC OK</u>
+S" AAABC" CHAR F SCAN TYPE [rtn] <u>OK</u>
+</pre>
+
+
+<h2>SKIP ( adr len ch -- adr2 len2 )
+</h2>
+Ex.:
+<pre>
+S" AAABC" CHAR A SKIP TYPE [rtn] <u>BC OK</u>
+S" AAABC" CHAR B SKIP TYPE [rtn] <u>AAABC OK</u>
+</pre>
+
+
+
+
+<!-- MANY TIMES -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="man"></a>
+
+<h2>    MANY  ( -- )
+</h2>
+Interpret the text before<tt> MANY </tt>(on this line) again and again. Continue after<tt> MANY </tt>when a key is pressed.
+
+<p> Ex.:
+<pre>
+0 [rtn] <u>OK</u>
+1+ DUP . MANY 0 . [rtn] <u>1 2 3 4 5 6 ...</u>
+</pre>
+
+<h2>    TIMES ( q -- )
+</h2>
+Interpret<tt> q </tt>times the text before<tt> TIMES </tt>(on this line) and then continue after<tt> TIMES</tt>
+
+<p>Ex.:
+<pre>
+0 [rtn] <u>OK</u>
+1+ DUP . 5 TIMES 0 . [rtn] <u>1 2 3 4 5 0  OK</u>
+</pre>
+
+
+<!-- DU. DU.R RTYPE D.STRING DU.STRING -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="du."></a>
+
+<h2>    DU. ( xlo xhi -- )
+<br>    DU.R ( xlo xhi r -- )
+</h2>
+<h2>    D.STRING ( xlo xhi -- adr len )
+</h2>
+Convert the signed double number<tt> xlo xhi </tt>into a string.
+
+<h2>DU.STRING ( xlo xhi -- adr len )
+</h2>
+Convert the unsigned double number<tt> xlo xhi </tt>into a string.
+
+<p>Lifetime of the result of<tt> D.STRING </tt>or<tt> DU.STRING </tt>is short, it wil be overwritten in the next conversion.
+
+<h2>RTYPE ( adr len r -- )
+</h2>
+Display the string<tt> (adr,len) </tt>right aligned in a field of<tt> r </tt>positions.
+
+<pre>
+: D.   ( d -- )    D.STRING  TYPE SPACE ;
+: .R   ( n r -- )  >R S>D D.STRING  R> RTYPE ;
+</pre>
+
+
+
+
+
+<!-- UPPER S&lt; PLACE > -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="upp"></a>
+
+<h2>    UPPER ( adr len -- )
+</h2>
+Convert lowercast characters of the string into uppercast.
+
+<h2>PLACE ( adr len dest -- )
+</h2>
+Put the string<tt> (adr,len) </tt>as a counted string in<tt> dest</tt>
+
+<h2>S&lt;> ( adr1 adr2 len -- q )
+</h2>
+Compare string1<tt> (adr1,len) </tt>to string2<tt> (adr2,len)</tt>
+
+<pre>
+string1 = string2:    q =  0
+string1 < string2:    q = -1
+string2 < string1:    q =  1
+</pre>
+
+<!-- CELL  1+! C+! >&lt; -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="xxx"></a>
+
+<h2>RDROP  ( -- )
+</h2>
+Short for</span><tt> R> DROP </tt>
+
+<h2>2RDROP  ( -- )
+</h2>Short for</span><tt> RDROP RDROP</tt>
+
+<h2>    UMAX ( u1 u2 -- u )
+<br>    UMIN ( u1 u2 -- u )
+</h2>
+
+<h2>CELL ( -- 2 )
+<br>CELL- ( x -- x-2 )
+</h2>
+<h2>
+: 1+! ( a -- ) 1 SWAP +! ;
+<br>: C+! ( x a -- ) TUCK C@ + SWAP C! ;</h2>
+</h2>
+
+<h2>@+ ( adr -- adr+cell x )
+</h2>
+The 16 bit variant of<tt> COUNT</tt>
+
+<h2>: DU2/ ( du1 -- du2 ) D2/ HX 7FFF AND ;
+</h2>
+Double number logical shift right.
+
+
+<h2>BYTESWAP ( xy -- yx )
+</h2>
+Swap low and high byte of a 16 bit pattern.
+
+<p>Ex.:
+<pre>
+HEX 1234 BYTESWAP . [rtn] <u>3412  OK</u>
+</pre>
+
+<!-- HIMEM -->
+<div align=center><a href="#top">top<br>^</a></div> <a name="him"></a>
+
+<h2>    HIMEM ( -- q )
+</h2>
+<tt> q </tt>is the amount of RAM, or: the lowest non existing RAM address.
+
+<h2>   COLD ( ? -- )
+</h2>
+Do a cold start.
+
+<h2> U.S ( -- )
+</h2>A<tt> .S </tt>variant that displays unsigned numbers.
+
+<h2>   : BINARY ( -- ) 2 BASE ! ;
+</h2>
+
+
+<div align=center><a href="#top">top<br>^</a></div>
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body></html>

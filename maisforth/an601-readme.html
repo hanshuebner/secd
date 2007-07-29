@@ -1,0 +1,325 @@
+<html><head><title>an601-readme</title>
+<style>
+body{font:10pt verdana;margin-left:5%;margin-right:10%;background-color:#ffc;color:#000}
+a {color:#f00;text-decoration:none}
+ol li{font-size:10pt;margin-bottom:3em;margin-top:3em}
+td{font-size:10pt}
+ul {list-style:disc}
+ul li{font-size:10pt;margin-bottom:0em;margin-top:0em}
+h5{font-size:12pt;font-weight:400;text-align:center;margin:1.5em;color:#224}
+pre,tt {font:11pt "letter gothic MT",monospace;font-weight:600;color:#00f}
+h6{font:8pt "letter gothic MT",monospace;color:#224}
+.box{border:1px solid #888}
+</style></head>
+<body>
+
+<h6>
+20apr2006
+</h6>
+
+<h5>MaisForth an601 -- Albert Nijhof
+<br>july 2005
+<br>(HCC Forth-gg)
+</h5>
+<ol>
+
+<li>Background
+
+<p>MaisForth started from CamelForth (Bradford J. Rodriguez, 1995), but that's hardly visible now.
+<br>The metacompiler is completely new and has nothing in common with the CamelForth metacompiler.
+<br>Assembler notation has been altered and the target code is drastically changed. In fact the only things left from CamelForth are:
+<br>- the registerchoice for the Forth machine (direct threaded code);
+<br>- some of the larger primitives, as<tt> MOVE  UM*  UM/MOD </tt>and a few others. In the target file those words are marked with 'BJR'.
+
+
+<li>Email
+
+<p>MaisForth an601 may still have bugs. Please contact us when you have questions or remarks about MaisForth. Click <a href="http://www.forth.hccnet.nl/mail-gb.htm" target="_blank"> here </a> and then click on "Mail us".
+
+
+<li>Files
+
+<p><table cellspacing=0 cellpadding=0>
+<tr><td><tt>an601-readme.html</tt>               <td>This file
+<tr><td><tt>an601-leesmij.html</tt>              <td>idem, Dutch version
+<tr><td>&nbsp;
+<tr><td nowrap><tt>an601extra-nl.html &nbsp;</tt><td>Information about non-standard words
+<tr><td nowrap><tt>an601extra-gb.html &nbsp;</tt><td>idem, Dutch version
+<tr><td>&nbsp;
+<tr><td><tt>an601assembler.html</tt>             <td>About 6809 assembler notation
+<tr><td><tt>an601color.html</tt>                   <td>Didactically colored  target code
+<tr><td><tt>an601.bin</tt>                       <td>MaisForth an601 ROM image (<tt>C000-FFFF</tt>)
+<tr><td>&nbsp;
+<tr><td><tt>meta601.f</tt>                       <td>Metacompiler code
+<tr><td><tt>cras601.f</tt>                       <td>Cross assembler code (part of metacompiler)
+<tr><td><tt>targ601.f</tt>                       <td>Target code
+</table>
+
+
+<li>Hardware
+
+<p>MaisForth an601 is a 6809 Forth for "maiskastje". The words that use this special hardware are:
+
+<pre>
+   KEY? ( -- flag )
+   KEY ( -- char )
+   EMIT? ( -- flag )
+   EMIT ( char -- )
+   !USART ( baudfactor -- )
+</pre>
+
+
+<li>MaisForth an601
+
+<p>See file<tt> an601extra-gb.html </tt>for information about non-standard MaisForth words in this text.
+
+<p>MaisForth an601 <b>starts up with:</b>
+
+<p><ul>
+<li> Baud rate 19200 (see<tt> !USART</tt>). While the terminal is sending a file to MaisForth, there should be a <b>pause of about 10 ms</b> at the end of each line to make sure that MaisForth is ready to receive the next line.
+<li><tt> DECIMAL</tt>
+<li><tt> FRESH </tt>(see<tt> FRESH</tt>)
+<li><tt> 5 >OK </tt>(see<tt> >OK</tt>)
+<li><tt> HERE = HX 300 </tt>
+</ul>
+
+<p><b>Internal workspace</b> in MaisForth (<tt>HX 000-2FF</tt>)
+
+<p> <tt>000-07F </tt>Dictionary threads, Users, Find Stack
+<br><tt>080-0FF </tt>Terminal Input Buffer
+<br><tt>100-17F </tt>Data Stack, descending
+<br><tt>180-1FF </tt>Return Stack, descending
+<br><tt>200-27F </tt>Circular Buffer for temporary storage
+<br><tt>280-2FF </tt>Compiler Stack, descending
+
+<p> At cold start a test is done to determine the available RAM (see<tt> HIMEM</tt>). The result is displayed.
+
+
+<li>Standard / non-standard words (ANS)
+
+<p>Vocabularies in MaisForth:<tt> FORTH ONLY EXTRA INSIDE ASSEMBLER </tt>
+
+<p>The <b>standard words</b> in<tt> FORTH </tt>and<tt> ONLY </tt>are supposed to be known.
+
+<p>The circa 80 <b>non-standard words</b> in the<tt> EXTRA </tt>and<tt> ONLY </tt>vocabularies are described in file<tt> an601extra-gb.html </tt>
+
+<p>The <b>internal auxiliary</b> words in<tt> INSIDE </tt>are less important for the average programmer. You may study their definitions in the target code if you want to know what they do.
+
+
+<li>Recompiling MaisForth after you altered the target
+
+<p>The metacompiler is supposed to work in a standard 32 bit Forth. (e.g. Win32forth).
+
+<p><ul>
+<li> Put these three files in a directory:<tt> &nbsp; meta601.f &nbsp; cras601.f &nbsp; targ601.f </tt>
+<li> Create a file with the name<tt> an601.bin </tt>in that directory.
+<li> Execute the word<tt> -META </tt>(erase possible remainders of a previously loaded metacompiler).
+<li> Load file<tt> meta601.f </tt>
+<li> Execute the word<tt> ROMIMAGE </tt>
+</ul>
+
+<p><tt>an601.bin </tt>should now contain the new MaisForth ROM image (<tt>HX C000-FFFF</tt>).
+
+<!--
+<p>If you wish another location for the image, for example HX 6000-9FFF, you have to alter the ROMIMAGE definition (in file<tt> meta601.f</tt>):
+
+<p><ul>
+<li><tt> C000 TO ORIGIN-TARGA </tt>becomes<tt> 6000 TO ORIGIN-TARGA </tt>
+<li>put a backslash before the textline:<tt> ORIGINHOSTA 10 - HERE 10 - 10 MOVE </tt>
+<br>(the interrupt vectors only make sense at<tt> HX FFF0-FFFF</tt>).
+</ul>
+-->
+
+<li>Decompiling with<tt> SEE </tt>
+
+<p>This is what<tt> SEE </tt>does:
+<br>It walks through memory and looks for addresses where a (16 bit) Forth word is compiled. If found, its name is displayed.
+
+<p>For example, if in both the addresses<tt> D08E </tt>and<tt> D08F </tt>a Forth word seems to be compiled,<tt> SEE </tt>displays both of them. Of course this is impossible and at least one of them must be a random hit. The reader has to decide which one must be ignored. A different indentation of names found at even and odd locations may be of help.
+
+
+<pre>
+   see accept 
+   D089: BD   C0   BDC0.   --  ACCEPT  --  doer DO:  --  FORTH Word
+   D08A: C0   FF   C0FF  
+   D08B: FF   C8   FFC8. 
+   D08C: C8    8   C808      SWAP
+   D08E: C5   D4   C5D4      FALSE
+   D08F: D4   D0   D4D0.         COMPILE,
+   D090: D0   23 # D023      ACCEPTING
+   D092: C0   7E ~ C07E      EXIT
+</pre>
+
+<p>Define a few little words and try<tt> SEE </tt>on them, that's probably the fastest way to an understanding of the<tt> SEE </tt>output.
+
+<p> &lt;>
+
+<p> Words with a name ending in<tt> () </tt>,<tt> (C) </tt>or<tt> (S) </tt>need an <b>inline argument</b>:
+
+<p><table>
+<tr><td> &nbsp;<td>inline &nbsp; &nbsp;<td>examples
+<tr><td class=box><tt> ..() </tt><td class=box>cell<td class=box><tt> IF() GOTO() COMPILE() () &nbsp; &nbsp;</tt>
+<tr><td class=box><tt> ..(C) </tt><td class=box>byte<td class=box><tt> (C) </tt>
+<tr><td class=box><tt> ..(S) &nbsp;</tt><td class=box>counted string &nbsp;<td class=box><tt> ."(S) "(S) ABORT"(S)</tt>
+</table>
+
+<p>This knowledge will help you because<tt> SEE </tt>only displays <b>what</b> is found in memory, not <b>how</b> it got there.
+
+<p> Examples:
+<br> The number<tt> 1000 </tt>will be compiled as<tt> () </tt>followed by a cell containing<tt> 1000</tt>
+<br> The number<tt> 1 </tt>will be compiled as<tt> (C) </tt>followed by a byte containing<tt> 1 </tt>
+<br><tt> ." Hallo!" </tt>compiles<tt> ."(S) </tt>and then the counted string<tt> "Hallo!" </tt>
+<br><tt> AHEAD </tt>compiles<tt> GOTO() </tt>and then the 16 bit destination address.
+<br> etc.
+
+<p> &lt;>
+
+<p><tt> TO() </tt>,<tt> +TO() </tt>and<tt> INCR() </tt>are followed by the data address of a normal value or an indirect ROM value.
+
+<p>Example:
+
+<pre>
+   see allot 
+   CCE2: BD   C0   BDC0    --  ALLOT  --  doer DO:  --  FORTH Word
+   CCE3: C0   FF   C0FF. 
+   CCE4: FF   C2   FFC2  
+   CCE5: C2   E4   C2E4.         +TO()
+   CCE7:  0   49 I   49. 
+   CCE8: 49 I C0   49C0  
+   CCE9: C0   7E ~ C07E.         EXIT
+</pre>
+
+<tt>0049 </tt>is the data location (RAM) of<tt> HERE</tt>
+
+
+<p>RAM addresses of all indirect ROM values:
+
+<p>
+<table><tr>
+<td><pre>
+   0023 TOPVOC 
+   002B HLD    
+   0033 MODE   
+   003B IB     
+   0043 HIMEM  
+</pre>
+<td><pre>
+   0025 TOPMSG  
+   002D CONTEXT 
+   0035 SECTION 
+   003D THERE   
+   0045 OK      
+</pre>
+<td><pre>
+   0027 TOPPFX 
+   002F CS#    
+   0037 #TIMES 
+   003F HOR    
+   0047 DOT?   
+</pre>
+<td><pre>
+   0029 TOPNFA 
+   0031 MSG#-2 
+   0039 #IB    
+   0041 VER    
+   0049 HERE   
+</pre>
+</table>
+
+
+For the Forth programmer these ROM values are constants. The system may alter them, the programmer can do that only implicitly.
+
+
+<li> The metacompiler
+
+<p> When metacompiling starts, the metacompiler <b>is complete</b>, nothing will be added to it. This is the reason why, while generating the target image, the normal<tt> HERE </tt>of the host Forth can be used. The target image starts at the first address ending in<tt> 000 </tt>(hex).
+
+<p>The metacompiler code in file<tt> meta601.f </tt>is not (yet) very well documented. A few hints:
+
+<p>Text between<tt> &lt;---- </tt>and<tt> ----> </tt>is skipped by Forth.
+
+<p> &lt;>
+
+<p> Metacompiling is started with the word<tt> :::MAIS::: </tt>
+<br> It has its own QUERY-INTERPRET loop.
+<br> Metacompiling ends with<tt> ;;;MAIS;;; </tt>or when an error occurs.
+
+<p> For better understanding, study the word<tt> METACOMPILING </tt>
+<br> It does the real work in<tt> :::MAIS::: </tt>
+
+<p> &lt;>
+
+<p>Target code
+
+<p> Put<tt> TRACE </tt>and<tt> NOTRACE </tt>around a piece of code in file<tt>targ601.f </tt>and you will see the details of what<tt> METACOMPILING </tt>does. Press space for wait/continue.
+
+<p> &lt;>
+
+<p>See file<tt> an601color.html </tt>for colored target code.
+
+<p> A <b>red</b> word in the target code is found in the <tt> META </tt>vocabulary. It will be <b>executed</b> during metacompilation. See<tt> META-WORDS: </tt>followed by a list of these words, in the last part of file<tt> meta601.f </tt>
+
+<p> A <b>blue</b> word in the target code will be <b>compiled</b> during metacompilation. It will be looked up (run time) in the target image as far as it is built up at that moment. An error occurs if it is not found.
+
+<p> &lt;>
+
+<p> The metacompiler does not handle forward references, so the target code must be in the natural Forth order.
+
+<br> This may seem to be a problem, but see how this problem is solved:
+
+<p>The DOES part of a defining word is defined independently from the CREATE part (e.g. <tt>DOCREATE DOVAR DO: DOCON </tt>etc.).
+<pre>
+   DOER: ccc1      <small>&lt;high level Forth code></small>  ;
+   DOERCODE ccc2   <small>&lt;assembler code></small>         NEXT END-CODE
+</pre>
+
+are functionally equal to
+
+<pre>
+   : ccc1 DOES>    <small>&lt;high level Forth code></small>  ;
+   : ccc2 ;CODE    <small>&lt;assembler code></small>         NEXT END-CODE
+</pre>
+
+<p><ul><li> Example with<tt> MET-DOER </tt>in<tt> CREATE </tt>&nbsp; (Dutch MET = English WITH)
+<p>In<tt> xCREATE </tt>"DOCREATE" is compiled <b>as a string</b>.
+ <pre>
+   \ in metacompiler:
+   : xCREATE   ( <naam> -- )   xHEADER MET-DOER DOCREATE ;
+
+   \ in target:
+   DOERCODE DOCREATE REG X PULS  REG D PSHS  X D TFR NEXT END-CODE
+</pre>
+
+
+<p>During metacompilation, when<tt> xCREATE </tt>is executed, it searches the address of<tt> DOCREATE </tt>and puts it in the CFA. 
+
+<p><li> Similar is the action of<tt> KOMPILE </tt>
+<br>In<tt> xAHEAD </tt>"GOTO()" is compiled as a string.
+<pre>
+   \ in metacompiler:
+   : xAHEAD ( -- AHEADa 11 ) KOMPILE GOTO() HERE 0 x, HX 11 ;
+</pre>
+
+During metacompilation, when<tt> xAHEAD </tt>is executed, it looks up the address of<tt> GOTO() </tt>and compiles it.
+
+</ul>
+
+<p>With these late bindings we can easily avoid forward references.
+
+<p> &lt;>
+
+<p> <b>x-words</b>
+
+<p> Some words in the metacompiler are prefixed with an "x" (<tt>x: x; xIF </tt>etc.). Later on they are redefined in the<tt> META </tt>vocabulary without that "x". This seems to be some extra work, but definitely makes it easier for the human reader to seize the meaning of metacompiler code.
+<br>Thus immediate words may appear in four variants, e.g. the semicolon:
+
+<p><ul>
+<li>as <tt> ; </tt>in the host Forth.
+<li>as <tt> x; </tt>in de metacompiler (harmless, no conflicts while defining metacompiler words).
+<li><tt> ; </tt>as a redefinition of<tt> x; </tt>in the<tt> META </tt>vocabulary. This<tt> ; </tt>is <b>active during metacompilation</b> and closes colon definitions of target words. (red)
+<li> <tt> ; </tt>as a MaisForth definition. It never will be executed during metacompilation! (green)
+</ul>
+
+<p>(an)
+
+</body></html>

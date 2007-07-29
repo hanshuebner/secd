@@ -1,12 +1,3 @@
-TESTBENCH_FOR_control_unit CONFIGURATION
-control_unit_tb ENTITY
-TESTBENCH_FOR_clock_gen CONFIGURATION
-clock_gen_tb ENTITY
-TESTBENCH_FOR_secd_ram_controller CONFIGURATION
-secd_ram_controller_tb ENTITY
+secd_system ENTITY
 TESTBENCH_FOR_secd_fep_trenz CONFIGURATION
 secd_fep_trenz_tb ENTITY
-TESTBENCH_FOR_clock_synthesis CONFIGURATION
-clock_synthesis_tb ENTITY
-TESTBENCH_FOR_rxunit CONFIGURATION
-rxunit_wb ENTITY

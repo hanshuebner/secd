@@ -1,0 +1,2286 @@
+<head><title>color601</title>
+<style type="text/css">
+body{font-family:Monospace;color:#2c2;font-size:14pt }
+pre{font-family:Monospace;color:#2c2;font-size:14pt }
+b{color:#f44;font-weight:500}
+.y{color:#28f}
+.z{color:#aaa}
+.wit{color:#fff;}
+.box{border:1px solid #fff}
+</style>
+</head>
+<body bgcolor=#000000>
+
+<pre class=wit>
+\ 07dec2005
+
+\ MAIS AN601 TARGET CODE -- Albert Nijhof -- 06jun2005
+&lt;----
+</pre>
+<table><tr><td valign=top><pre>
+  <b class=wit>:::MAIS::: <br>(the metacompiler) </b></pre>
+<td class=box cellpadding=16><pre>
+    &nbsp;
+    <b>executes the red words and</b>
+    <b class=y>compiles the blue words.</b>
+    <b class=z>Numbers are grey-white.</b>
+    Green text is handled by
+    the preceding <b>red </b>word.
+</pre>
+<tr><td>&nbsp;
+<tr><td cellpadding=16 valign=top><pre>
+  <b class=wit>:::MAIS::: <br>(de metacompiler) </b></pre>
+<td class=box><pre>
+    &nbsp;
+    <b>voert de rode woorden uit en</b>
+    <b class=y>compileert de blauwe woorden.</b>
+    <b class=z>Getallen zijn grijswit.</b>
+    Groene tekst wordt afgehandeld
+    door het voorafgaande <b>rode </b>woord.    </b>
+</pre>
+</table>
+<pre class=wit>
+---->
+
+HX 65 TO USERBYTES
+
+\ HX 2000 TO ORIGINTARGA
+NOTRACE
+HEX \ throughout
+
+&lt;----
+Put a TRACE before and a NOTRACE after a piece of code if you
+wish to study the details of what happens when that code is metacompiled.
+
+Zet TRACE voor en NOTRACE achter een stukje code als je wilt
+bekijken wat er gebeurt tijdens het metacompileren van die code.
+
+
+-- Direct-Threaded Forth model for Motorola 6809
+   16 bit cell, 8 bit char, 8 bit (byte) adrs unit
+   X = Forth W    free
+   Y =       IP   Interpreter Pointer
+   U =       RP   Return Stack Pointer
+   S =       SP   Data Stack Pointer
+   D =       TOS  Top of data stack
+
+--  m e m o r y  m a p
+ hex
+ 00~ 75      "USER Page"
+       --- ---
+       00     JMP COLD
+       03     Dictionary with hx 10 topnfas
+       23-75  Cold start data: space available
+              for up to 32 users(64 bytes)
+              and 6 vectors(18 bytes)
+       --- ---
+ 75~ 80 Search order stack (CONTEXT..CURRENT)
+ 80~100 TIB           (hx 80 bytes)
+100~180 Data stack    (hx 80 bytes)
+180~200 Return stack  (hx 80 bytes)
+200~280 Fly zone
+280~300 Compiler stack
+300     = HERE at Cold Start
+
+        --- --- moving up:
+        HERE ~      Ruimte voor BL-WORD (hx 20 bytes)
+             ~ PAD  HOLD Buffer         (hx 20 bytes) (dalend)
+        PAD = HERE + hx 40
+        --- ---
+
+HIMEM   = Einde van de RAM
+
+--  TOPNFA = NFA of the most recently created Word
+
+--  Four linked lists:
+
+  Links point to the zero-labeled positions (see below).
+  End of List is reached when Link=0
+
+1) Words
+
+  hx 10 Topnfa's (Threads) of the dictionary,
+  in RAM: hx (03~23), in ROM: ORIGIN+(03~23).
+
+  Word map (there is a Homlink only if Name is a homonym).
+  | Homlink | Link | Homvocimm | Count + Name | Cf    | Body
+  -5        -3     -1          0         1    n+1     n+4
+  
+2) Wordlists
+
+  TOPVOC = Address of most recently created Wordlist.
+
+  Wordlist (usually situated in a Vocabulary body)
+  | Wid | Link |
+  0     1      3
+
+3) THROW Messages
+
+  TOPMSG = Address of most recently created Message.
+
+  Message
+  | Msg# | Link | Count + Text |
+  0      2      4         5    n+5
+
+4) Prefixlists
+
+  TOPPFX = Address of most recently created Prefixlist.
+
+  Prefixlist
+  | Link | doer-token | TO-action | +TO-action | INCR-action |
+  -2     0            2           4            6             8
+
+
+--  NEXT == Y )++ [] JMP   \ ip )++ ) jump
+
+-- Interrupt vectors
+  'SWI3 'SWI2 'FIRQ 'IRQ 'SWI 'NMI (3 bytes each)
+
+  'SWI3 ( -- adr ) \ adr = FFF2 @
+  'SWI2 ( -- adr ) \ adr = FFF4 @
+  'FIRQ ( -- adr ) \ adr = FFF6 @
+  'IRQ  ( -- adr ) \ adr = FFF8 @
+  'SWI  ( -- adr ) \ adr = FFFA @
+  'NMI  ( -- adr ) \ adr = FFFC @
+
+  Default contents of these addresses: 3B 00 00 (3B = RTI).
+
+  : !VECTOR ( routineaddress vector -- ) 1+ ! ;
+  : ENABLE  ( vector -- ) 07E SWAP C! ;
+  : DISABLE ( vector -- ) 03B SWAP C! ;
+
+  Example of use:
+  1AF0 'SWI3 !VECTOR   \ Address of interrupt routine into byte 2 en 3.
+  'SWI3  ENABLE        \ 7E = JMP into byte 1.
+  'SWI3  DISABLE       \ 3B = RTI into byte 1.
+
+MaisForth Target code:
+---->
+
+
+:::MAIS:::</pre><pre>
+<b>
+\ </b>----- 01 ----- cold start data
+
+<b class=z>0 </b><b>JMP        \ </b>for JMP COLD -- See COLD ttt
+<b>DICTIONARY   \ </b>0003-0023 ttt
+<b>I-DATA       \ </b>Space reservation for cold users values ttt See USERBYTES in META
+
+<b>\ </b>At cold start the ROM data until here (C000-C0..)
+<b>\ </b>will be copied to RAM (00-..)
+ <b>
+
+\ </b>----- 02 ----- doers
+
+<b>FORTH:
+CODE </b>EXECUTE  <b> D X TFR   REG </b>D <b>PULS   X ) JMP   END-CODE
+CODE </b>EXIT  <b>    REG </b>Y <b>PULU   NEXT END-CODE
+
+INSIDE:
+CODE </b>EXIT-ON-TRUE <b>( </b>flag -- )
+<b class=z>  0 </b><b># CMPD   REG </b>D <b>PULS   =? NO IF   REG </b>Y <b>PULU   THEN   NEXT END-CODE
+CODE </b>EXIT-ON-FALSE <b>( </b>flag -- )
+<b class=z>  0 </b><b># CMPD   REG </b>D <b>PULS   =? IF   REG </b>Y <b>PULU   THEN   NEXT END-CODE
+CODE </b>DIVE <b>( </b>-- ) <b>   \ </b>See FLYER PARENTHESIZE
+ <b> Y X TFR   REG </b>Y <b>PULU   REG </b>X <b>PSHU   NEXT END-CODE
+CODE </b>DODOES  <b> \ </b>(an) 2004
+ <b> REG </b>Y <b>PSHU                  \ </b>save IP
+ <b> REG </b>Y <b>PULS                  \ </b>new IP = returnaddress = just after JSR DODOES
+ <b> REG </b>X <b>PULS  REG </b>D <b>PSHS  X D TFR   ( </b>body ? -- ? body )
+<b>  NEXT END-CODE
+DOER: </b>DODOER  <b> HERE-IS </b>THINGUMAJIG <b class=y>EXIT </b><b>;
+\ </b>Voorwaartse referentie. De EXIT wordt later gepatcht. Zie !DOER
+<b>\ </b>Het uiteindelijke resultaat:   DOER: DODOER !DOER ;
+<b>DOERCODE </b>DO:  <b>    REG </b>Y <b>PSHU   REG </b>Y <b>PULS                   NEXT END-CODE
+DOERCODE </b>DOCREATE <b>REG </b>X <b>PULS   REG </b>D <b>PSHS   X D TFR         NEXT END-CODE
+DOERCODE </b>DOVAR  <b>  REG </b>X <b>PULS   REG </b>D <b>PSHS   X D TFR         NEXT END-CODE
+DOERCODE </b>DOCCON  <b> REG </b>X <b>PULS   REG </b>D <b>PSHS   X ) LDB   SEX   NEXT END-CODE \ </b>C@
+<b>DOERCODE </b>DOCON  <b>  REG </b>X <b>PULS   REG </b>D <b>PSHS   X ) LDD         NEXT END-CODE \ </b>@
+<b>DOERCODE </b>DOVAL  <b>  REG </b>X <b>PULS   REG </b>D <b>PSHS   X ) LDD         NEXT END-CODE \ </b>@
+<b>DOERCODE </b>DOIVAR  <b> REG </b>X <b>PULS   REG </b>D <b>PSHS   X ) LDD         NEXT END-CODE \ </b>@
+<b>DOERCODE </b>DOIVAL  <b> REG </b>X <b>PULS   REG </b>D <b>PSHS   X ) [] LDD      NEXT END-CODE \ </b>@@
+<b>DOERCODE </b>DOVARS  <b> ASLB  ROLA   S )++ ADDD   NEXT END-CODE   \ </b>SWAP CELLS +
+
+<b>\ </b>----- 03 ----- input output
+
+<b>\ </b>Input and output for the MAIS board. (FvdM) 2003 ttt
+<b>&lt;----
+</b>USART +0 DATA
+      +1 STATUS
+      +2 MODE
+      +3 COMMAND
+---->
+<b>
+FORTH:
+CODE </b>EMIT?  <b> ( </b>-- flag )
+<b>  REG </b>D <b>PSHS   USART </b><b class=z>1 </b><b>+ LDA   CLRB   \ </b>STATUS C@ 1 AND 1 =
+ <b class=z> 1 </b><b># ANDA   =? NO IF   DECB   THEN
+  SEX   NEXT END-CODE
+
+INSIDE:
+CODE </b>(EMIT  <b> ( </b>char -- )
+<b>  USART # LDX
+  BEGIN   X </b><b class=z>1 </b><b>#) LDA  </b><b class=z> 1 </b><b># ANDA   =? NO UNTIL   \ </b>STATUS C@ 1 AND UNTIL
+ <b> X ) STB   REG </b>D <b>PULS   NEXT END-CODE          \ </b>CH DATA C!
+
+<b>EXTRA:
+CODE </b>!USART <b>( </b>baudbyte -- ) <b>  \ </b>Set up on-board i/o, See COLD
+ <b> USART # LDX   X </b><b class=z>3 </b><b>#) LDA    \ </b>read command reg. to reset mode
+ <b class=z> 4E </b><b># LDA      X </b><b class=z>2 </b><b>#) STA    \ </b>set mode register 1
+ <b> ( </b>Baudbyte ) <b> X </b><b class=z>2 </b><b>#) STB    \ </b>set mode register 2 (BAUD)
+ <b class=z> 15 </b><b># LDA      X </b><b class=z>3 </b><b>#) STA    \ </b>set command register
+ <b> REG </b>D <b>PULS   NEXT  END-CODE
+
+FORTH:
+CODE </b>KEY? <b>( </b>-- flag )
+<b>  REG </b>D <b>PSHS   USART </b><b class=z>1 </b><b>+ LDA   CLRB   \ </b>STATUS C@ 2 AND 2 =
+ <b class=z> 2 </b><b># ANDA   =? NO IF   DECB   THEN
+  SEX   NEXT END-CODE
+CODE </b>KEY <b>( </b>-- char )
+<b>  REG </b>D <b>PSHS   USART # LDX
+  BEGIN   X </b><b class=z>1 </b><b>#) LDB  </b><b class=z> 2 </b><b># ANDB   =? NO UNTIL   \ </b>STATUS C@ 2 AND UNTIL
+ <b> X ) LDB   CLRA   NEXT END-CODE                \ </b>DATA C@
+
+<b>
+\ </b>----- 04 ----- inline arguments
+
+<b>
+\ </b>Inline arguments (AN) 2004
+<b>\ </b>To be used in hi-level definitions:
+<b>INSIDE:
+CODE </b>INLINE# <b>( </b>-- x ) <b>  \ </b>See COMPILE() TO$() +TO$() INCR$()
+ <b> REG </b>D <b>PSHS
+  U ) LDX               \ </b>R@
+ <b> X )++ LDD             \ </b>inline#
+ <b> U ) STX               \ </b>skip
+ <b> NEXT END-CODE
+
+&lt;----
+</b>CODE INLINEC ( -- x )   \ Inline byte
+  REG D PSHS
+  U ) LDX               \ R@
+  X )+ LDB   CLRA       \ inline#
+  U ) STX               \ skip
+  NEXT END-CODE
+---->
+<b>CODE </b>INLINE$ <b>( </b>-- adr len ) <b>  \ </b>See "(S) ."(S)
+ <b> REG </b>D <b>PSHS
+  U ) LDX           \ </b>R@
+ <b> X )+ LDB   CLRA   \ </b>C@ (=len)
+ <b> REG </b>X <b>PSHS        \ </b>adr
+ <b> ABX   U ) STX     \ </b>skip
+ <b> NEXT END-CODE
+CODE </b>/INLINE$ <b>( </b>-- ) <b>  \ </b>See ABORT"(S)
+ <b> REG </b>D <b>PSHS
+  U ) LDX                  \ </b>R@
+ <b> X )+ LDB                 \ </b>C@ (=len)
+ <b> X B) LEAX   U ) STX      \ </b>skip
+ <b> REG </b>D <b>PULS   NEXT END-CODE
+
+\ </b>Words that need inline arguments (an)
+<b>INSIDE:
+CODE </b>GOTO() <b>( </b>-- ) <b>  \ </b>branch always. See AHEAD AGAIN
+ <b> Y ) LDY   NEXT END-CODE
+CODE </b>IF() <b>( </b>x -- ) <b>         \ </b>branch on zero.
+ <b class=z> 0 </b><b># CMPD   REG </b>D <b>PULS   =?
+  IF     Y ) LDY   NEXT
+  THEN   Y </b><b class=z>2 </b><b>#) LEAY   NEXT END-CODE
+CODE </b>IFZERO() <b>( </b>x -- ) <b>        \ </b>branch on non-zero. See IF & &lt;FUSE
+ <b class=z> 0 </b><b># CMPD   REG </b>D <b>PULS   =? NO
+  IF     Y ) LDY   NEXT
+  THEN   Y </b><b class=z>2 </b><b>#) LEAY   NEXT END-CODE
+CODE </b>()  <b>( </b>-- x ) <b>   REG </b>D <b>PSHS   Y )++ LDD   NEXT END-CODE        \ </b>See LITERAL
+<b>CODE </b>(C) <b>( </b>-- ch ) <b>  REG </b>D <b>PSHS   Y )+ LDB   SEX   NEXT END-CODE   \ </b>See LITERAL
+
+<b>\ </b>Prefixes - See TO-LIST
+<b>INSIDE:
+CODE </b>TO()  <b> ( </b>x -- ) <b>  Y )++ LDX              X ) STD   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>+TO()  <b>( </b>x -- ) <b>  Y )++ LDX   X ) ADDD   X ) STD   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>INCR() <b>( </b>-- ) <b>    Y )++ LDX   REG </b>D <b>PSHS
+                       X ) LDD  </b><b class=z>   1 </b><b># ADDD   X ) STD   REG </b>D <b>PULS   NEXT END-CODE 
+
+\ </b>DO LOOP (AN) 2004
+
+<b>\ </b>--- A'DAM
+<b>INSIDE:
+CODE </b>DO() <b>( </b>limit start -- ) <b>  \ </b>R: leavea   8000-lim   start+8000-lim
+ <b> HERE-IS </b>AMSTERDAM
+<b>  Y )++ LDX   REG </b>X <b>PSHU    \ </b>inline leave address >R
+ <b> D X TFR                   \ </b>start
+ <b class=z> 8000 </b><b># LDD   S )++ SUBD   \ </b>8000-limit
+ <b> REG </b>D <b>PSHU                \ </b>>r
+ <b> X D) LEAX   REG </b>X <b>PSHU    \ </b>start+8000-limit >r
+ <b> REG </b>D <b>PULS                \ </b>new top
+ <b> NEXT END-CODE
+CODE </b>?DO() <b>( </b>limit start -- ) <b>  \ </b>R: leavea   8000-lim   start+8000-lim
+ <b> S ) CMPD   AMSTERDAM BNE
+  S </b><b class=z>2 </b><b>#) LEAS   REG </b>D <b>PULS   \ </b>2DROP
+ <b> Y ) LDY   NEXT END-CODE    \ </b>leave address to IP
+<b>\ </b>---
+
+<b>\ </b>--- R'DAM
+<b>INSIDE:
+CODE </b>LOOP()  <b> \ </b>R: leavea   8000-lim   start+8000-lim
+ <b> REG </b>D <b>PSHS   U ) LDD       \ </b>r>
+ <b class=z> 1 </b><b># ADDD
+  HERE-IS </b>ROTTERDAM
+<b>  VS? NO
+  IF   U ) STD   REG </b>D <b>PULS   \ </b>>r
+ <b>      Y ) LDY   NEXT         \ </b>loop again
+ <b> THEN               \ </b>overflow:
+ <b> Y </b><b class=z>2 </b><b>#) LEAY        \ </b>loop ready
+ <b> U </b><b class=z>6 </b><b>#) LEAU        \ </b>RDROP RDROP RDROP
+ <b> REG </b>D <b>PULS         \ </b>new top
+ <b> NEXT END-CODE
+CODE </b>+LOOP() <b>( </b>n -- ) <b>  \ </b>R: leavea   8000-lim   start+8000-lim
+ <b> U ) ADDD              \ </b>top u) + to top
+ <b> ROTTERDAM BRA
+  END-CODE
+\ </b>---
+
+<b>FORTH:
+CODE </b>LEAVE <b>( </b>-- ) <b>  \ </b>R: leavea   8000-lim   start+8000-lim 
+ <b> U </b><b class=z>4 </b><b>#) LEAU       \ </b>RDROP RDROP
+ <b> REG </b>Y <b>PULU        \ </b>R> TO IP
+ <b> NEXT END-CODE
+CODE </b>UNLOOP <b>( </b>-- ) <b>  \ </b>R: leavea   8000-lim   start+8000-lim
+ <b> U </b><b class=z>6 </b><b>#) LEAU        \ </b>RDROP RDROP RDROP
+ <b> NEXT END-CODE
+CODE </b>I <b>( </b>-- i ) <b>  REG </b>D <b>PSHS   U ) LDD      U </b><b class=z>2 </b><b>#) SUBD   NEXT END-CODE
+CODE </b>J <b>( </b>-- j ) <b>  REG </b>D <b>PSHS   U </b><b class=z>6 </b><b>#) LDD   U </b><b class=z>8 </b><b>#) SUBD   NEXT END-CODE
+
+\ </b>----- 05 ----- ttt
+
+<b>&lt;----
+</b> IVAL en IVAR
+ de I staat voor indirectie. De "userpage" begint op 0000.
+ Eerst een jump naar COLD, dan 16 draden (03-023)
+ De koude offset t.o.v. ORIGIN is dus tevens warm RAM adres.
+ IVAL gedraagt zich als een value. Het systeem kan hem veranderen,
+ de programmeur kan dat niet rechtstreeks:
+---->
+<b>\ </b>indirecte values (an)
+<b>\ </b>De programmeur kan deze grootheden alleen indirect wijzigen.
+<b>\ </b>The programmer can only indirectly change these system values.
+<b>INSIDE:  </b><b class=z>0 </b><b>IVAL </b>TOPVOC  <b> \  </b>See WORDLIST VOC>NAMA (FORGET
+ <b class=z>        0 </b><b>IVAL </b>TOPMSG  <b> \  </b>See MSG" .MSG (FORGET
+ <b class=z>        0 </b><b>IVAL </b>TOPPFX  <b> \  </b>See O&P TO +TO INCR
+ <b class=z>      303 </b><b>IVAL </b>TOPNFA  <b> \  </b>Last created header in dictionary.
+ <b class=z>        0 </b><b>IVAL </b>HLD  <b>    \  </b>See HOLD &lt;# #>
+ <b class=z>        0 </b><b>IVAL </b>CONTEXT  <b>\ 
+</b> <b class=z>      01F </b><b>IVAL </b>CS#  <b>    \  </b>Relatieve CS-pointer. See CSP >CS CS>
+ <b class=z>        0 </b><b>IVAL </b>MSG#-2  <b> \  </b>See ABORT"(S) .MSG
+ <b class=z>       30 </b><b>IVAL </b>MODE  <b>   \  </b>Assembler adressing mode:
+ <b>                        \  </b>0=immed, 10=direct, 20=indexed, 30=extended
+ <b class=z>        0 </b><b>IVAL </b>SECTION  <b>\  </b>Marks compiler discontinuity (for 0=IF)
+ <b class=z>        0 </b><b>IVAL </b>#TIMES  <b> \  </b>See TIMES
+ <b class=z>        0 </b><b>IVAL </b>#IB  <b>    \  </b>Inputbuffer len
+ <b class=z>        0 </b><b>IVAL </b>IB  <b>     \  </b>Inputbuffer adr
+ <b class=z>      200 </b><b>IVAL </b>THERE  <b>  \  </b>Tijdelijke HERE -- See FLYER
+<b>EXTRA:  </b><b class=z> 0 </b><b>IVAL </b>HOR  <b>    \  </b>Telt karakter output, 0 = begin vd regel.
+ <b class=z>        0 </b><b>IVAL </b>VER  <b>    \ 
+</b> <b class=z>        0 </b><b>IVAL </b>HIMEM  <b>  \  </b>hoogste RAMadres+1
+ <b class=z>        3 </b><b>IVAL </b>OK  <b>     \  </b>See .OK
+ <b class=z>        0 </b><b>IVAL </b>DOT?  <b>   \  </b>See DNUMBER? EVAL
+<b>FORTH: </b><b class=z>300 </b><b>IVAL </b>HERE  <b>   \  </b>See ALLOT
+<b>\ </b>indirecte variabelen
+<b>INSIDE:  </b><b class=z>0 </b><b>IVAR </b>WRD  <b class=z>2 </b><b>UALLOT   \ </b>see WORD
+<b>FORTH:  </b><b class=z> 0 </b><b>IVAR </b>>IN  <b>    \ </b>( -- adr )
+ <b class=z>       0A </b><b>IVAR </b>BASE  <b>   \ </b>( -- adr )
+ <b class=z>        0 </b><b>IVAR </b>STATE  <b>  \ </b>( -- adr )
+
+<b>\ </b>Interrupt en Exception vectoren.
+<b>\ </b>De pointers in FFF0-FFFF wijzen naar deze adressen.
+
+<b>EXTRA:
+\ </b>For ROM version
+<b>\ </b>Interrupt vectors FFF0,FFF2,FFF4,FFF6,FFF8,FFFA,FFFC.
+<b>ORIGINHOSTA </b><b class=z>-10 </b><b>+              \  </b>later: FFF0
+ <b>ORIGINTARGA OVER !
+</b><b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'SWI3 <b>\  </b>FFF2
+<b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'SWI2 <b>\  </b>FFF4
+<b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'FIRQ <b>\  </b>FFF6
+<b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'IRQ  <b>\  </b>FFF8
+<b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'SWI  <b>\  </b>FFFA
+<b class=z>2 </b><b>+ UOFFSET  OVER ! IVEC </b>'NMI  <b>\  </b>FFFC
+<b>DROP  </b><b class=z>-2 </b><b>UALLOT   \ </b>Alleen de byte met RTI wordt meegenomen.
+<b>\ </b>Een vector neemt 3 userbytes ruimte in.
+
+<b>\ </b>'NMI is de laatste "user"!
+<b>\ </b>Als je meer indirecte waarden wilt definiëren, voeg die dan in
+<b>\ </b>voor de vectoren. De value USERBYTES in de metacompiler moet
+<b>\ </b>dan aangepast worden:
+<b>\ </b>userbytes  =  (aantal i-waarden)*2  +  (aantal vectoren)*3  -  2
+
+<b>
+\ </b>--- constanten ---
+
+<b>FORTH:
+ORIGINTARGA CONSTANT </b>ORIGIN <b>\ </b>ttt
+<b>INSIDE: </b><b class=z>075 </b><b>CONSTANT </b>FINDSTACK <b>\ </b>Begin of search-order stack
+ <b class=z>       07F </b><b>CONSTANT </b>CURRENT  <b> \ </b>End of search-order stack
+ <b class=z>       080 </b><b>CONSTANT </b>TIB  <b>     \ </b>Terminal Input Buffer
+ <b class=z>       17E </b><b>CONSTANT </b>S0  <b>      \ </b>End of parameter stack
+ <b class=z>       1FE </b><b>CONSTANT </b>R0  <b>      \ </b>End of return stack
+ <b class=z>       200 </b><b>CONSTANT </b>FLYBUF  <b>  \ </b>Flyer buffer
+ <b class=z>       2FC </b><b>CONSTANT </b>CS0  <b>     \ </b>End of compilerstack
+ <b class=z>       07E </b><b>CONSTANT </b>TIBSIZE
+<b>EXTRA:  </b><b class=z>  2 </b><b>CONSTANT </b>CELL
+<b>FORTH:  </b><b class=z> -1 </b><b>CONSTANT </b>TRUE
+<b class=z>          0 </b><b>CONSTANT </b>FALSE
+<b class=z>         20 </b><b>CONSTANT </b>BL
+<b>
+\ </b>----- 06 -----
+
+<b>\ </b>memory operations
+
+<b>INSIDE:
+CODE </b>CLEAR-S  <b> ' </b>S0 <b>>body @ # LDS   REG </b>D <b>PULS   NEXT END-CODE   \ </b>See QUIT
+<b>CODE </b>CLEAR-R  <b> ' </b>R0 <b>>body @ # LDU                NEXT END-CODE   \ </b>See QUIT
+<b>\ </b>Get stack-pointer
+<b>CODE </b>SP@  <b> REG </b>D <b>PSHS   S D TFR   NEXT END-CODE   \ </b>?STACK DEPTH
+<b>CODE </b>RP@  <b> REG </b>D <b>PSHS   U D TFR   NEXT END-CODE   \ </b>Not used
+<b>\ </b>CODE SP!   D S TFR   REG D PULS   NEXT END-CODE   \ Not used
+<b>\ </b>CODE RP!   D U TFR   REG D PULS   NEXT END-CODE   \ Not used
+
+<b>\ </b>Store en Fetch
+<b>FORTH:
+CODE </b>C!  <b> D X TFR   REG </b>D <b>PULS   X ) STB     REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>!  <b>  D X TFR   REG </b>D <b>PULS   X ) STD     REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>2!  <b> D X TFR   REG </b>D <b>PULS
+        X )++ STD   REG </b>D <b>PULS   X ) STD     REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>+!  <b> D X TFR   REG </b>D <b>PULS
+                    X ) ADDD     X ) STD     REG </b>D <b>PULS   NEXT END-CODE
+EXTRA:
+CODE </b>C+!  <b>D X TFR   REG </b>D <b>PULS
+                    X ) ADDB     X ) STB     REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>1+!  <b>D X TFR   X ) LDD
+</b><b class=z>                    1 </b><b># ADDD     X ) STD     REG </b>D <b>PULS   NEXT END-CODE
+
+FORTH:
+CODE </b>C@  <b>  D X TFR   X ) LDB    CLRA                    NEXT END-CODE
+CODE </b>@  <b>   D X TFR   X ) LDD                            NEXT END-CODE
+CODE </b>2@  <b>  D X TFR   X )++ LDD   X ) LDX   REG </b>X <b>PSHS   NEXT END-CODE
+CODE </b>COUNT <b>D X TFR   X )+ LDB   CLRA       REG </b>X <b>PSHS   NEXT END-CODE
+EXTRA:
+CODE </b>@+  <b>  D X TFR   X )++ LDD             REG </b>X <b>PSHS   NEXT END-CODE
+
+\ </b>Return stack
+<b>FORTH:
+CODE </b>>R  <b>  REG </b>D <b>PSHU   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>R>  <b>  REG </b>D <b>PSHS   REG </b>D <b>PULU   NEXT END-CODE
+CODE </b>2>R  <b> REG </b>X <b>PULS   REG </b>X <b>PSHU   REG </b>D <b>PSHU   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>2R>  <b> REG </b>D <b>PSHS   REG </b>D <b>PULU   REG </b>X <b>PULU   REG </b>X <b>PSHS   NEXT END-CODE
+CODE </b>R@  <b>  REG </b>D <b>PSHS   U ) LDD   NEXT END-CODE
+CODE </b>2R@  <b> REG </b>D <b>PSHS   U </b><b class=z>2 </b><b>#) LDX   REG </b>X <b>PSHS   U ) LDD   NEXT END-CODE
+EXTRA:
+CODE </b>RDROP  <b>  U </b><b class=z>2 </b><b>#) LEAU   NEXT END-CODE
+CODE </b>2RDROP  <b> U </b><b class=z>4 </b><b>#) LEAU   NEXT END-CODE
+
+&lt;---- </b>\ Double exit:
+INSIDE:
+CODE DEXIT ( -- )   REG X,Y PULU   NEXT END-CODE   \ Same as RDROP+EXIT
+---->
+<b>
+\ </b>stack operations
+<b>FORTH:
+CODE </b>2DROP  <b> S </b><b class=z>2 </b><b>#) LEAS   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>2DUP  <b>  S ) LDX   REG </b>D <b>PSHS   REG </b>X <b>PSHS   NEXT END-CODE
+CODE </b>2NIP  <b>  REG </b>X <b>PULS   S </b><b class=z>4 </b><b>#) LEAS   REG </b>X <b>PSHS   NEXT END-CODE
+CODE </b>2OVER  <b> REG </b>D <b>PSHS   S </b><b class=z>6 </b><b>#) LDD   REG </b>D <b>PSHS   S </b><b class=z>6 </b><b>#) LDD   NEXT END-CODE
+CODE </b>2SWAP  <b> REG </b>D <b>PSHU   S ) LDX   S </b><b class=z>4 </b><b>#) LDD   S </b><b class=z>4 </b><b>#) STX   S ) STD   \ </b>swap n2 n4:
+ <b>            REG </b>X <b>PULU   S </b><b class=z>2 </b><b>#) LDD   S </b><b class=z>2 </b><b>#) STX   NEXT END-CODE       \ </b>swap n1 n3
+<b>: </b>2TUCK  <b class=y> 2SWAP 2OVER </b><b>; ( </b>x1 x2 x3 x4 -- x3 x4 x1 x2 x3 x4 )
+<b>: </b>2ROT  <b class=y>  2>R 2SWAP 2R> 2SWAP </b><b>;
+\ </b>: -2ROT     2SWAP 2>R 2SWAP 2R> ;
+
+<b>&lt;----
+</b>CODE 2TUCK ...
+CODE 2ROT ...
+---->
+<b>
+FORTH:
+CODE </b>?DUP  <b class=z> 0 </b><b># CMPD   =? NO IF   REG </b>D <b>PSHS   THEN   NEXT END-CODE
+CODE </b>DROP  <b> REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>DUP  <b>  REG </b>D <b>PSHS   NEXT END-CODE
+CODE </b>OVER  <b> REG </b>D <b>PSHS   S </b><b class=z>2 </b><b>#) LDD   NEXT END-CODE
+CODE </b>SWAP  <b> S ) LDX   S ) STD   X D TFR   NEXT END-CODE
+CODE </b>TUCK  <b> S ) LDX   S ) STD   REG </b>X <b>PSHS   NEXT END-CODE
+CODE </b>ROT  <b>  S ) LDX   S ) STD   S </b><b class=z>2 </b><b>#) LDD   S </b><b class=z>2 </b><b>#) STX   NEXT END-CODE
+CODE </b>-ROT  <b> S </b><b class=z>2 </b><b>#) LDX   S </b><b class=z>2 </b><b>#) STD   S ) LDD   S ) STX   NEXT END-CODE
+
+\ </b>--- A'DAM
+<b>FORTH:
+CODE </b>NIP  <b>  HERE-IS </b>AMSTERDAM  <b> S </b><b class=z>2 </b><b>#) LEAS   NEXT END-CODE
+CODE </b>PICK  <b> ASLB   S X TFR   ABX X ) LDD   NEXT END-CODE
+CODE </b>MIN  <b>  S ) CMPD   AMSTERDAM BLT   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>MAX  <b>  S ) CMPD   AMSTERDAM BGT   REG </b>D <b>PULS   NEXT END-CODE
+EXTRA:
+CODE </b>UMIN  <b> S ) CMPD   AMSTERDAM BLO   REG </b>D <b>PULS   NEXT END-CODE
+CODE </b>UMAX  <b> S ) CMPD   AMSTERDAM BHI   REG </b>D <b>PULS   NEXT END-CODE
+\ </b>---
+
+<b>\ </b>comparison operations (an)
+<b>FORTH:
+CODE </b>0&lt;  <b>  A B TFR   SEX   A B TFR   NEXT END-CODE
+
+\ </b>--- R'DAM
+<b>FORTH:
+CODE </b>0=  <b class=z>  0 </b><b># CMPD   =?
+           IF   HERE-IS </b>ROTTERDAM  <b> COMB   SEX   NEXT   \ </b>B=0 -> D=-1.
+ <b>          THEN   CLRA   CLRB   NEXT END-CODE
+CODE </b>0>  <b class=z>  0 </b><b># CMPD    =? IF   NEXT    THEN
+           A B TFR   SEX   COMA   A B TFR   NEXT END-CODE
+CODE </b>=  <b>   S )++ SUBD   ROTTERDAM BEQ   CLRA   CLRB   NEXT END-CODE
+\ </b>---
+
+<b>\ </b>--- A'DAM
+<b>FORTH:
+CODE </b>&lt;>  <b>  S )++ SUBD   =? NO IF   HERE-IS </b>AMSTERDAM  <b class=z> -1 </b><b># LDD   THEN   NEXT END-CODE
+CODE </b>0&lt;>  <b class=z> 0 </b><b># CMPD     AMSTERDAM BNE                 NEXT END-CODE
+CODE </b>U>  <b>  S )++ SUBD   AMSTERDAM BLO   CLRA   CLRB   NEXT END-CODE
+CODE </b>U&lt;  <b>  S )++ SUBD   AMSTERDAM BHI   CLRA   CLRB   NEXT END-CODE
+CODE </b>>  <b>   S )++ SUBD   AMSTERDAM BLT   CLRA   CLRB   NEXT END-CODE
+CODE </b>&lt;  <b>   S )++ SUBD   AMSTERDAM BGT   CLRA   CLRB   NEXT END-CODE
+&lt;----
+</b>EXTRA: \ (FvdM) 2004
+CODE 0>=   TSTA         AMSTERDAM BPL   CLRA   CLRB   NEXT END-CODE
+CODE &lt;=    S )++ SUBD   AMSTERDAM BGE   CLRA   CLRB   NEXT END-CODE
+CODE >=    S )++ SUBD   AMSTERDAM BLE   CLRA   CLRB   NEXT END-CODE
+CODE U&lt;=   S )++ SUBD   AMSTERDAM BHS   CLRA   CLRB   NEXT END-CODE
+CODE U>=   S )++ SUBD   AMSTERDAM BLS   CLRA   CLRB   NEXT END-CODE
+---->
+<b>\ </b>---
+
+<b>\ </b>logical operations
+<b>FORTH:
+CODE </b>AND  <b>  S )+ ANDA   S )+ ANDB   NEXT END-CODE
+CODE </b>OR  <b>   S )+ ORA   S )+ ORB  NEXT END-CODE
+CODE </b>XOR  <b>  S )+ EORA   S )+ EORB   NEXT END-CODE
+CODE </b>INVERT <b>COMA   COMB   NEXT END-CODE
+CODE </b>LSHIFT <b>\ </b>bjr
+ <b> D X TFR   REG </b>D <b>PULS   X ) LEAX   =? NO
+  IF   BEGIN   LSLB   ROLA   X </b><b class=z>-1 </b><b>#) LEAX   =?
+       UNTIL
+  THEN   NEXT END-CODE
+CODE </b>RSHIFT <b>\ </b>bjr
+ <b> D X TFR   REG </b>D <b>PULS   X ) LEAX   =? NO
+  IF   BEGIN   LSRA   RORB   X </b><b class=z>-1 </b><b>#) LEAX   =?
+       UNTIL
+  THEN   NEXT END-CODE
+
+EXTRA:
+CODE </b>BYTESWAP <b>( </b>swap bytes ) <b>  A B EXG   NEXT END-CODE
+
+\ </b>arithmetic operations
+<b>FORTH:
+CODE </b>1+  <b class=z>  1 </b><b># ADDD   NEXT END-CODE
+CODE </b>1-  <b class=z>  1 </b><b># SUBD   NEXT END-CODE
+CODE </b>2*  <b>  ASLB   ROLA   NEXT END-CODE
+CODE </b>2/  <b>  ASRA   RORB   NEXT END-CODE   \ </b>arithmetic right shift
+<b>CODE </b>+  <b>   S )++ ADDD   NEXT END-CODE
+CODE </b>-  <b>   S )++ SUBD   COMA   COMB  </b><b class=z> 1 </b><b># ADDD   NEXT END-CODE
+CODE </b>D2*  <b> D X TFR   REG </b>D <b>PULS   ASLB   ROLA
+           REG </b>D <b>PSHS   X D TFR   ROLB   ROLA   NEXT END-CODE
+
+\ </b>--- A'DAM
+<b>FORTH:
+CODE </b>D2/  <b> ASRA
+           HERE-IS </b>AMSTERDAM
+<b>           RORB   D X TFR   REG </b>D <b>PULS
+           RORA   RORB   REG </b>D <b>PSHS   X D TFR   NEXT END-CODE
+EXTRA:
+CODE </b>DU2/  <b> LSRA   AMSTERDAM BRA   NEXT END-CODE
+\ </b>---
+
+<b>\ </b>--- R'DAM
+<b>FORTH:
+CODE </b>NEGATE  <b> HERE-IS </b>ROTTERDAM  <b> COMA   COMB  </b><b class=z> 1 </b><b># ADDD   NEXT END-CODE
+CODE </b>ABS  <b> TSTA   ROTTERDAM BLT   NEXT END-CODE
+EXTRA:
+CODE </b>?NEGATE  <b> TSTA   REG </b>D <b>PULS   ROTTERDAM BLT   NEXT END-CODE
+&lt;----
+</b>\ : ABS      DUP ?NEGATE ;
+\ : ?NEGATE  ( x1 y -- x2 )   0&lt; 0= ?EXIT NEGATE ;
+---->
+<b>\ </b>---
+
+<b>\ </b>--- R'DAM
+<b>FORTH:
+CODE </b>DNEGATE <b>( </b>xlo xhi -- ylo yhi ) <b>  \ </b>(AN) 2004
+ <b> HERE-IS </b>ROTTERDAM
+<b>  REG </b>D <b>PSHS
+  CLRB  SEX    D X TFR       \ </b>0
+ <b> S </b><b class=z>2 </b><b>#) SUBD   S </b><b class=z>2 </b><b>#) STD   \ </b>ylo
+ <b> X D TFR  </b><b class=z> 0 </b><b># SBCB   SEX   \ </b>0 -carry?
+ <b> S )++ SUBD                 \ </b>yhi
+ <b> NEXT END-CODE
+CODE </b>DABS  <b> TSTA   ROTTERDAM BLT   NEXT END-CODE
+EXTRA:
+CODE </b>?DNEGATE  <b> TSTA   REG </b>D <b>PULS   ROTTERDAM BLT   NEXT END-CODE
+&lt;----
+</b>\ : DABS     DUP ?DNEGATE ;
+EXTRA:
+\ : ?DNEGATE ( xlo xhi y -- xlo2 xhi2 )   0&lt; 0= ?EXIT DNEGATE ;
+---->
+<b>\ </b>---
+
+<b>FORTH:
+CODE </b>D+  <b>( </b>dx dy -- dz ) <b>  \ </b>(AN) 2004
+ <b> D X TFR               \ </b>yhi
+ <b> REG </b>D <b>PULS            \ </b>ylo
+ <b> S </b><b class=z>2 </b><b>#) ADDD           \ </b>xlo +to ylo
+ <b> S </b><b class=z>2 </b><b>#) STD            \ </b>= zlo
+ <b> X D TFR               \ </b>yhi
+ <b class=z> 0 </b><b># ADCB  </b><b class=z> 0 </b><b># ADCA   \ </b>yhi + carry?
+ <b> S )++ ADDD            \ </b>xhi +to yhi = zhi
+ <b> NEXT END-CODE
+CODE </b>D- <b>( </b>xlo xhi ylo yhi -- zlo zhi ) <b>  \ </b>(AN) 2004
+ <b> REG </b>D <b>PSHS
+  S </b><b class=z>6 </b><b>#) LDD   S </b><b class=z>2 </b><b>#) SUBD   S </b><b class=z>6 </b><b>#) STD   \ </b>zlo
+ <b> S </b><b class=z>4 </b><b>#) LDD  </b><b class=z> 0 </b><b># SBCB  </b><b class=z> 0 </b><b># SBCA        \ </b>xhi -carry?
+ <b> S ) SUBD                                \ </b>zhi
+ <b> S </b><b class=z>6 </b><b>#) LEAS   NEXT END-CODE
+CODE </b>M+ <b>( </b>dx ylo -- dz )
+<b>  S </b><b class=z>2 </b><b>#) ADDD           \ </b>xlo +to ylo
+ <b> S </b><b class=z>2 </b><b>#) STD            \ </b>= zlo
+ <b> REG </b>D <b>PULS            \ </b>xhi
+ <b class=z> 0 </b><b># ADCB  </b><b class=z> 0 </b><b># ADCA   \ </b>xhi + carry?
+ <b> NEXT END-CODE
+
+
+CODE </b>UM* <b>( </b>u1 u2 -- ud ) <b>  \ </b>16*16=32 unsigned multiply (c) 25apr95 bjr
+ <b> REG </b>X,D <b>PSHS                                         \ </b>push temporary, u2
+ <b> S </b><b class=z>5 </b><b>#) LDA   S </b><b class=z>1 </b><b>#) LDB   MUL   S </b><b class=z>2 </b><b>#) STD           \ </b>1lo*2lo
+ <b> S </b><b class=z>4 </b><b>#) LDA   S </b><b class=z>1 </b><b>#) LDB   MUL                        \ </b>1hi*2lo
+ <b> S </b><b class=z>2 </b><b>#) ADDB  </b><b class=z> 0 </b><b># ADCA   S </b><b class=z>1 </b><b>#) STD
+  S </b><b class=z>5 </b><b>#) LDA   S ) LDB   MUL                           \ </b>1lo*2hi
+ <b> S </b><b class=z>1 </b><b>#) ADDD   S </b><b class=z>1 </b><b>#) STD  </b><b class=z> 0 </b><b># LDA   ROLA            \ </b>cy in A
+ <b> S ) LDB   S ) STA   S </b><b class=z>4 </b><b>#) LDA   MUL                 \ </b>2hi*1hi
+ <b> S ) ADDD                                             \ </b>hi result in D
+ <b> S </b><b class=z>2 </b><b>#) LDX   S </b><b class=z>4 </b><b>#) LEAS   S ) STX   NEXT END-CODE   \ </b>lo result
+<b>CODE </b>UM/MOD <b>( </b>ud u1 -- rem quot ) <b>  \ </b>32/16=16 divide (c) 25apr95 bjr
+ <b> REG </b>D <b>PSHS  </b><b class=z> 10 </b><b># LDX                              \ </b>save u1 in mem
+ <b> S </b><b class=z>5 </b><b>#) ASL   S </b><b class=z>4 </b><b>#) ROL                            \ </b>initial shift (lo 16)
+ <b> BEGIN   S </b><b class=z>3 </b><b>#) ROL   S </b><b class=z>2 </b><b>#) ROL   S </b><b class=z>2 </b><b>#) LDD       \ </b>shift left hi 16
+ <b>      CS? IF                                        \ </b>1xxxx: 17 bits, subtract is ok
+ <b>         S ) SUBD   S </b><b class=z>2 </b><b>#) STD  </b><b class=z> 0FE </b><b># ANDCC        \ </b>clear cy
+ <b>      ELSE                                          \ </b>0xxxx: 16 bits, test subtract
+ <b>         S ) SUBD   CS? NO IF   S </b><b class=z>2 </b><b>#) STD   THEN   \ </b>cs=can't subtr
+ <b>      THEN                                          \ </b>cy=0 if sub ok, 1 if no subtract
+ <b>         S </b><b class=z>5 </b><b>#) ROL   S </b><b class=z>4 </b><b>#) ROL                    \ </b>rotate cy into result
+ <b>         X </b><b class=z>-1 </b><b>#) LEAX
+  =? UNTIL                                           \ </b>loop 16 times
+ <b> S </b><b class=z>4 </b><b>#) LDD   COMA   COMB                           \ </b>invert to get true quot in D
+ <b> S </b><b class=z>2 </b><b>#) LDX   S </b><b class=z>4 </b><b>#) STX   S </b><b class=z>4 </b><b>#) LEAS              \ </b>save rem, clean stack
+ <b> NEXT END-CODE
+
+\ </b>string operations
+<b>CODE </b>FILL <b>( </b>c-addr u char -- ) <b>  \ </b>(c) 31mar95 bjr
+ <b> REG </b>Y <b>PSHU   REG </b>X,Y <b>PULS   \ </b>D=char X=u Y=adr
+ <b class=z> 0 </b><b># CMPX   =? NO
+  IF BEGIN   Y )+ STB   X </b><b class=z>-1 </b><b>#) LEAX   =?
+     UNTIL
+  THEN   REG </b>D <b>PULS   REG </b>Y <b>PULU   NEXT END-CODE
+
+EXTRA:
+CODE </b>S&lt;>  <b>( </b>a1 a2 len -- -1 | 1 | 0 ) <b>    \ </b>string compare
+ <b> S </b><b class=z>2 </b><b>#) ADDD   S </b><b class=z>2 </b><b>#) LDX   S </b><b class=z>2 </b><b>#) STY   \ </b>X=src D=end
+ <b> S ) LDY   S ) STD   CLRB                \ </b>Y=dst B=0
+ <b> AHEAD
+     BEGIN   X )+ LDA   Y )+ SUBA   =? NO
+        IF  </b><b class=z> 0 </b><b># SBCB   SEX  </b><b class=z> 1 </b><b># ORB
+             REG </b>X,Y <b>PULS   NEXT
+        THEN
+  /THEN      S ) CMPX   =?
+     UNTIL
+  SEX   REG </b>X,Y <b>PULS   NEXT END-CODE
+
+FORTH:
+CODE </b>CMOVE <b>( </b>c-addr1 c-addr2 u -- ) <b>     \ </b>BJR*
+ <b> S </b><b class=z>2 </b><b>#) ADDD  S </b><b class=z>2 </b><b>#) LDX   S </b><b class=z>2 </b><b>#) STY   \ </b>X=src D=end
+ <b> S ) LDY   S ) STD                      \ </b>Y=dst
+ <b> AHEAD
+     BEGIN   X )+ LDB   Y )+ STB
+  /THEN      S ) CMPX   =?
+     UNTIL   REG </b>X,Y <b>PULS   REG </b>D <b>PULS
+  NEXT END-CODE
+CODE </b>CMOVE> <b>( </b>c-addr1 c-addr2 u -- ) <b>   \ </b>BJR*
+ <b> S </b><b class=z>2 </b><b>#) LDX   X D) LEAX   S </b><b class=z>2 </b><b>#) STY   \ </b>X=src D=u
+ <b> S ) LDY   Y D) LEAY                   \ </b>Y=dst
+ <b> AHEAD
+     BEGIN   X -) LDB   Y -) STB
+  /THEN      S ) CMPY   =?
+     UNTIL
+  REG </b>X,Y <b>PULS   REG </b>D <b>PULS
+  NEXT
+\ </b>Exits for SKIP en SCAN (hereafter)
+
+<b>\ </b>--- A'DAM & R'DAM
+ <b>HERE-IS </b>AMSTERDAM  <b> Y </b><b class=z>-1 </b><b>#) LEAY
+ HERE-IS </b>ROTTERDAM  <b> REG </b>Y <b>PSHS   REG </b>Y <b>PULU   X D TFR
+ NEXT END-CODE
+EXTRA:
+CODE </b>SKIP <b>( </b>c-addr u ch -- c-addr' u' ) <b>  \ </b>skip matching chars BJR
+ <b> REG </b>Y <b>PSHU   REG </b>X,Y <b>PULS        \ </b>D=char X=u Y=adr
+ <b class=z> 0 </b><b># CMPX   =? NO
+  IF   BEGIN   Y )+ CMPB   AMSTERDAM BNE
+               X </b><b class=z>-1 </b><b>#) LEAX   =?
+       UNTIL
+  THEN   ROTTERDAM BRA   END-CODE
+CODE </b>SCAN <b>( </b>c-addr u ch -- c-addr' u' ) <b>  \ </b>find matching char BJR
+ <b> REG </b>Y <b>PSHU   REG </b>X,Y <b>PULS       \ </b>D=char X=u Y=adr
+ <b class=z> 0 </b><b># CMPX   =? NO
+  IF   BEGIN   Y )+ CMPB   AMSTERDAM BEQ
+               X </b><b class=z>-1 </b><b>#) LEAX   =?
+       UNTIL
+  THEN   ROTTERDAM BRA   END-CODE
+\ </b>---
+
+<b>\ </b>----- 07 -----
+
+<b>FORTH:
+\ </b>CODE ALIGNED ( a -- a )   NEXT END-CODE  IMMEDIATE
+<b>\ </b>CODE ALIGN   ( -- )       NEXT END-CODE  IMMEDIATE
+<b>CODE </b>CELL+  <b class=z> 2 </b><b># ADDD   NEXT END-CODE
+CODE </b>CHAR+  <b class=z> 1 </b><b># ADDD   NEXT END-CODE
+CODE </b>>BODY  <b class=z> 3 </b><b># ADDD   NEXT END-CODE
+EXTRA:
+CODE </b>CELL-  <b class=z> 2 </b><b># SUBD   NEXT END-CODE
+CODE </b>CHAR-  <b class=z> 1 </b><b># SUBD   NEXT END-CODE
+CODE </b>BODY>  <b class=z> 3 </b><b># SUBD   NEXT END-CODE
+FORTH:
+CODE </b>CELLS  <b> ASLB   ROLA   NEXT END-CODE
+CODE </b>CHARS  <b> NEXT END-CODE   IMMEDIATE
+INSIDE:
+CODE </b>NAME>LINK <b>( </b>nfa -- lfa ) <b class=z> 3 </b><b># SUBD   NEXT END-CODE
+
+FORTH:
+: </b>ROLL <b>( </b>n -- x )
+<b class=y>  >R R@ PICK
+  SP@ DUP CELL+ R> 1+ CELLS CMOVE>
+  DROP </b><b>;
+: </b>PAD  <b class=y>     HERE </b><b class=z>40 </b><b class=y>+ </b><b>;
+: </b>ALLOT  <b>   +TO </b>HERE <b>;
+: </b>,  <b class=y>       HERE !  CELL </b><b>+TO </b>HERE <b>;
+: </b>C,  <b class=y>      HERE C! </b><b>INCR </b>HERE <b>;
+
+EXTRA:
+\ </b>: NAME> ( nfa -- xt )   COUNT 1F AND + ;
+<b>\ </b>: >NAME ( cfa -- nfa )   BEGIN 1- 60 OVER C@ AND 0= UNTIL ;
+<b>CODE </b>NAME>  <b> D X TFR   X )+ LDB  </b><b class=z> 1F </b><b># ANDB   X B) LEAX   X D TFR   NEXT END-CODE
+CODE </b>>NAME  <b> D X TFR
+  BEGIN  </b><b class=z> 60 </b><b># LDB   X -) ANDB   =?
+  UNTIL
+  X D TFR   NEXT END-CODE
+
+INSIDE:
+: </b>!DOER <b>( </b>DOERa -- ) <b class=y>  TOPNFA NAME> 1+ ! </b><b>; \ </b>de JSR staat er al
+<b>' </b>!DOER <b>THINGUMAJIG COMPILE! \ </b>Patch in DODOER (Voorwaartse referentie)
+<b>\ </b>: @IMM   ( nfa -- -1/+1 )   1- C@ 1 AND 2* 1- ;
+<b>\ </b>: HOM?   ( nfa -- 0/-1 )   1- C@ 80 AND 0&lt;> ;
+<b>\ </b>: @VOC   ( nfa -- wid )   1- C@ 7E AND ;
+<b>CODE </b>@IMM  <b> D X TFR  X -)   LDB  </b><b class=z> 1 </b><b># ANDB   ASLB   DECB   SEX   NEXT END-CODE
+CODE </b>HOM?  <b> D X TFR  X -)   LDB   SEX   A B TFR   NEXT END-CODE
+CODE </b>@VOC  <b> D X TFR  X -)   LDB  </b><b class=z> 7E </b><b># ANDB   SEX   NEXT END-CODE
+ 
+FORTH:
+\ </b>: WITHIN ( a x y -- flag )   OVER - >R - R> U&lt; ;
+<b>CODE </b>WITHIN <b>(  </b>a x y -- t/f ) <b>  \ </b>a-x y-x u&lt;?
+ <b> S ) SUBD   D X TFR            \ </b>y-x
+ <b> S </b><b class=z>2 </b><b>#) LDD   S )++ SUBD       \ </b>a-x
+ <b> S ) STX   S )++ SUBD          \ </b>a-x - y-x
+ <b class=z> 0 </b><b># LDB                       \ </b>dit beinvloedt U&lt;? niet?
+ <b> U&lt;? IF   DECB   THEN   SEX   NEXT END-CODE
+
+\ </b>----- 08 -----
+
+<b>\ </b>Compilerstack [HIMEM-80..HIMEM) (dalend) (AN) 2004
+<b>INSIDE:
+: </b>CSP <b>( </b>-- a ) <b class=y>       CS0 CS# CELLS 2* </b><b class=z>7C </b><b class=y>AND - </b><b>;
+: </b>>CS <b>( </b>x1 x2 -- ) <b>   INCR </b>CS# <b class=y>CSP 2! </b><b>;
+: </b>CS> <b>( </b>--  x1 x2 ) <b class=y>  CSP 2@ </b><b class=z>-1 </b><b>+TO </b>CS# <b>;
+
+FORTH:
+: </b>CS-PICK <b>( </b>n -- )
+<b class=y>  CS# >R
+  NEGATE </b><b>+TO </b>CS# <b class=y>CS>
+  R> </b><b>TO </b>CS# <b class=y>>CS </b><b>;  
+: </b>CS-ROLL <b>( </b>q -- ) <b> \ </b>q in 0..1F
+ <b class=y> >R
+  R@ </b><b class=z>0 </b><b>?DO </b><b class=y>CS> </b><b>LOOP \ </b>Haal elementen 0..n-1 van CS-stack
+ <b class=y> R> CS> 2>R  </b><b>      \ </b>Verplaats element nr n van CS-stack naar R
+ <b class=z> 0 </b><b>?DO </b><b class=y>>CS </b><b>LOOP    \ </b>Zet elementen n-1..0 terug op CS-stack
+ <b class=y> 2R> >CS </b><b>;         \ </b>Verplaats element nr n van R naar CS-stack
+
+<b>FORTH:
+\ </b>: S>D      DUP 0&lt; ;
+<b>CODE </b>S>D  <b> REG </b>D <b>PSHS   A B TFR   SEX   A B TFR   NEXT END-CODE
+
+&lt;----
+</b>: M* ( n1 n2 -- d ) \ signed 16*16->32 multiply (BJR)
+  2DUP XOR >R
+  SWAP ABS SWAP ABS UM* \ eerste SWAP kan weg
+  R> ?DNEGATE ;
+: SM/REM ( d1 n1 -- n2 n3 ) \ symmetric signed division (BJR)
+  2DUP XOR >R
+  OVER >R               \ Dhi
+  ABS >R DABS R> UM/MOD
+  SWAP R> ?NEGATE
+  SWAP R> ?NEGATE ;
+: FM/MOD      ( d1 n1 -- n2 n3 )  \ floored signed division (BJR)
+  DUP >R  2DUP XOR >R >R
+  DABS R@ ABS UM/MOD SWAP
+  R> ?NEGATE SWAP R> 0&lt;
+  IF   NEGATE OVER               \ quotient negative
+       IF                        \ if remainder nonzero
+            R@ ROT - SWAP 1-     \ adjust rem,quot
+       THEN
+  THEN  RDROP ;
+---->
+<b>
+: </b>M* <b>( </b>n1 n2 -- d ) <b>  \ </b>signed 16*16->32 (AN)
+ <b class=y> OVER ABS OVER ABS UM*
+  2SWAP XOR ?DNEGATE </b><b>;
+: </b>SM/REM <b>( </b>d n -- r q ) <b>  \ </b>symmetric signed (AN)
+ <b class=y> OVER >R >R  </b><b>            \ </b>R: Dhi n
+ <b class=y> DABS R@ ABS UM/MOD  </b><b>    ( </b>r q )
+<b class=y>  R> R@ XOR ?NEGATE SWAP
+  R>        ?NEGATE SWAP </b><b>;   \ </b>Dhi neg?
+<b>: </b>FM/MOD <b>( </b>d1 n1 -- n2 n3 ) <b> \ </b>floored signed (AN)
+ <b class=y> >R TUCK  </b><b>                  \ </b>dhi dlo dhi   r: n
+ <b class=y> DABS R@ ABS UM/MOD  </b><b>       \ </b>dhi r q
+ <b class=y> SWAP R@ ?NEGATE  </b><b>          \ </b>dhi q r*
+ <b class=y> SWAP ROT R@ XOR 0&lt;  </b><b>       \ </b>r q neg?
+ <b> IF  </b><b class=y> NEGATE OVER  </b><b>         \ </b>r q* r
+ <b>      IF  </b><b class=y> 1-  </b><b>             \ </b>r q-1
+ <b class=y>           R@ ROT - SWAP  </b><b>  \ </b>n-r q-1
+ <b>      THEN
+  THEN </b><b class=y>RDROP </b><b>;
+: </b>*  <b class=y>    M* DROP </b><b>;
+: </b>/MOD  <b class=y> >R S>D R> FM/MOD </b><b>;
+: </b>/  <b class=y>    /MOD NIP </b><b>;
+: </b>MOD  <b class=y>  /MOD DROP </b><b>;
+: </b>*/MOD  <b class=y>>R M* R> FM/MOD </b><b>;
+: </b>*/  <b class=y>   */MOD NIP </b><b>;
+
+\ </b>input/output
+
+<b>\ </b>----- 09 -----
+
+<b>FORTH:
+: </b>EMIT  <b> ( </b>c -- ) <b class=y>  (EMIT </b><b>INCR </b>HOR <b>;
+: </b>CR  <b>   ( </b>-- ) <b class=z>    0D </b><b class=y>(EMIT </b><b class=z>0A </b><b class=y>(EMIT FALSE </b><b>TO </b>HOR <b>INCR </b>VER <b>;
+: </b>SPACE  <b>( </b>-- ) <b class=y>    BL EMIT </b><b>;
+: </b>SPACES <b>( </b>n -- ) <b class=y>  BL SWAP </b><b class=z>0 </b><b>?DO </b><b class=y>DUP EMIT </b><b>LOOP </b><b class=y>DROP </b><b>;
+: </b>TYPE  <b> ( </b>a n -- ) <b class=z>0 </b><b>?DO </b><b class=y>COUNT EMIT </b><b>LOOP </b><b class=y>DROP </b><b>;
+: </b>PAGE  <b> ( </b>-- ) <b class=z>    0C </b><b class=y>EMIT FALSE </b><b>TO </b>HOR <b class=y>FALSE </b><b>TO </b>VER <b>;
+
+EXTRA:
+: </b>BACKSPACE <b>( </b>-- )
+<b class=y>  HOR 0= </b><b>?EXIT
+</b><b class=z>  8 </b><b class=y>BL OVER (EMIT (EMIT (EMIT </b><b class=z>-1 </b><b>+TO </b>HOR <b>;
+
+INSIDE:
+: </b>ACCEPTING <b>( </b>n a i - i ) <b>            \ </b>n a i       n=imax, a=adr, i=count
+ <b class=y> KEY  </b><b>                               \ </b>n a i ch
+ <b class=y> DUP BL &lt;
+</b><b>  IF
+</b><b class=z>     0D </b><b class=y>OVER = </b><b>IF </b><b class=y>2NIP DROP </b><b>}            \ </b>i           char=CR: ready, leave ACCEPTING
+ <b class=z>    8 </b><b class=y>= </b><b>IF </b><b class=y>DUP </b><b>IF </b><b class=y>BACKSPACE 1- </b><b>THEN RE} \ </b>n a i-      destructive backspace when i&lt;>0
+ <b class=y>    BL  </b><b>                                \ </b>n a i bl    ctrl char is replaced by BL
+ <b> THEN
+</b><b class=y>  OVER </b><b class=z>4 </b><b class=y>PICK = </b><b>IF </b><b class=y>DROP </b><b>RE}              \ </b>n a i       i=n: no action
+ <b class=y> DUP 2OVER + C! EMIT 1+ </b><b>RE (;)          \ </b>n a i+      store and emit
+
+<b>FORTH:
+: </b>ACCEPT <b>( </b>a n -- i ) <b>  \ </b>i=teller (AN) 2004
+ <b class=y> SWAP FALSE  </b><b>          \ </b>n a i       n=imax, a=adr, i=count
+ <b class=y> ACCEPTING </b><b>;
+
+EXTRA:
+&lt;----
+</b>: DU/MOD ( ud1 u2 -- u3 ud4 ) \ 32/16->32 divide (BJR)
+  >R 0 R@ UM/MOD
+  ROT ROT R> UM/MOD ROT ;
+: DU* ( ud1 u2 -- ud3 ) \ 32*16->32 multiply (BJR)
+  DUP >R UM* DROP  SWAP R> UM* ROT + ;
+---->
+<b>
+: </b>DU/MOD <b>( </b>ud1 u2 -- u3 ud4 ) <b>  \ </b>32/16->r=16,q=32 (AN)
+ <b class=y> TUCK FALSE SWAP UM/MOD >R SWAP UM/MOD R> </b><b>;
+: </b>DU* <b>( </b>ud1 u2 -- ud3 ) <b>  \ </b>32*16->32 (AN)
+ <b class=y> TUCK UM* DROP >R UM* R> + </b><b>;
+
+FORTH:
+: </b>HOLD  <b class=z> -1 </b><b>+TO </b>HLD  <b class=y>HLD C! </b><b>; ( </b>char -- ) <b>  \ </b>add char to output string
+<b>: </b>&lt;#  <b class=y>   PAD </b><b>TO </b>HLD <b>;         ( </b>-- ) <b>       \ </b>begin numeric conversion
+
+<b>INSIDE:
+: </b>>DIGIT <b>( </b>x -- char ) <b class=y>  DUP </b><b class=z>9 </b><b class=y>> </b><b class=z>7 </b><b class=y>AND + </b><b class=z>30 </b><b class=y>+ </b><b>;
+
+FORTH:
+: </b>#  <b class=y>    BASE @ DU/MOD ROT >DIGIT HOLD </b><b>;   ( </b>ud1 -- ud2 )
+<b>: </b>#S  <b>   BEGIN </b><b class=y># 2DUP OR 0= </b><b>UNTIL ;        ( </b>ud1 -- ud2 )
+<b>: </b>#>  <b class=y>   2DROP HLD PAD OVER - </b><b>;            ( </b>ud1 -- c-addr u )
+<b>: </b>SIGN  <b class=y> 0&lt; 0= </b><b>?EXIT </b><b class=z>02D </b><b class=y>HOLD </b><b>;            ( </b>n -- ) <b>\ </b>add minus sign if n&lt;0
+
+<b>EXTRA: \ </b>(AN)
+<b>: </b>DU.STRING  <b>( </b>du -- a n ) <b class=y>  &lt;# #S #> </b><b>;
+: </b>D.STRING  <b> ( </b>dn -- a n ) <b class=y>  TUCK DABS &lt;# #S ROT SIGN #> </b><b>;
+: </b>RTYPE  <b>    ( </b>a n r -- ) <b class=y>   2DUP MIN - SPACES TYPE </b><b>;
+\ </b>: LTYPE      ( a n l -- )    2DUP MIN 2SWAP TYPE - SPACES ;
+
+<b>EXTRA:
+: </b>DU.  <b>( </b>du -- ) <b class=y>    DU.STRING TYPE SPACE </b><b>;
+: </b>DU.R <b>( </b>du r -- ) <b class=y>  >R DU.STRING R> RTYPE </b><b>;
+
+FORTH:
+: </b>D.  <b> ( </b>d -- ) <b class=y>     D.STRING  TYPE SPACE </b><b>;
+: </b>U.  <b> ( </b>u -- ) <b class=z>     0  </b><b class=y> DU. </b><b>;
+: </b>.  <b>  ( </b>n -- ) <b class=y>     S>D D.  </b><b>;
+: </b>D.R  <b>( </b>d r -- ) <b class=y>   >R     D.STRING  R> RTYPE </b><b>;
+: </b>U.R  <b>( </b>u r -- ) <b class=y>   >R </b><b class=z>0  </b><b class=y> DU.STRING R> RTYPE </b><b>;
+: </b>.R  <b> ( </b>n r -- ) <b class=y>   >R S>D D.STRING  R> RTYPE </b><b>;
+: </b>?  <b class=y>       @ . </b><b>;
+: </b>DECIMAL  <b class=z> 0A </b><b class=y>BASE ! </b><b>;
+: </b>HEX  <b class=z>     10 </b><b class=y>BASE ! </b><b>;
+
+EXTRA:
+: </b>BINARY  <b class=z>  2  </b><b class=y>BASE ! </b><b>;
+
+FORTH:
+: </b>SOURCE <b>( </b>-- adr n ) <b class=y>  IB #IB </b><b>;    \  </b>current input buffer
+<b>\ </b>: /STRING ( a n i -- a+i n-i )   TUCK - >R + R> ; \ (AN)
+<b>CODE </b>/STRING <b>( </b>a n i -- a+i n-i ) <b>  \ </b>(AN) 2004
+ <b> D X TFR                    \ </b>i
+ <b> S </b><b class=z>2 </b><b>#) ADDD   S </b><b class=z>2 </b><b>#) STD   \ </b>a+i
+ <b> S ) LDD   S ) STX          \ </b>n->D i->S)
+ <b> S )++ SUBD                 \ </b>n-i
+ <b> NEXT END-CODE
+
+\ </b>----- 10 -----
+
+<b>\ </b>CATCH and (THROW  (AN) 2004
+<b>INSIDE:
+CODE </b>CATCH( <b>( </b>xt -- ? )
+<b>  REG </b>S <b>PSHU                    \ </b>SP >R
+ <b> U </b><b class=z>-2 </b><b>#) LEAX   REG </b>X <b>PSHU     \ </b>RP-2 >R
+ <b> NEXT END-CODE
+CODE </b>)CATCH <b>( </b>-- 0 )
+<b>  U </b><b class=z>4 </b><b>#) LEAU              \ </b>wis gesavede RP en SP
+ <b> REG </b>D <b>PSHS   CLRA   CLRB \ </b>goedkeuringsnul
+ <b> NEXT END-CODE
+
+FORTH:
+: </b>CATCH <b class=y>CATCH( EXECUTE )CATCH </b><b>;
+
+\ </b>(THROW always throws and does NOT test on ZERO!
+<b>INSIDE:
+CODE </b>(THROW <b>( </b>x -- ) <b>  \ </b>(AN) 2004
+ <b>   D X TFR               \ </b>throw#
+ <b> BEGIN
+     U D TFR              \ </b>RP
+ <b>    U )++ CMPD   =?
+  UNTIL
+     REG </b>S <b>PULU           \ </b>restore SP
+ <b>    X D TFR              \ </b>throw#
+ <b>    REG </b>Y <b>PULU   NEXT END-CODE
+
+FORTH:
+: </b>ABORT <b>( </b>? -- ) <b class=z>  -1 </b><b class=y>(THROW </b><b>;
+
+&lt;----
+</b>INSIDE:
+CODE (LOWER ( ch -- ch2 )  \ (AN)
+       CHAR A # CMPB   U&lt;? NO   \ A...
+  IF   CHAR Z # CMPB   U>? NO   \ A..Z
+  IF   020 # ADDB
+  THEN   THEN   NEXT END-CODE 
+
+EXTRA:
+: LOWER ( a n -- )   0 ?DO DUP C@ (LOWER OVER C! 1+ LOOP DROP ;
+---->
+<b>
+INSIDE:
+CODE </b>(UPPER <b>( </b>ch -- ch2 ) <b> \ </b>(AN)
+ <b>      CHAR </b>a <b># CMPB   U&lt;? NO   \ </b>a...
+ <b> IF   CHAR </b>z <b># CMPB   U>? NO   \ </b>a..z
+ <b> IF  </b><b class=z> 020 </b><b># SUBB
+  THEN   THEN   NEXT END-CODE 
+
+EXTRA:
+: </b>UPPER <b>( </b>a n -- ) <b class=z>  0 </b><b>?DO </b><b class=y>DUP C@ (UPPER OVER C! 1+ </b><b>LOOP </b><b class=y>DROP </b><b>;
+
+FORTH:
+: </b>COMPARE <b>( </b>a1 n1 a2 n2 -- 0\-1\+1 )
+<b class=y>  ROT 2DUP - >R UMIN  </b><b>       \ </b>a1 a2 n r: n1-n2
+ <b class=y> S&lt;> ?DUP </b><b>IF </b><b class=y>RDROP </b><b>}
+</b><b class=y>  R> DUP 0= </b><b>?EXIT
+</b><b class=y>  0> 2* 1+ </b><b>;
+: </b>MOVE <b>( </b>a1 a2 u -- ) <b>  \ </b>(AN) 2004
+ <b class=y> 2DUP +  </b><b>      \ </b>a1 a2 u a2+u
+ <b class=y> 2OVER  </b><b>       \ </b>a1 a2 u a2+u a1 a2
+ <b class=y> WITHIN </b><b>IF </b><b class=y>CMOVE </b><b>}
+</b><b class=y>  CMOVE> </b><b>;
+
+EXTRA:
+: </b>PLACE <b>( </b>src n dst -- ) <b>  \ </b>copy to counted string
+ <b class=y> 2DUP C! CHAR+ SWAP MOVE </b><b>;
+
+\ </b>----- 11 -----
+
+<b>FORTH:
+: </b>WORD <b>( </b>char -- a ) <b>       \ </b>(AN) 2004
+ <b class=y> >R  </b><b>                      \  </b>                      r: char
+ <b class=y> SOURCE >IN @  </b><b>            \ </b>BUFA BUFQ POS
+ <b class=y> /STRING TUCK  </b><b>            \ </b>rest adr rest
+ <b class=y> R@ SKIP  </b><b>                 \ </b>rest worda arest
+ <b class=y> OVER SWAP  </b><b>               \ </b>rest a a arest
+ <b class=y> R> SCAN  </b><b>                 \ </b>rest a wordz zrest     r: --
+ <b class=y> >R  </b><b>                      \ </b>rest a wordz           r: zrest
+ <b class=y> OVER -  </b><b>                  \ </b>rest a wordz-a
+ <b class=y> 2DUP WRD 2!  </b><b>             \ </b>Voor QUIT en voor DNUMBER? in EVAL
+ <b class=y> HERE PLACE  </b><b>              \ </b>rest
+ <b class=y> R> DUP 0&lt;> +  </b><b>            \ </b>rest zrest*            r: --
+ <b class=y> - >IN +!
+  HERE </b><b>;
+: </b>PARSE <b>( </b>char -- a n ) <b>    \ </b>(AN) 2004
+ <b class=y> >R  </b><b>                      \  </b>                        r: char
+ <b class=y> SOURCE >IN @  </b><b>            \ </b>BUFA BUFQ POS
+ <b class=y> /STRING 2DUP  </b><b>            \ </b>a arest a arest
+ <b class=y> R> SCAN  </b><b>                 \ </b>a arest stringend zrest  r: --
+ <b class=y> 2>R R>  </b><b>                  \ </b>a arest zrest            r: stringend
+ <b class=y> DUP 0&lt;> + - >IN +!
+  R> OVER - </b><b>;               \ </b>a n                      r: --
+
+<b>EXTRA:
+CODE </b>?STACK <b>( </b>-- ) <b> \ </b>See S0 (AN) 2004
+ <b> REG </b>D <b>PSHS   S D TFR
+  TSTB   0&lt;? NO
+  IF   REG </b>D <b>PULS   NEXT
+  THEN                                ( </b>sp=100..17F )
+<b class=z>  -4 </b><b># LDB               ( </b>sp=x80..xFF, x=1 underflow, x=0 overflow )
+<b>  TSTA =?
+  IF   INCB   THEN   SEX              ( </b>-3 for overflow? )
+<b>  ' </b>(THROW <b>TARGA JMP   END-CODE
+: </b>?BASE <b>( </b>-- ) <b class=y>  BASE @ </b><b class=z>2 49 </b><b class=y>WITHIN </b><b>?EXIT </b><b class=y>DECIMAL </b><b class=z>-3E </b><b class=y>(THROW </b><b>;
+: </b>?PAIR <b>( </b>x y -- ) <b class=y>  = </b><b>?EXIT </b><b class=z>-16 </b><b class=y>(THROW </b><b>;
+: </b>?COMP <b>( </b>-- ) <b class=y>  STATE @ </b><b>?EXIT </b><b class=z>-0E </b><b class=y>(THROW </b><b>;
+
+FORTH:
+: </b>COMPILE, <b>( </b>xt -- ) <b class=y>  ?COMP HERE ! CELL </b><b>+TO </b>HERE <b>;
+
+INSIDE:
+: </b>COMPILE() <b>( </b>-- ) <b class=y>  INLINE# COMPILE, </b><b>;
+
+FORTH:
+: </b>[ <b>( </b>-- ) <b class=y>  FALSE STATE ! </b><b>; IMMEDIATE
+: </b>] <b>( </b>-- ) <b class=y>  TRUE STATE ! </b><b>;
+
+\ </b>FLYER for state smart words (AN) 2004
+<b>INSIDE:
+: </b>SAFE-THERE <b>( </b>-- a ) <b>     \ </b>Reset THERE when not in Flybuf..+40
+ <b class=z> 40 </b><b class=y>THERE FLYBUF - U&lt;
+</b><b>  IF </b><b class=y>FLYBUF </b><b>TO </b>THERE
+<b>  THEN </b><b class=y>THERE </b><b>; 
+: </b>FLYER <b>( </b>-- ) <b>\ </b>R: caller --  THERE  rest-van-FLY  Caller
+ <b class=y> STATE @ </b><b>?EXIT
+</b><b class=y>  SAFE-THERE
+    HERE </b><b>TO </b>THERE
+<b class=y>  DUP </b><b>TO </b>HERE
+<b class=y>  R> 2>R  </b><b>             \ </b>Adres van tijdelijke code
+ <b class=y> ] DIVE  </b><b>             \ </b>Maak nu de Caller af en keer terug naar hier.
+ <b> POSTPONE </b>EXIT  <b>      \ </b>Plak EXIT achter de tijdelijke code.
+ <b> POSTPONE </b>[
+<b class=y>  HERE THERE </b><b>TO </b>HERE <b>TO </b>THERE  <b>    \ </b>Herstel HERE
+ <b> ;                    \ </b>Spring nu naar de tijdelijke code.
+
+<b>&lt;----
+</b>INSIDE:
+CODE "(S) ( -- a n )
+  REG D PSHS
+  Y )+ LDB    CLRA
+  REG Y PSHS
+  Y B) LDY    NEXT END-CODE
+---->
+<b>
+INSIDE:
+\ </b>: C"(S) ( -- a )   INLINE$ DROP 1- ;
+<b>: </b>"(S) <b>( </b>-- a n ) <b class=y>  INLINE$ </b><b>;
+: </b>."(S) <b>( </b>-- ) <b class=y>     INLINE$ TYPE </b><b>;
+
+FORTH:
+: </b>.( <b>( </b>&lt;txt"> -- ) <b>  [CHAR] </b>) <b class=y>PARSE TYPE </b><b>; IMMEDIATE
+
+EXTRA:
+: </b>WORD,  <b>( </b>ch -- ) <b class=y>  WORD C@ 1+ ALLOT </b><b>;
+: </b>PARSE, <b>( </b>ch -- ) <b class=y>  PARSE HERE OVER 1+ ALLOT PLACE </b><b>;
+
+INSIDE:
+: </b>ABORT"(S) <b>( </b>flag -- ) <b>\ </b>(AN) 2004
+ <b> IF </b><b class=y>R@ </b><b>TO </b>MSG#-2 <b class=z>-2 </b><b class=y>(THROW
+</b><b>  THEN </b><b class=y>/INLINE$ </b><b>;
+
+\ </b>--- R'DAM & A'DAM
+<b>FORTH:
+: </b>ABORT" <b>( </b>&lt;txt"> -- ) <b class=y>  FLYER </b><b>POSTPONE </b>ABORT"(S)
+<b>  HERE-IS </b>ROTTERDAM
+<b>  [CHAR] </b>" <b class=y>PARSE, </b><b>; IMMEDIATE 
+EXTRA:
+: </b>" <b>( </b>&lt;txt"> -- a n |-- )
+<b>  HERE-IS </b>AMSTERDAM
+<b class=y>  FLYER </b><b>POSTPONE </b>"(S)
+<b>  [ ROTTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+FORTH:
+: </b>S" <b>( </b>&lt;txt"> -- a n |-- ) <b>               [ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+: </b>." <b>( </b>&lt;txt"> -- ) <b class=y>  FLYER </b><b>POSTPONE </b>."(S) <b>[ ROTTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+\ </b>: C" ( &lt;txt"> -- )   FLYER POSTPONE C"(S) [ ROTTERDAM 22 ] AGAIN (;) IMMEDIATE
+<b>EXTRA:
+: </b>MSG" <b>( </b>n &lt;ccc"> -- )
+<b class=y>  HERE SWAP , TOPMSG , </b><b>TO </b>TOPMSG
+<b>  [ ROTTERDAM </b><b class=z>22 </b><b>] AGAIN (;)
+\ </b>---
+
+<b>FORTH:
+: </b>DEPTH <b>( </b>-- n ) <b class=y>SP@ S0 SWAP - 2/ </b><b>;
+
+\ </b>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<b>\ </b>----------------- assembler hulpwoordjes --------------------
+
+<b>INSIDE:
+: </b>8BIT?  <b class=z> -80 80 </b><b class=y>WITHIN </b><b>;
+: </b>INITMODE <b>( </b>-- ) <b>  \ </b>Default value before starting an instruction
+ <b class=z> 30 </b><b>TO </b>MODE <b>;      \ </b>zie ?ILLEGAL & Doers
+<b>: </b>?ILLEGAL <b>( </b>flag -- ) <b class=y>  0= </b><b>?EXIT </b><b class=z>-3F </b><b class=y>(THROW </b><b>;
+: </b>INDEXREG <b>( </b>regnr postbyte1 -- postbyte2 ) <b>  \ </b>zie  DO)MODE  #)
+ <b class=z>  20 </b><b>TO </b>MODE
+<b class=y>   SWAP  1-  </b><b class=z>3 </b><b class=y>OVER U&lt; ?ILLEGAL  </b><b> \ </b>must be x,y,u, or s (0..3)
+ <b class=z>  5 </b><b class=y>LSHIFT OR </b><b>;                  \ </b>put reg # in postbyte
+<b>&lt;----
+</b>    ,  A  B  D  X  Y  U  S
+    0  2  4  6  10 20 40 40
+---->
+<b>:  </b>REGCODE <b>( </b>ch -- regcode) <b>           \ </b>zie  REG
+ <b>  [CHAR] </b>Z <b class=y>OVER &lt; BL AND - >R  </b><b>       \ </b>UPPER
+ <b>  S" </b>,ABDXYUS87654321"
+<b>   [ </b><b class=z>-8 </b><b>ALLOT </b><b class=z>2 </b><b>, </b><b class=z>406 </b><b>, </b><b class=z>1020 </b><b>, </b><b class=z>4040 </b><b>, ]
+</b><b class=y>   2/ TUCK R>  </b><b>                        \ </b>8 List 8 Ch
+ <b class=y>  SCAN </b><b>IF </b><b class=y>+ C@ </b><b>}
+</b><b class=z>   -3F </b><b class=y>(THROW </b><b>(;)
+: </b>+MODE <b>( </b>operand1 -- operand2 ) <b>  \ </b>change 5x to 0x
+ <b class=y>  MODE +  DUP </b><b class=z>0F0 </b><b class=y>AND </b><b class=z>50 </b><b class=y>&lt;> </b><b>?EXIT </b><b class=z>0F </b><b class=y>AND </b><b>;
+: </b>PCREL <b>( </b>operand postbyte -- ) <b>  \ </b>PC relative  zie INDEXED
+ <b class=y>  SWAP HERE </b><b class=z>2 </b><b class=y>+ -  DUP 8BIT?  </b><b>   \ </b>Relative offset 8 bit?
+ <b>  IF  </b><b class=y>SWAP </b><b class=z>0FE </b><b class=y>AND C, C, </b><b>}       \ </b>Postbyte + offset8
+ <b class=y>  1-  SWAP C, , </b><b>;                \ </b>Postbyte + offset16
+<b>: </b>COFSET <b>( </b>operand postbyte -- ) <b>\  </b> Constant offset  zie INDEXED
+ <b class=y>  OVER 0= </b><b>IF </b><b class=z>0F0 </b><b class=y>AND </b><b class=z>4 </b><b class=y>OR C, DROP </b><b>}   \ </b>no offset
+ <b class=y>  OVER </b><b class=z>-10 10 </b><b class=y>WITHIN OVER </b><b class=z>10 </b><b class=y>AND 0=  </b><b> \ </b>5bit and no indirection?
+ <b class=y>  AND </b><b>IF </b><b class=z>60 </b><b class=y>AND SWAP </b><b class=z>1F </b><b class=y>AND OR C, </b><b>}   \  </b>5 bit offset
+ <b class=y>  OVER 8BIT? </b><b>IF </b><b class=z>0FE </b><b class=y>AND C, C, </b><b>}       \  </b>8 bit offset
+ <b class=y>  C, , </b><b>;                              \ </b>16 bit offset
+<b>: </b>INDEXED <b>( </b>operand? postbyte -- )
+ <b class=y>  DUP </b><b class=z>8F </b><b class=y>AND  </b><b>                      \ </b>check postbyte for modes with operands
+ <b class=y>     DUP </b><b class=z>89 </b><b class=y>= </b><b>IF </b><b class=y>DROP  COFSET  </b><b>}    \ </b>Constant offset
+ <b class=y>     DUP </b><b class=z>8D </b><b class=y>= </b><b>IF </b><b class=y>DROP  PCREL  </b><b> }    \ </b>PC relative
+ <b class=y>     DUP </b><b class=z>8F </b><b class=y>= </b><b>IF </b><b class=y>DROP  C, ,  </b><b>  }    \ </b>Extended indirect
+ <b class=y>                 DROP  C, </b><b>;         \ </b>Simple modes: postbyte only
+<b>: </b>IMMED <b>( </b>operand opcode-pfa+ -- )
+ <b class=y>  C@ 1- S>D ?ILLEGAL  </b><b> \ </b>0
+ <b>  IF </b><b class=y>, </b><b>}               \ </b>2
+ <b class=y>  C, </b><b>;                 \ </b>1
+
+<b>\ </b>==================== de DOERS (AN) =====================
+
+<b>\ </b>Inherent instructions
+<b>INSIDE:
+DOER: </b>DOSEX  <b class=y> C@ C, INITMODE </b><b>; \ </b>Lay 1 byte
+<b>DOER: </b>DOSWI2  <b class=y> @ , INITMODE </b><b>; \ </b>Lay cell
+<b>DOER: </b>DOCWAI <b>( </b>operand -- ) <b>  \ </b>8 bit, Immediate instructions
+ <b class=y>  MODE ?ILLEGAL C@ C, C, INITMODE </b><b>;
+&lt;----
+</b> Stack action of general addressing instructions
+ (1) immediate, direct, extended:                operand --
+ (2) all indexed except (3):                    postbyte --
+ (3) const.offset, PC, extended indir: operand postbyte --
+---->
+<b>: </b>GENADR <b>( </b>adr+ -- )
+<b class=y>   MODE INITMODE
+   DUP  </b><b class=z>0 </b><b class=y>= </b><b>IF </b><b class=y>DROP  IMMED  </b><b>       }   \ </b>Immediate
+ <b class=y>  DUP </b><b class=z>10 </b><b class=y>= </b><b>IF </b><b class=y>DROP  DROP C,  </b><b>     }   \ </b>Direct
+ <b class=y>  DUP </b><b class=z>20 </b><b class=y>= </b><b>IF </b><b class=y>DROP  DROP INDEXED  </b><b>}   \ </b>Indexed
+ <b class=y>  DUP </b><b class=z>30 </b><b class=y>= </b><b>IF </b><b class=y>DROP  DROP ,  </b><b>      }   \ </b>Extended
+ <b class=y>  ?ILLEGAL </b><b>;
+DOER: </b>DONEG  <b> \ </b>2x 8 bit in body, General address instructions
+ <b class=y>  COUNT +MODE C, GENADR </b><b>;
+DOER: </b>DOLDY  <b> \ </b>16 & 8 bit in body, General address instructions
+ <b class=y>  @+ +MODE , GENADR </b><b>;
+DOER: </b>DOEXG  <b> \ </b>8 bit in body, R to R instructions
+ <b class=y>  C@ C, SWAP </b><b class=z>4 </b><b class=y>LSHIFT </b><b>( </b>10 * ) <b class=y>+ C, INITMODE </b><b>;
+DOER: </b>DOLEA  <b> \ </b>8 bit in body, Lea instructions
+ <b class=y>  MODE </b><b class=z>20 </b><b class=y>- ?ILLEGAL
+   C@ C, INDEXED INITMODE </b><b>;
+DOER: </b>DOBEQ  <b> \ </b>8 bit in body, Conditional branches
+ <b class=y>  C@  SWAP HERE </b><b class=z>2 </b><b class=y>+ -  </b><b>     \ </b>Distance
+ <b class=y>  INITMODE
+   DUP 8BIT?
+</b><b>   IF  </b><b class=y>SWAP C, C, </b><b>}          \ </b>8 bit
+ <b class=z>  10 </b><b class=y>C, SWAP C, </b><b class=z>2 </b><b class=y>- , </b><b>;     \ </b>16 bit
+<b>DOER: </b>DOBRA  <b> \ </b>16 bit in body, Unconditional branches
+ <b class=y>  @  SWAP HERE </b><b class=z>2 </b><b class=y>+ -  </b><b>                   \ </b>distance
+ <b class=y>  INITMODE
+   DUP 8BIT?  </b><b>IF  </b><b class=y>SWAP BYTESWAP C, C, </b><b>}   \ </b>8 bit: use short opcode
+ <b class=y>  SWAP C, 1- , </b><b>;                         \ </b>16 bit: use long opcode
+<b>\ </b>DOER: DOCCON C@ ;   \ 8 bit in body, Conditions, Registers
+<b>DOER: </b>DO-) <b class=y>C@ INDEXREG </b><b>;   \ </b>8 bit in body \ Modes
+
+<b>\ </b>-------- De assemblerwoordjes ------
+
+<b>\ </b>Zet geen commentaren binnen in een lijst!
+<b>ASSEMBLER:
+NEG:
+</b>0  40 NEG                             0  43 COM
+0  44 LSR                 0  46 ROR   0  47 ASR
+0  48 ASL
+0  48 LSL    0  49 ROL    0  4A DEC
+0  4C INC    0  4D TST    0  4E JMP   0  4F CLR
+1  80 SUBA   1  81 CMPA   1  82 SBCA  2  83 SUBD
+1  84 ANDA   1  85 BITA   1  86 LDA   0  87 STA
+1  88 EORA   1  89 ADCA   1  8A ORA   1  8B ADDA
+2  8C CMPX   0  8D JSR    2  8E LDX   0  8F STX
+1 0C0 SUBB   1 0C1 CMPB   1 0C2 SBCB  2 0C3 ADDD
+1 0C4 ANDB   1 0C5 BITB   1 0C6 LDB   0 0C7 STB
+1 0C8 EORB   1 0C9 ADCB   1 0CA ORB   1 0CB ADDB
+2 0CC LDD    0 0CD STD    2 0CE LDU   0 0CF STU   -1
+<b>LDY:
+</b>2 1083 CMPD  2 108C CMPY  2 108E LDY  0 108F STY
+                          2 10CE LDS  0 10CF STS
+2 1183 CMPU 2 118C CMPS   -1
+<b>LEA:  </b> 30 LEAX 31 LEAY 32 LEAS  33 LEAU  -1
+<b>EXG:  </b>  1E EXG  1F TFR  -1
+<b>SEX:
+</b>12 NOP   13 SYNC 19 DAA  1D SEX
+39 RTS   3A ABX  3B RTI  3D MUL  3F SWI
+40 NEGA                  43 COMA
+44 LSRA          46 RORA 47 ASRA
+48 ASLA
+48 LSLA  49 ROLA 4A DECA
+4C INCA  4D TSTA         4F CLRA
+50 NEGB                  53 COMB
+54 LSRB          56 RORB 57 ASRB
+58 ASLB
+58 LSLB  59 ROLB 5A DECB
+5C INCB  5D TSTB         5F CLRB   -1
+<b>SWI2:  </b>103F SWI2  113F SWI3   -1
+<b>CWAI:  </b>  1A ORCC  1C ANDCC
+34 PSHS  35 PULS  36 PSHU  37 PULU  3C CWAI  -1
+<b>BRA:  </b>2016 BRA  8D17 BSR  -1
+<b>BEQ:  </b>   21 BRN  22 BHI  23 BLS
+24 BHS   25 BLO
+24 BCC   25 BCS  26 BNE  27 BEQ
+28 BVC   29 BVS  2A BPL  2B BMI
+2C BGE   2D BLT  2E BGT  2F BLE  -1
+<b>&lt;----
+</b>\ 6809 conditions  (Constanten)
+CON:
+ 20 NVR  21 ALW  22 LS   23 HI
+ 24 LO   25 HS
+ 24 CS   25 CC   26 EQ   27 NE
+ 28 VS   29 VC   2A MI   2B PL
+ 2C LT   2D GE   2E LE   2F GT   -1
+---->
+<b>\ </b>6809 conditions, (AN):
+<b>\ </b>Forth-achtige 6809 assembler condities.
+<b>\ </b>Deze woordjes dekken ALLE condities.
+<b>CON:  </b>    23 U>?
+ 24 U&lt;?   24 CS?
+ 26 =?
+ 28 VS?   2A 0&lt;?
+ 2C &lt;?    2F >?    -1
+<b>: </b>NO <b>( </b>cond# -- cond#2 ) <b class=z>  1 </b><b class=y>XOR </b><b>;
+
+\ </b>6809 registers (Constanten)
+<b>CON:
+</b>0 D       1 X      2 Y      3 U
+4 S       5 PC     8 A      9 B
+                  0A CCR   0B DP   -1
+<b>
+\ </b>6809 addressing modes
+<b>-):
+</b>80 )+     81 )++   82 -)    83 --)
+84 )      85 B)    86 A)    8B D)     -1
+<b>
+\ </b>================ EINDE ASSEMBLER DEEL I ==================
+
+<b>
+INSIDE:
+: </b>PARENTHESIZE <b>( </b>-- ) <b>  ."  </b>(" <b class=y>DIVE </b><b>." </b>) " <b>;
+
+FORTH:
+: </b>.S <b>( </b>-- )
+<b class=y>  ?STACK PARENTHESIZE SPACE
+  DEPTH 0= </b><b>?EXIT
+</b><b class=y>  DEPTH  </b><b>BEGIN </b><b class=y>DUP PICK . 1-
+               DUP 0= </b><b>UNTIL </b><b class=y>DROP </b><b>;
+
+EXTRA:
+: </b>U.S <b>( </b>-- ) <b>  \ </b>Unsigned version of .S
+ <b class=y> ?STACK PARENTHESIZE SPACE
+  DEPTH 0= </b><b>?EXIT
+</b><b class=y>  DEPTH  </b><b>BEGIN </b><b class=y>DUP PICK U. 1-
+               DUP 0= </b><b>UNTIL </b><b class=y>DROP </b><b>;
+
+EXTRA:
+: </b>.MSG <b>( </b>n -- ) <b>  \  </b>msg-body: msg# | link | text..
+ <b class=z> -3 </b><b class=y>OVER U&lt; </b><b>IF </b><b class=y>1+ 0= </b><b>?EXIT                \ </b>msg#=-1
+ <b class=y>               SPACE MSG#-2 COUNT TYPE </b><b>}  \ </b>msg#=-2
+ <b class=y> TOPMSG
+</b><b>     AHEAD
+  BEGIN  </b><b class=y>  CELL+ @  </b><b>        \ </b>n 'msg
+ <b>    /THEN </b><b class=y>DUP @  </b><b>          \ </b>n 'msg msg#
+ <b> WHILE  </b><b class=y>  2DUP @ =
+</b><b>  UNTIL
+  THEN                   \ </b>n 'msg
+ <b class=y> CELL+ CELL+ COUNT TYPE
+  ?DUP 0= </b><b>?EXIT
+</b><b class=y>  PARENTHESIZE </b><b>." </b>Message # " <b class=z>0 </b><b class=y>.R </b><b>;
+
+INSIDE:
+: </b>.OK <b>( </b>-- ) <b>                     \ </b>(AN) 2005
+ <b class=y> ?BASE ?STACK
+  OK </b><b class=z>1 </b><b class=y>AND  </b><b>IF  </b><b class=y> STATE @ </b><b>IF   ."  </b>ok"
+<b>                         ELSE ."  </b>OK"
+<b>                         THEN
+            THEN
+</b><b class=y>  CR
+  OK </b><b class=z>2 </b><b class=y>AND  </b><b>IF  </b><b class=y> .S
+</b><b>            ELSE </b><b class=y>OK </b><b class=z>4 </b><b class=y>AND </b><b>IF </b><b class=y>U.S </b><b>THEN
+            THEN
+</b><b class=y>  OK </b><b class=z>8 </b><b class=y>AND  0= </b><b>?EXIT
+</b><b class=z>            0A </b><b class=y>BASE @ = </b><b>?EXIT
+</b><b class=y>            BASE @ DUP DECIMAL </b><b class=z>0 </b><b class=y>.R BASE ! </b><b>." </b>) " <b>;
+
+\ </b>----- 12 -----
+<b>\ </b>Inputstream
+
+<b>FORTH:
+: </b>QUERY <b>( </b>-- a n )
+<b class=y>  TIB DUP </b><b>TO </b>IB <b class=y>TIBSIZE ACCEPT </b><b>TO </b>#IB
+<b class=z>  0 </b><b class=y>>IN ! SPACE </b><b>;
+
+FORTH:
+: </b>REFILL <b>( </b>-- t/f ) <b class=y>  TIB IB = </b><b>IF </b><b class=y>.OK QUERY TRUE </b><b>} </b><b class=y>FALSE </b><b>;
+
+EXTRA:
+: </b>WORD> <b>( </b>ch -- a ) <b>\ </b>a is never a nullstring (AN) 2004
+ <b> BEGIN </b><b class=y>DUP WORD DUP C@ </b><b>IF </b><b class=y>NIP </b><b>}
+</b><b class=y>        DROP >R REFILL 0= </b><b>IF </b><b class=z>-10 </b><b class=y>(THROW </b><b>THEN
+</b><b class=y>        R>
+</b><b>  AGAIN (;)
+
+INSIDE:
+CODE </b>THREAD <b>( </b>blword -- draadadres ) <b>  \ </b>Len 2* Z xor 2* A xor
+ <b> D X TFR               \ </b>Counted stringadres
+ <b> X ) LDA   A B TFR     \ </b>count
+ <b> ASLB   X A) EORB      \ </b>laatste karakter erbij
+ <b> ASLB   X </b><b class=z>1 </b><b>#) EORB    \ </b>eerste karakter erbij
+ <b> HX </b>0F <b># ANDB   ASLB   \ </b>offset in dradenlijst
+ <b class=z> 3 </b><b># ADDB   SEX        \ </b>dictionary adres = 0003
+ <b> NEXT END-CODE
+: </b>FINDNAME <b>( </b>blword -- nfa? ) <b>  \ </b>nfa? is a valid nfa or zero.  (AN) 2004
+ <b class=y> DUP C@ 1+ </b><b class=z>20 </b><b class=y>MIN  </b><b>          \ </b>blword len+1
+ <b class=y> 2DUP UPPER
+  OVER THREAD  </b><b>               \ </b>blword len+1 lfa
+ <b> AHEAD
+     BEGIN </b><b class=y>NAME>LINK  </b><b>        \ </b>blword len+1 lfa
+ <b> /THEN  </b><b class=y>  @ DUP  </b><b>            \ </b>blword len+1 nfa/0
+ <b>    WHILE </b><b class=y>DUP 2OVER S&lt;> 0=  </b><b> \ </b>blword len+1 nfa found?
+ <b>    UNTIL
+     THEN                     \ </b>blword len+1 nfa/0
+ <b class=y> NIP NIP </b><b>;
+: </b>FINDWORD <b>( </b>blword nfa? widstring widcount -- xt imm | blword 0 )
+<b class=y>  2>R  </b><b>                          \ </b>a nfa    r: widstring widcount
+ <b class=y> DUP
+</b><b>  IF </b><b class=y>FALSE SWAP  </b><b>                \ </b>a 0 nfa
+ <b>    AHEAD
+       BEGIN </b><b class=y>NAME>LINK
+             CELL- @  </b><b>           \ </b>a NFA? nfa*
+ <b>    /THEN  </b><b class=y> 2R@ 2OVER NIP @VOC  </b><b>\ </b>a 0 nfa widstring widcount wid
+ <b class=y>            SCAN NIP  </b><b>          \ </b>a 0 nfa rest
+ <b class=y>            R> OVER - >R
+</b><b>             IF  </b><b class=y> NIP DUP  </b><b>      \ </b>a NFA* nfa ( this one is OK )
+ <b>            THEN
+</b><b class=y>             DUP HOM? R@ AND  </b><b>   \ </b>a NFA? nfa meer?
+ <b class=y>      0= </b><b>UNTIL
+</b><b class=y>     DROP  </b><b>                     \ </b>a NFA?
+ <b class=y>    DUP </b><b>IF </b><b class=y>NIP  </b><b>               \ </b>NFA
+ <b class=y>           DUP NAME>  </b><b>         \ </b>NFA xt
+ <b class=y>           SWAP @IMM  </b><b>         \ </b>xt imm
+ <b>        THEN                   \ </b>xt imm | blword 0
+ <b> THEN </b><b class=y>2RDROP </b><b>;
+
+FORTH:
+: </b>FIND <b>( </b>blword -- xt imm ) <b>       \ </b>(an) 2004
+ <b>      ( </b>blword -- blword 0 )
+<b class=y>  DUP FINDNAME  </b><b>               \ </b>blword nfa?
+ <b class=y> DUP 0= </b><b>?EXIT
+</b><b class=y>  CONTEXT CURRENT OVER -  </b><b>     \ </b>blword nfa? widstring widcount
+ <b class=y> FINDWORD </b><b>;                   \ </b>xt imm | blword 0
+<b>: </b>SEARCH-WORDLIST <b>( </b>a n wid -- xt imm )
+<b>                  ( </b>a n wid -- false )
+<b class=y>  >R HERE PLACE  </b><b>             ( </b>-- ) <b> \ </b>r: wid
+ <b class=y> HERE DUP FINDNAME  </b><b>         \ </b>blword nfa?
+ <b class=y> R> OVER  </b><b>                   \ </b>blword nfa? wid
+ <b> IF </b><b class=y>HERE NAME> TUCK C! </b><b class=z>1  </b><b>   \ </b>blword nfa? widstring widcount=1
+ <b class=y>    FINDWORD  </b><b>               \ </b>xt imm | blword 0
+ <b class=y>    DUP </b><b>?EXIT                \ </b>xt imm
+ <b class=y>    FALSE  </b><b>                  \ </b>blword 0 dummy
+ <b> THEN </b><b class=y>DROP NIP </b><b>;             \ </b>0
+
+<b>INSIDE:
+: </b>!SECTION <b>( </b>-- ) <b class=y>  HERE </b><b>TO </b>SECTION <b>;
+: </b>LIT, <b>(  </b>x -- ) <b>  \ </b>Compile x as a literal
+ <b class=y> DUP </b><b class=z>80 -80 </b><b class=y>WITHIN </b><b>IF POSTPONE </b>() <b class=y>, !SECTION </b><b>}
+  POSTPONE </b>(C) <b class=y>C, !SECTION </b><b>;
+
+FORTH:
+: </b>LITERAL  <b>( </b>x -- ? ) <b class=y>          STATE @ 0= </b><b>?EXIT </b><b class=y>LIT, </b><b>; IMMEDIATE
+: </b>2LITERAL <b>( </b>xlo xhi -- ? ? ) <b class=y>  STATE @ 0= </b><b>?EXIT </b><b class=y>SWAP LIT, LIT, </b><b>; IMMEDIATE
+
+EXTRA:
+: </b>>OK <b>( </b>x -- ) <b>TO </b>OK <b>;
+
+
+\ </b>----- 13 -----
+
+<b>EXTRA:
+: </b>DIGIT> <b>( </b>char -- n true | char false ) <b>  \ </b>(AN) 2004
+ <b class=y> >R R@ </b><b>[CHAR] </b>0 <b class=y>-
+</b><b class=z>  9 </b><b class=y>OVER U&lt;
+</b><b>  IF  </b><b class=z>    10 </b><b class=y>OVER U&lt;
+</b><b>    WHILE </b><b class=z>7 </b><b class=y>-
+</b><b>  THEN  </b><b class=y>  DUP BASE @ U&lt; </b><b>IF </b><b class=y>TRUE RDROP </b><b>}   \ </b>tot de 9 en vanaf de A
+ <b>   THEN  </b><b class=y>DROP R> FALSE </b><b>;                 \ </b>het ongeldige stukje tussen de 9 en de A
+
+<b>FORTH:
+: </b>>NUMBER <b>( </b>dx adr u -- dx2 adr2 u2 )
+<b class=y>  DUP 0= </b><b>?EXIT
+</b><b class=y>  OVER C@ DIGIT>
+</b><b>  IF  </b><b class=y> >R 2SWAP BASE @ DU*
+       R> M+ 2SWAP </b><b class=z>1 </b><b class=y>/STRING
+</b><b>       RE
+  THEN </b><b class=y>DROP </b><b>;
+
+INSIDE:
+: </b>MINUS-SIGN? <b>( </b>a n -- a n false | a+1 n-1 true ) <b>  \ </b>Behandel een eventueel minteken.
+ <b class=y> DUP
+</b><b>  IF  </b><b class=y> OVER C@ </b><b>[CHAR] </b>- <b class=y>= </b><b>IF </b><b class=z>1 </b><b class=y>/STRING TRUE </b><b>}
+  THEN </b><b class=y>FALSE </b><b>;
+: </b>>DOTNUMBER <b>( </b>a n -- xlo xhi a2 q )
+<b>   \ </b>q= -1 : empty string or only dot.
+ <b>  \ </b>q= 0  : ok, string is converted.
+ <b>  \ </b>q= +x : wrong character in the string.
+ <b class=y> FALSE DUP 2SWAP  </b><b>              \ </b>0 0 a n
+ <b class=y> 1- DUP 0=  </b><b>                    \ </b>length=1?
+ <b> IF  </b><b class=y> OVER C@ </b><b>[CHAR] </b>. <b class=y>= OR  </b><b>   \ </b>do not accept "only dot"
+ <b> THEN  </b><b class=y>          S>D </b><b>?EXIT      \ </b>empty string or only dot, q=-1
+ <b class=y> 1+ >NUMBER
+  DUP </b><b>TO </b>DOT? <b class=y>DUP 0=  </b><b>?EXIT      \ </b>ok (no dot)
+ <b class=y> OVER C@ </b><b>[CHAR] </b>. <b class=y>&lt;> </b><b>?EXIT      \ </b>wrong character
+ <b class=y> DUP </b><b>TO </b>DOT? <b class=z>1 </b><b class=y>/STRING >NUMBER </b><b>;
+
+EXTRA:
+: </b>DNUMBER? <b>( </b>a n -- xlo xhi true |-- ? ? false ) <b>  \ </b>(AN) 2004
+ <b class=y> MINUS-SIGN? >R
+  >DOTNUMBER NIP  </b><b>        \ </b>xlo xhi q
+ <b> IF  </b><b class=y>FALSE RDROP </b><b>}       \ </b>? ? false
+ <b class=y> R> ?DNEGATE TRUE </b><b>;      \ </b>xlo xhi true
+
+<b>INSIDE:
+: </b>EVAL <b>( </b>BLWORD -- ) <b>\ </b>(AN) 2004
+ <b class=y> FIND ?DUP </b><b>IF </b><b class=y>STATE @ AND 0&lt; </b><b>IF </b><b class=y>, </b><b>} </b><b class=y>EXECUTE </b><b>}
+</b><b class=y>  DROP WRD 2@
+  DNUMBER? </b><b>IF </b><b class=y>DOT? </b><b>IF POSTPONE </b>2LITERAL <b>} </b><b class=y>DROP </b><b>POSTPONE </b>LITERAL <b>}
+</b><b class=z>  -3D </b><b class=y>(THROW </b><b>(;)
+: </b>OK-LOOP <b>( </b>-- )
+<b class=y>  S0 R0 CELL- CELL- !  </b><b>    \ </b>When entering QUIT with numbers on stack.
+ <b> BEGIN </b><b class=y>BL WORD> EVAL </b><b>AGAIN (;)
+
+FORTH:
+: </b>QUIT <b>( </b>-- )
+<b class=y>  CLEAR-R
+</b><b>  BEGIN
+        POSTPONE </b>[ <b class=y>QUERY
+</b><b>        ['] </b>OK-LOOP <b class=y>CATCH
+        CR INITMODE
+        DUP INVERT 0= </b><b>IF </b><b class=y>WRD 2@ TYPE SPACE </b><b>THEN ( </b>-1? )
+<b class=y>        .MSG SPACE CLEAR-S
+</b><b>  AGAIN (;)
+CODE </b>THROW <b>( </b>x -- ) <b>  \ </b>(AN) 2004
+ <b class=z>   0 </b><b># CMPD   =?   IF   REG </b>D <b>PULS   NEXT   THEN
+</b><b class=z>  -38 </b><b># CMPD   =?   IF   REG </b>D <b>PULS   ' </b>QUIT <b>TARGA JMP   THEN
+  ' </b>(THROW <b>TARGA JMP
+  END-CODE
+
+INSIDE:
+: </b>INTERPRET <b>( </b>a n -- ) <b>  \ </b>For EVALUATE -- (AN) 2004
+ <b> TO </b>#IB <b>TO </b>IB  <b class=z>0 </b><b class=y>>IN !
+</b><b>     AHEAD
+  BEGIN  </b><b class=y>  EVAL
+</b><b>     /THEN </b><b class=y>BL WORD DUP C@ 0=
+</b><b>  UNTIL  </b><b class=y>  DROP </b><b>;
+
+FORTH:
+: </b>EVALUATE <b>( </b>a n -- )
+<b class=y>  SOURCE 2>R >IN @ >R 
+</b><b>  ['] </b>INTERPRET <b class=y>CATCH
+  R> >IN ! 2R> </b><b>TO </b>#IB <b>TO </b>IB
+<b class=y>  THROW </b><b>;
+
+INSIDE:
+: </b>?FOUND <b>( </b>t/f -- ) <b> ?EXIT </b><b class=z>-0D </b><b class=y>(THROW </b><b>(;)
+
+FORTH:
+: </b>' <b>( </b>&lt;name> -- xt | ABORT ) <b class=y>  BL WORD> FIND ?FOUND </b><b>;
+: </b>CHAR  <b> ( </b>&lt;word> -- ch ) <b class=y>     BL WORD> 1+ C@ </b><b>;
+: </b>[CHAR] <b>( </b>&lt;word> -- ) <b class=y>        CHAR </b><b>POSTPONE </b>LITERAL <b>; IMMEDIATE
+
+EXTRA:
+: </b>CTRL  <b class=y> CHAR </b><b class=z>1F </b><b class=y>AND </b><b>POSTPONE </b>LITERAL <b>; IMMEDIATE
+
+FORTH:
+: </b>( <b>( </b>&lt;tekst> -- ) <b>  [CHAR] </b>) <b class=y>PARSE 2DROP
+  >IN @ #IB U&lt; </b><b>?EXIT
+</b><b class=y>  >IN @ </b><b>IF </b><b class=y>SOURCE + 1- C@ </b><b>[CHAR] </b>) <b class=y>= </b><b>?EXIT THEN
+</b><b class=y>  REFILL </b><b>?RE ; IMMEDIATE
+: </b>\ <b>( </b>&lt;tekst> -- ) <b class=y>  #IB >IN ! </b><b>;  IMMEDIATE
+
+\ </b>----- 14 -----
+<b>\ </b>---
+<b>FORTH:
+: </b>CREATE <b>( </b>&lt;name> -- ) <b>  \ </b>(AN) 2004
+ <b class=y> BL WORD>
+</b><b>  HERE-IS </b>AMSTERDAM
+<b class=y>  FINDNAME DUP
+  >R
+  HERE </b><b class=z>3 </b><b class=y>R@ </b><b>IF </b><b class=y>CELL+ </b><b>THEN </b><b class=y>ALLOT
+       DUP HERE OVER C@ 1+ CMOVE>
+  !  </b><b>                             \ </b>eventually !homlink
+ <b class=z> 0  </b><b>                             \ </b>homvocimm byte
+ <b class=y> R> </b><b>IF  </b><b class=y> CR </b><b>." </b>Redefining "
+<b class=y>          HERE COUNT TYPE SPACE
+</b><b class=z>          80 </b><b class=y>OR  </b><b>                 \ </b>homvocimm byte
+ <b>    THEN
+</b><b class=y>  HERE 1- C!  </b><b>                    \ </b>!homvocimm
+ <b class=y> HERE DUP THREAD  </b><b>               \ </b>a th
+ <b class=y> DUP @ HERE NAME>LINK !  </b><b>        \ </b>!link ---
+ <b class=y> HERE SWAP !  </b><b>                   \ </b>new top of the thread
+ <b class=y> HERE 1-
+  CURRENT C@ OVER C@ OR SWAP C!  </b><b> \ </b>!voc ---
+ <b class=y> HERE </b><b>TO </b>TOPNFA  <b>                \ </b>new topnfa
+ <b class=y> C@ 1+ ALLOT  </b><b>                   \ </b>allot name field
+ <b class=y> FALSE JSR  </b><b>                     \ </b>allot code field
+ <b class=y> DOCREATE !SECTION </b><b>;
+INSIDE:
+: </b>CREA <b>( </b>stradr len -- ) <b class=y>  HERE PLACE HERE </b><b>[ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;)
+\ </b>---
+
+<b>FORTH:
+: </b>RECURSE <b>( </b>-- ) <b class=y>  TOPNFA NAME> COMPILE, </b><b>; IMMEDIATE
+
+EXTRA:
+: </b>HIDE  <b class=y>   TOPNFA DUP  C@ </b><b class=z>80 </b><b class=y>OR SWAP C! </b><b>;
+: </b>REVEAL  <b class=y> TOPNFA DUP  C@ </b><b class=z>7F </b><b class=y>AND SWAP C! </b><b>;
+
+FORTH:
+: </b>IMMEDIATE  <b class=y> TOPNFA 1- </b><b class=z>1 </b><b class=y>OVER C@ OR SWAP C! </b><b>;
+: </b>['] <b>( </b>&lt;name> -- ) <b class=y>  ' </b><b>POSTPONE </b>LITERAL <b>; IMMEDIATE
+: </b>[COMPILE] <b>( </b>&lt;name> -- ) <b class=y>  ' COMPILE, </b><b>; IMMEDIATE
+: </b>POSTPONE <b>( </b>&lt;name> -- ) <b>  \ </b>POSTPONE the action following word
+ <b class=y> BL WORD> FIND DUP ?FOUND
+  0&lt; </b><b>IF </b><b class=y>COMPILE() COMPILE() !SECTION CELL </b><b>+TO </b>SECTION <b>THEN   \ </b>non-immediate
+ <b class=y> COMPILE, </b><b>; IMMEDIATE
+&lt;----
+</b>: ENVIRONMENT?   \ c-addr u -- i*x true    system query
+  2DROP 0 ;      \          -- false
+---->
+<b>
+EXTRA:
+: </b>STOP? <b>( </b>- true/false )
+<b class=y>  KEY? DUP 0= </b><b>?EXIT
+</b><b class=y>  DROP KEY
+  BL OVER = </b><b>IF </b><b class=y>DROP KEY </b><b>THEN
+</b><b class=z>  1B </b><b class=y>OVER = </b><b class=z>-1C </b><b class=y>AND THROW
+  BL &lt;> </b><b>;
+
+\ </b>----- 15 -----
+
+<b>
+FORTH:
+: </b>: <b>( </b>&lt;name> -- )
+<b class=y>  CREATE DO: ] HIDE
+  TRUE FALSE >CS </b><b>;
+: </b>:NONAME
+<b class=y>  HERE
+</b><b>  ['] </b>DO: <b class=y>>BODY JSR
+  ]
+  FALSE FALSE >CS
+  !SECTION </b><b>;
+: </b>CONSTANT <b>( </b>x &lt;name> -- )
+<b class=y>  CREATE DUP </b><b class=z>80 -80 </b><b class=y>WITHIN </b><b>IF </b><b class=y>DOCON , </b><b>}
+</b><b class=y>  DOCCON C, </b><b>;
+: </b>VARIABLE <b>( </b>&lt;name -- ) <b class=y>     CREATE DOVAR CELL ALLOT </b><b>;
+: </b>VALUE  <b>  ( </b>x &lt;name> -- ) <b class=y>  CREATE DOVAL , </b><b>;
+
+INSIDE:
+DOER: </b>DOSTRING  <b class=y> 1+ COUNT </b><b>;
+
+EXTRA:
+: </b>STRING <b>( </b>n &lt;name> -- )
+<b class=y>  CREATE DOSTRING </b><b class=z>FF </b><b class=y>AND </b><b class=z>1 </b><b class=y>MAX DUP C, FALSE C, ALLOT </b><b>;
+
+INSIDE:
+: </b>TO$() <b>( </b>a n inl-body -- )
+<b class=y>  INLINE# DUP 1+ >R
+  C@ UMIN
+  R> PLACE </b><b>;
+: </b>+TO$() <b>( </b>a n inl-body -- )
+<b class=y>  INLINE# DUP 1+ >R
+  C@ R@ C@ - UMIN
+  R@ COUNT + SWAP
+  DUP R> C+!
+  MOVE </b><b>;
+: </b>INCR$() <b>( </b>ch &lt;name> -- )
+<b class=y>  INLINE# DUP 1+ >R
+  C@   R@ C@
+  > </b><b>IF </b><b class=y>R@ COUNT + C! </b><b class=z>1 </b><b class=y>R> C+! </b><b>}
+</b><b class=y>  DROP RDROP </b><b>;
+PFXLIST ] </b><b class=y>DOSTRING TO$() +TO$() INCR$() </b><b>[
+PFXLIST ] </b><b class=y>DOVAL    TO()  +TO()  INCR() </b><b>[
+: </b>PFXLIST  <b class=y> TOPPFX , HERE </b><b>TO </b>TOPPFX <b>;
+: </b>PFX <b>( </b>offset-in-pfxlist &lt;name> -- ) <b>  \ </b>(AN) 2004
+ <b class=y> ' >BODY
+  DUP CELL- @ BODY>  </b><b>           \ </b>n data-body doer-xt
+ <b class=y> TOPPFX  </b><b>                      \ </b>n data-body doer-xt pfx-list
+ <b> BEGIN </b><b class=y>2DUP @ =  </b><b>              \ </b>juiste type?
+ <b>       IF  </b><b class=y>NIP CELL+ ROT + @  </b><b> \ </b>data-body pfx-actie
+ <b class=y>           FLYER
+</b><b>          \ </b>DUP >NAME @IMM 0&lt; IF EXECUTE }
+ <b class=y>           , , </b><b>}
+</b><b class=y>        CELL- @  DUP 0=  </b><b>       \ </b>volgende pfx-list
+ <b> UNTIL </b><b class=z>-20 </b><b class=y>(THROW </b><b>(;)
+
+FORTH:
+: </b>TO  <b> ( </b>&lt;name> -- ) <b class=z>  0 </b><b class=y>PFX </b><b>; IMMEDIATE
+EXTRA:
+: </b>+TO  <b>( </b>&lt;name> -- ) <b class=z>  2 </b><b class=y>PFX </b><b>; IMMEDIATE
+: </b>INCR <b>( </b>&lt;name> -- ) <b class=z>  4 </b><b class=y>PFX </b><b>; IMMEDIATE
+
+EXTRA:
+: </b>VARIABLES <b>( </b>n &lt;name> -- ) <b class=y>  CREATE CELLS ALLOT DOVARS </b><b>;
+
+\ </b>----- 16 -----
+
+<b>INSIDE:
+: </b>&lt;FUSE <b>( </b>3-inline-tokens -- )
+<b class=y> ?COMP R>
+ @+ HERE CELL- @ =
+ SECTION HERE 1- U&lt; AND
+</b><b> IF  </b><b class=z> -2 </b><b class=y>ALLOT CELL+ @+ ,
+</b><b> ELSE </b><b class=y>@+ , CELL+
+</b><b> THEN </b><b class=y>>R </b><b>;
+\ </b>When xt1 is not the last compiled word: compile xt2
+<b>\ </b>Otherwise: overwrite compiled xt1 with xt3
+<b>\ </b>See ?EXIT IF UNTIL ?RE
+
+<b>EXTRA:
+: </b>?EXIT  <b class=y> &lt;FUSE 0= EXIT-ON-TRUE EXIT-ON-FALSE </b><b>; IMMEDIATE
+
+\ </b>--- A'DAM
+<b>FORTH:
+: </b>IF  <b>  ( </b>-- sysif ) <b class=y>  &lt;FUSE 0= IF() IFZERO()
+</b><b>  HERE-IS </b>AMSTERDAM <b class=y>HERE DUP , </b><b class=z>1 </b><b class=y>>CS </b><b>; IMMEDIATE
+: </b>AHEAD <b>( </b>-- sysif ) <b>          POSTPONE </b>GOTO() <b>[ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+\ </b>---
+
+<b>FORTH:
+: </b>WHILE <b>( </b>sys -- sysif sys ) <b>  POSTPONE </b>IF <b class=z>1 </b><b class=y>CS-ROLL </b><b>; IMMEDIATE
+: </b>THEN  <b>( </b>syfif -- ) <b class=y>          ?COMP CS> </b><b class=z>1 </b><b class=y>?PAIR HERE SWAP ! !SECTION </b><b>; IMMEDIATE
+: </b>BEGIN <b>( </b>-- sysbegin ) <b class=y>       ?COMP HERE </b><b class=z>2 </b><b class=y>>CS !SECTION </b><b>; IMMEDIATE
+: </b>UNTIL <b>( </b>sysbegin -- ) <b class=y>       CS> </b><b class=z>2 </b><b class=y>?PAIR &lt;FUSE 0= IF() IFZERO()   , </b><b>; IMMEDIATE
+: </b>AGAIN <b>( </b>sysbegin -- ) <b class=y>       CS> </b><b class=z>2 </b><b class=y>?PAIR </b><b>POSTPONE </b>GOTO() <b class=y>, </b><b>; IMMEDIATE
+: </b>ELSE  <b>( </b>sysif1 -- sysif2 ) <b>  POSTPONE </b>AHEAD <b class=z>1 </b><b class=y>CS-ROLL </b><b>POSTPONE </b>THEN <b>; IMMEDIATE
+: </b>REPEAT <b>( </b>sysif sysbegin -- ) <b>POSTPONE </b>AGAIN <b>POSTPONE </b>THEN <b>; IMMEDIATE
+
+\ </b>--- R'DAM
+<b>FORTH:
+: </b>DO  <b>( </b>-- sysdo ) <b>  POSTPONE </b>DO() <b>HERE-IS </b>ROTTERDAM <b class=y>HERE DUP , </b><b class=z>3 </b><b class=y>>CS </b><b>; IMMEDIATE
+: </b>?DO <b>( </b>-- sysdo ) <b>  POSTPONE </b>?DO() <b>[ ROTTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+\ </b>---
+
+<b>\ </b>--- A'DAM
+<b>FORTH:
+: </b>LOOP <b>( </b>sysdo -- )
+<b class=y>  CS> </b><b class=z>3 </b><b class=y>?PAIR </b><b>POSTPONE  </b>LOOP()
+<b>  HERE-IS </b>AMSTERDAM <b class=y>DUP CELL+ , HERE SWAP ! </b><b>; IMMEDIATE
+: </b>+LOOP <b>( </b>sysdo -- )
+<b class=y>  CS> </b><b class=z>3 </b><b class=y>?PAIR </b><b>POSTPONE </b>+LOOP() <b>[ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+\ </b>---
+
+<b>: </b>; <b>( </b>sys: -- )
+<b class=y>  CS> FALSE ?PAIR </b><b>IF </b><b class=y>REVEAL </b><b>THEN POSTPONE </b>EXIT  <b>POSTPONE </b>[ <b>; IMMEDIATE
+
+EXTRA:
+: </b>}  <b> ( </b>sysif -- ) <b>  POSTPONE </b>EXIT <b>POSTPONE </b>THEN <b>; IMMEDIATE
+
+\ </b>--- A'DAM
+<b>EXTRA:
+: </b>RE  <b>( </b>-- ) <b>  POSTPONE </b>GOTO() <b>HERE-IS </b>AMSTERDAM <b class=y>TOPNFA NAME> >BODY , </b><b>; IMMEDIATE
+: </b>?RE <b>( </b>-- ) <b class=y>  &lt;FUSE 0= IFZERO() IF() </b><b>[ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;) IMMEDIATE
+\ </b>---
+
+<b>EXTRA:
+: </b>RE} <b>( </b>sysif -- ) <b>  POSTPONE </b>RE  <b> POSTPONE </b>THEN <b>; IMMEDIATE
+
+INSIDE:
+DOER: </b>DOONLY
+<b class=y>C@ CURRENT 1-    2DUP C!
+1-   DUP </b><b>TO </b>CONTEXT  <b class=y> C! </b><b>;
+DOER: </b>DOVOC  <b class=y> C@ CONTEXT C! </b><b>;
+
+FORTH:
+  MAKEONLY </b>ONLY  <b>      \ </b>0
+
+<b>ONLY:
+  VOCABULARY </b>FORTH  <b>   \ </b>2
+ <b> VOCABULARY </b>INSIDE  <b>  \ </b>4
+ <b> VOCABULARY </b>EXTRA  <b>   \ </b>6
+ <b> VOCABULARY </b>ASSEMBLER <b>\ </b>8
+
+<b>\ </b>Search order words (an)
+
+<b>FORTH:
+: </b>WORDLIST <b>( </b>-- v#=wid )
+<b class=y>  HERE
+  TOPVOC DUP C@ </b><b class=z>2 </b><b class=y>+ C, ,
+  DUP </b><b>TO </b>TOPVOC <b class=y>C@ </b><b>;
+
+ONLY:
+: </b>ALSO <b>( </b>-- )
+<b class=y>  FINDSTACK CONTEXT U&lt; 0= </b><b class=z>-31 </b><b class=y>AND THROW
+  CONTEXT C@  </b><b class=z>-1 </b><b>+TO </b>CONTEXT
+<b class=y>  CONTEXT C! </b><b>;
+: </b>PREVIOUS <b>( </b>-- )
+<b class=y>  CONTEXT 1+ CURRENT U&lt; 0= </b><b class=z>-32 </b><b class=y>AND THROW
+</b><b>  INCR </b>CONTEXT <b>;
+: </b>DEFINITIONS  <b class=y> CONTEXT C@ CURRENT C! </b><b>;
+: </b>GET-CURRENT <b>( </b>-- wid ) <b class=y>  CURRENT C@ </b><b>;
+: </b>SET-CURRENT <b>( </b>wid -- ) <b class=y>  CURRENT C! </b><b>;
+
+INSIDE:
+: </b>VOCNAME <b>( </b>wid -- a n )
+<b class=y>  TOPVOC
+</b><b>  BEGIN </b><b class=y>2DUP C@ =
+</b><b>        IF </b><b class=y>NIP BODY> >NAME COUNT </b><b class=z>1F </b><b class=y>AND
+</b><b>        }  </b><b class=y>1+ @ DUP 0=
+</b><b>  UNTIL </b><b class=y>2DROP </b><b>S" </b>?" <b>;
+
+EXTRA:
+: </b>.VOC <b>( </b>wid -- ) <b class=y> VOCNAME TYPE </b><b>;
+
+ONLY:
+: </b>ORDER <b>( </b>-- ) <b>  \ </b>(AN) 2004
+ <b class=y> PARENTHESIZE
+  CONTEXT CURRENT OVER -
+</b><b class=z>  0 </b><b>DO </b><b class=y>COUNT .VOC SPACE
+</b><b>  LOOP ." </b>: " <b class=y>C@ .VOC </b><b>;
+: </b>FRESH  <b class=y> ONLY EXTRA ALSO FORTH ALSO </b><b>;
+
+EXTRA:
+: </b>VOCABULARY  <b class=y> CREATE WORDLIST DROP DOVOC </b><b>;
+
+INSIDE:
+: </b>!TOPNFA <b>( </b>-- )
+<b class=y>  FALSE </b><b class=z>23 3
+</b><b>  DO  </b><b class=y>       I @ ORIGIN - UMAX
+  CELL </b><b>+LOOP </b><b class=y>ORIGIN + </b><b>TO </b>TOPNFA <b>;
+: </b>CURTAIL <b>( </b>fence here linkfield distance -- fence here linkfield2 )
+<b class=y>  >R
+</b><b>  AHEAD
+     BEGIN
+</b><b class=y>        R@ +  </b><b>  \  </b>object-adr + distance = linkfield-adr
+ <b class=y>       @
+</b><b>  /THEN
+</b><b class=y>        DUP 2OVER WITHIN 0=
+</b><b>     UNTIL </b><b class=y>RDROP </b><b>;
+: </b>(FORGET <b>( </b>fence  -- )
+<b class=y>  HERE </b><b class=z>23 3
+</b><b>  DO  </b><b class=y>I @ </b><b class=z>-3 </b><b class=y>CURTAIL I !
+      CELL
+</b><b>  +LOOP
+</b><b class=y>  TOPVOC  </b><b class=z>1 </b><b class=y>CURTAIL </b><b>TO </b>TOPVOC
+<b class=y>  TOPMSG  </b><b class=z>2 </b><b class=y>CURTAIL </b><b>TO </b>TOPMSG
+<b class=y>  TOPPFX </b><b class=z>-2 </b><b class=y>CURTAIL </b><b>TO </b>TOPPFX
+<b class=y>  - ALLOT !TOPNFA </b><b>;
+
+\ </b>--- A'DAM
+<b>FORTH:
+: </b>FORGET <b>( </b>&lt;name> -- )
+<b class=y>  BL WORD> COUNT CURRENT C@ SEARCH-WORDLIST ?FOUND
+  >NAME  </b><b>                              \ </b>NFA
+ <b> HERE-IS </b>AMSTERDAM
+<b class=y>  DUP NAME>LINK SWAP HOM? </b><b class=z>2 </b><b class=y>AND -  </b><b>    \ </b>fence
+ <b class=y> HERE OVER U&lt; </b><b class=z>-0F </b><b class=y>AND THROW (FORGET </b><b>; \ </b>OK for RAM and ROM version
+<b>EXTRA:
+: </b>REMOVE <b>( </b>-- ) <b>  \ </b>Remove last word when hidden (AN) 2004
+ <b class=y> TOPNFA C@ </b><b class=z>80 </b><b class=y>AND 0= </b><b>?EXIT
+</b><b class=y>  REVEAL TOPNFA DUP COUNT TYPE SPACE  </b><b>         \ </b>NFA
+ <b> [ AMSTERDAM </b><b class=z>22 </b><b>] AGAIN (;)   \ </b>See FORGET
+<b>\ </b>---
+
+<b>INSIDE:
+DOER: </b>DOMARKER
+<b class=y>  DUP @ (FORGET  </b><b>                 \ </b>vergeet vanaf oldhere
+ <b class=y> CELL+ COUNT DUP </b><b>TO </b>CONTEXT  <b>    \ </b>herstel CONTEXT = adres &lt; 100
+ <b class=y> CURRENT OVER - 1+ MOVE </b><b>;        \ </b>herstel zoekstack-vocs
+
+<b>FORTH:
+: </b>MARKER <b>( </b>&lt;name> -- ) <b>  \ </b>(AN) 2004
+ <b class=y> HERE CREATE DOMARKER
+  ,  </b><b>                                \ </b>oldhere
+ <b class=y> CONTEXT DUP C,  </b><b>                   \ </b>save CONTEXT = adres &lt; 100
+ <b class=y> HERE CURRENT CONTEXT - 1+
+  DUP ALLOT MOVE </b><b>;                   \ </b>save zoekstack-vocs
+
+<b>EXTRA:
+: </b>ANEW  <b> ( </b>&lt;name> -- ) <b>  \ </b>(AN) 2004
+ <b class=y> >IN @ >R
+  BL WORD DUP C@ 0= </b><b class=z>-20 </b><b class=y>AND THROW </b><b>\ </b>no refill because of saving >IN
+ <b class=y> FIND 0&lt;> AND ?DUP
+</b><b>  IF  </b><b class=y> DUP 1+ @ BODY>
+</b><b>       ['] </b>DOMARKER <b class=y>= AND ?DUP </b><b>IF </b><b class=y>EXECUTE </b><b>THEN     
+  THEN </b><b class=y>R> >IN ! MARKER </b><b>;
+
+\ </b>----- 17 -----
+
+<b>INSIDE:
+: </b>!HIMEM <b>( </b>-- ) <b>  \ </b>test eerste cell per 2K RAM (AN) 2004
+ <b class=z> -800 </b><b>TO </b>HIMEM
+<b>  BEGIN  </b><b class=z>800 </b><b>+TO </b>HIMEM
+<b class=y>         HIMEM @  </b><b>           ( </b>x ) <b>    \ </b>lees
+ <b class=y>        DUP INVERT HIMEM !  </b><b>( </b>x ) <b>    \ </b>store geinverteerde x
+ <b class=y>        HIMEM @  </b><b>           ( </b>x xi? ) <b>\ </b>lees het terug
+ <b class=y>        OVER HIMEM !  </b><b>      ( </b>x xi? ) <b>\ </b>zet correcte x terug
+ <b class=y>        INVERT &lt;>  </b><b>         ( </b>vlag ) <b> \ </b>ongelijk?
+ <b> UNTIL ; \ </b>laagste niet bestaande RAM adres staat nu in HIMEM
+
+<b>FORTH:
+: </b>UNUSED <b>( </b>-- n ) <b class=y>  HIMEM </b><b class=z>20 </b><b class=y>- HERE - </b><b>;
+
+EXTRA:
+CODE </b>COLD <b>( </b>? -- ) <b>  \ </b>cold start Forth system (AN) 2004
+ <b> CLRA      A DP TFR          \ </b>initial DP, direct page
+ <b> ' </b>S0 <b>>BODY @ # LDS           \ </b>initial SP
+ <b>          REG </b>D <b>PULS
+  ' </b>R0 <b>>BODY @ # LDU           \ </b>initial RP
+ <b> ' </b>DO: <b class=z>3 </b><b>+ TARGA JSR          \ </b>Overgang naar hilevel code
+ <b>END-CODE
+ ]
+</b><b class=y> ORIGIN </b><b class=z>0 </b><b>[ UOFFSET ] LITERAL </b><b class=y>CMOVE
+ !HIMEM  !TOPNFA </b><b class=z>0 </b><b>TO </b>CS#
+<b class=y> SAFE-THERE DROP
+ FRESH DEFINITIONS
+</b><b class=z> 7F </b><b class=y>!USART
+ CR </b><b class=z>0 </b><b class=y>.MSG
+ CR </b><b>." </b>Copyright (c) 2005 HCC Forth-gg"
+<b class=y> CR HIMEM </b><b class=z>0A </b><b class=y>RSHIFT  </b><b class=z>9 </b><b class=y>.R </b><b>."  </b>kB RAM"
+<b class=y> CR CR QUIT </b><b>[
+
+INSIDE:
+: </b>(DOES>  <b>( </b>-- ) <b class=y>R> !DOER </b><b>;   \ </b>TOPNFA NAME> 1+ ! ;
+
+<b>FORTH:
+: </b>DOES>
+<b class=y>  CS> FALSE OVER ?PAIR >CS
+</b><b>  POSTPONE </b>(DOES>
+<b>  ['] </b>DODOES <b class=y>JSR
+  !SECTION </b><b>; IMMEDIATE
+: </b>CODE <b>( </b>&lt;name> -- ) <b class=y> CREATE </b><b class=z>-3 </b><b class=y>ALLOT ASSEMBLER HIDE TRUE </b><b class=z>5 </b><b class=y>>CS </b><b>;
+: </b>;CODE
+<b class=y>  CS> FALSE ?PAIR </b><b class=z>5 </b><b class=y>>CS
+</b><b>  POSTPONE </b>(DOES>
+<b class=y>  ASSEMBLER
+</b><b>  POSTPONE </b>[ <b>; IMMEDIATE
+
+EXTRA:
+: </b>DOER: <b>( </b>&lt;name> -- ) <b class=y>: DODOER </b><b>['] </b>DODOES <b class=y>JSR </b><b>;
+: </b>DOERCODE <b>( </b>&lt;name> -- ) <b class=y> CODE </b><b class=z>3 </b><b class=y>ALLOT DODOER </b><b>;
+
+ASSEMBLER:
+: </b>END-CODE
+<b class=y>  CS> </b><b class=z>5 </b><b class=y>?PAIR </b><b>IF </b><b class=y>REVEAL </b><b>THEN
+</b><b class=y>  PREVIOUS ALSO </b><b>;
+
+&lt;----
+</b>INSIDE:
+DOER: DOIGNORE ( a -- )
+  DUP C@ 1+ 2>R
+  BEGIN BL WORD> 2R@ S&lt;> 0=
+  UNTIL 2RDROP ;
+EXTRA:
+: IGNORE ( &lt;name> &lt;name> -- )   \ Skipper and delimiter, (AN) 2004
+  CREATE BL WORD> C@ 1+ ALLOT DOIGNORE IMMEDIATE ;
+\ Voorbeeld:
+\ IGNORE &lt;&lt;&lt; >>>  \ FORTH will now skip text between &lt;&lt;&lt; and >>>
+\ IGNORE AAA ZZZ  \ ZZZ is Case sensitive!
+---->
+<b>
+\ </b>Interrupt vectoren
+
+<b>EXTRA:
+: </b>!VECTOR <b>( </b>routineadres vec -- ) <b class=y>  1+ ! </b><b>;   \ </b>vb: C4A5 'SWI3 !VECTOR 
+<b>: </b>ENABLE  <b>( </b>vec -- ) <b class=z>  07E </b><b class=y>SWAP C! </b><b>;   \ </b>( JMP )   'SWI3  ENABLE
+<b>: </b>DISABLE <b>( </b>vec -- ) <b class=z>  03B </b><b class=y>SWAP C! </b><b>;   \ </b>( RTI )   'SWI3  DISABLE
+
+<b>EXTRA:
+: </b>MANY <b>( </b>-- ) <b class=y>  >IN @ STOP? AND >IN ! </b><b>;
+: </b>TIMES <b>( </b>n -- )
+<b class=y>  #TIMES 1+ >R
+</b><b class=z>  0 </b><b>TO </b>#TIMES
+<b class=y>  R@ =  </b><b>             \ </b>Last time?
+ <b class=y> STOP?  </b><b>            \ </b>User interrupt?
+ <b class=y> OR </b><b>IF </b><b class=y>RDROP </b><b>}      \ </b>No repeat
+ <b class=y> R> </b><b>TO </b>#TIMES  <b>     \ </b>Repeat
+ <b class=z> 0 </b><b class=y>>IN ! </b><b>;
+
+
+\ </b>----- 18 -----
+
+<b>&lt;----
+</b>: /WORDS \ Per draad (an) 2004
+  3 10 0
+  DO CR I .                 \ .DRAADNR
+     DUP @     0 >R
+     BEGIN   DUP COUNT 7F AND 
+             DUP HOR + 4E > IF CR ELSE SPACE THEN
+             TYPE
+             R> 1+ >R
+             NAME>LINK @
+     DUP 0= UNTIL DROP ."  -- " R> .
+     2 +
+     NOMORE? IF LEAVE THEN
+  LOOP DROP ;
+---->
+<b>
+\ </b>(AN) 2004 -- WORDS
+
+<b>INSIDE:
+: </b>WORDSKIPPER <b>( </b>lfa wid -- nfa? )
+<b class=y>  SWAP  </b><b>                 \ </b>wid lfa
+ <b>    AHEAD
+  BEGIN  </b><b class=y>  NAME>LINK  </b><b>   \ </b>wid lfa
+ <b>    /THEN </b><b class=y>@  </b><b>           \ </b>wid nfa/0
+ <b class=y>          DUP
+</b><b>  WHILE  </b><b class=y>  2DUP @VOC =  </b><b> \ </b>wid nfa flag
+ <b> UNTIL
+  THEN                   \ </b>wid nfa/0
+ <b class=y> NIP </b><b>;
+: </b>(WORDS <b>( </b>x y -- ) <b>\ </b>(AN) 2004
+ <b class=y> SAFE-THERE 2!
+  THERE </b><b class=z>24 </b><b class=y>+ DUP </b><b class=z>20 </b><b class=y>-  </b><b>        \ </b>T24 T4
+ <b class=z> 3 </b><b class=y>OVER </b><b class=z>20 </b><b class=y>CMOVE  </b><b>            \ </b>Store the threads at THERE+4
+ <b class=y> 2DUP  </b><b>                       \ </b>T24 T4 T24 T4
+ <b> DO  </b><b class=y> I THERE 2@ EXECUTE I !  </b><b>\ </b>Skipper
+ <b class=y>      CELL
+</b><b>  +LOOP
+</b><b class=y>  CR </b><b class=z>0 </b><b class=y>>R  </b><b>                    \ </b>Woordenteller
+ <b> BEGIN              \ </b>T24 T4
+ <b class=y>    FALSE </b><b class=z>-1  </b><b>                \ </b>Voor Relatieve-NFA en Draadadres
+ <b class=y>    2OVER
+</b><b>     DO </b><b class=y>I @  </b><b>                             \ </b>NFA?
+ <b>          IF  </b><b class=y> OVER I @ ORIGIN - U&lt;  </b><b>    \ </b>Hoogste?
+ <b>               IF  </b><b class=y> 2DROP I @ ORIGIN - I </b><b>\ </b>RelatiEve-NFA Draada
+ <b>               THEN
+           THEN </b><b class=y>CELL
+</b><b>     +LOOP           \ </b>Grootste-relatieve-NFA Draadadres | 0 -1
+ <b class=y>    NIP  </b><b>                    \ </b>T24 T4 Draadadres-or-True
+ <b class=y>    S>D STOP?  </b><b>              \ </b>Klaar of Stoppen?
+ <b class=y>    OR </b><b>IF </b><b class=y>DROP 2DROP CR R> PARENTHESIZE </b><b class=z>0 </b><b class=y>.R </b><b>}       \ </b>\ \ \ \ e x i t
+ <b class=z>    3C </b><b class=y>HOR U&lt; </b><b>IF </b><b class=y>CR </b><b>THEN     \ </b>Positie op de regel
+ <b class=y>    R> 1+ >R  </b><b>               \ </b>Woordenteller
+ <b class=y>    DUP @  </b><b>                  \ </b>Draada NFA
+ <b class=y>    DUP COUNT  </b><b>              \ </b>Draada NFA a n
+ <b class=y>    DUP </b><b class=z>20 </b><b class=y>&lt; </b><b>IF  </b><b class=y> BL
+</b><b>              ELSE </b><b class=z>1F </b><b class=y>AND </b><b>[CHAR] </b>~
+<b>              THEN </b><b class=y>EMIT TYPE SPACE
+     NAME>LINK  </b><b>              \ </b>Draada Lfa
+ <b class=y>    THERE 2@ EXECUTE  </b><b>       \ </b>Draada Next-NFA
+ <b class=y>    SWAP !
+</b><b>  AGAIN (;)
+
+ONLY:
+: </b>WORDS  <b class=y>  CONTEXT C@ </b><b>['] </b>WORDSKIPPER <b class=y>(WORDS </b><b>;
+
+EXTRA:
+: </b>ALLWORDS  <b> ['] </b>@  <b>    ['] </b>EXECUTE  <b class=y>   (WORDS </b><b>;
+\ </b>: DWORDS   CURRENT C@ ['] WORDSKIPPER (WORDS ;
+
+<b>INSIDE:
+: </b>X.R! <b>( </b>-- n ) <b class=z>  FF </b><b class=y>S>D DU.STRING NIP THERE C! </b><b>;   \ </b>Zie .ADR .ASC
+<b>: </b>.ADR <b>( </b>a -- ) <b class=y>  THERE C@ 2* U.R </b><b>;
+: </b>.BYTE <b>( </b>c -- ) <b class=y> THERE C@ .R </b><b>;
+: </b>.ASC  <b>( </b>ch -- ) <b class=y>DUP </b><b class=z>7F </b><b class=y>&lt; AND BL MAX EMIT </b><b>;
+\ </b>DUMP voor alle grondtallen, met noodstop.
+<b>FORTH:
+: </b>DUMP <b>( </b>a n -- ) <b>  \ </b>(AN) 2004
+ <b class=y> X.R!  </b><b>                                   \ </b>Zie .ADR
+ <b class=y> BASE @ </b><b class=z>10 </b><b class=y>MIN DUP </b><b class=z>6 </b><b class=y>&lt; </b><b>IF </b><b class=y>2* </b><b>THEN </b><b class=y>>R  </b><b>    \ </b>aantal bytes per regel
+ <b class=y> OVER + SWAP  </b><b>                            \ </b>tot vanaf
+ <b> BEGIN </b><b class=y>DUP CR .ADR SPACE  </b><b>                \ </b>tot vanaf
+ <b class=y>       R@ </b><b class=z>0 </b><b>DO </b><b class=y>DUP I + C@ .BYTE SPACE
+</b><b>        LOOP ." </b>|" <b>                        \ </b>tot vanaf
+ <b class=y>       R@ </b><b class=z>0 </b><b>DO </b><b class=y>COUNT .ASC
+</b><b>        LOOP ." </b>| " <b>                       \ </b>tot vanaf*
+ <b class=y>       2DUP SWAP - R@ U&lt;  </b><b>                         \ </b>einde bereikt?
+ <b class=y>       STOP? OR
+</b><b>  UNTIL </b><b class=y>2DROP RDROP </b><b>;
+
+
+\ </b>Decompiler (AN) 2004
+<b>INSIDE:
+: </b>CFA?? <b>( </b>adr -- vlag )
+<b class=z>  300 </b><b class=y>OVER U&lt;
+  OVER ORIGIN HERE WITHIN AND
+  SWAP 1- DUP C@ </b><b class=z>21 7F </b><b class=y>WITHIN AND AND  DUP 0= </b><b>?EXIT
+</b><b class=z>  1  </b><b>                       ( </b>adr teller )
+<b>  BEGIN </b><b class=y>>R 1- R> OVER C@  </b><b>  ( </b>adr-1 teller char )
+<b class=y>        2DUP = </b><b>IF </b><b class=y>2DROP 0&lt;> </b><b>}  \ </b>exit with true-flag
+ <b class=z>       21 7F </b><b class=y>WITHIN
+</b><b>  WHILE </b><b class=y>1+ BL OVER AND  </b><b>     ( </b>adr teller+1  x )
+<b>  UNTIL
+  THEN  </b><b class=y>2DROP FALSE </b><b>;
+: </b>CFA? <b>( </b>adr -- vlag )
+<b class=y>  DUP CFA?? AND   DUP 0= </b><b>?EXIT
+</b><b class=y>  >NAME   TOPVOC C@ OVER @VOC &lt; 0= AND
+  DUP 0= </b><b>?EXIT
+</b><b class=y>  NAME>LINK @          DUP 0= </b><b>IF </b><b class=y>1- </b><b>}
+</b><b class=y>  DUP C@ </b><b class=z>0 20 </b><b class=y>WITHIN </b><b>IF </b><b class=y>NAME> CFA?? </b><b>}
+</b><b class=y>  DROP FALSE </b><b>;
+
+: </b>.HEAD <b>( </b>a -- ) <b>  \ </b>hier begint een header
+ <b class=y> DUP </b><b>S"  </b> --  " <b class=y>2>R 2R@ TYPE
+  >NAME COUNT TYPE
+  2R@ TYPE
+  DUP 1+ @ BODY>
+  DUP CFA?  </b><b>                      \ </b>doer?
+ <b> IF  </b><b class=y> DUP </b><b>." </b>doer "
+<b class=y>       >NAME COUNT TYPE
+</b><b>  THEN
+</b><b class=y>  DROP 2R> TYPE
+  >NAME @VOC .VOC </b><b>."  </b>Word" <b>;
+: </b>.TOKEN <b>( </b>a cfa -- a ) <b>  \ </b>Gecompileerd token
+ <b class=y> OVER </b><b class=z>1 </b><b class=y>AND 2* 2* </b><b class=z>4 </b><b class=y>+ SPACES
+  >NAME COUNT TYPE </b><b>;
+: </b>DECOM <b>( </b>a -- )
+<b class=y>  CR  DUP .ADR </b><b>." </b>: "
+<b class=y>  DUP COUNT DUP .BYTE SPACE .ASC SPACE
+         C@ DUP .BYTE SPACE .ASC SPACE
+  DUP @ .ADR BL OVER </b><b class=z>1 </b><b class=y>AND </b><b>IF </b><b class=z>0E </b><b class=y>+ </b><b>THEN </b><b class=y>EMIT SPACE
+  DUP CFA? </b><b>IF  </b><b class=y> DUP .HEAD 1+ </b><b>}
+</b><b class=y>  DUP @ CFA?
+</b><b>  IF </b><b class=y>DUP @ .TOKEN
+     1+
+     DUP CFA? </b><b>?EXIT
+</b><b class=y>     DUP @ CFA? </b><b>?EXIT
+</b><b class=y>     1+ </b><b>} 
+</b><b class=y>  1+ </b><b>;
+
+EXTRA:
+: </b>MSEE <b>( </b>a -- ) <b class=y>X.R!  </b><b> \ </b>Used by .ADR .ASC
+ <b> BEGIN </b><b class=y>DECOM STOP? </b><b>UNTIL </b><b class=y>DROP </b><b>;
+
+FORTH:
+: </b>SEE  <b class=y> ' MSEE </b><b>;
+
+\ </b>----- 19 -----
+<b>\  </b>tijdelijke BASE (AN) 2004
+
+<b>INSIDE:
+DOER: </b>DOFFBASE
+<b class=y>  BASE @ >R
+  C@ BASE !
+  BL WORD>
+</b><b>  ['] </b>EVAL <b class=y>CATCH
+  R> BASE ! THROW </b><b>;
+
+\ </b>In metacompiler:
+<b>\ </b>: FFBASE ( tempbase &lt;name> -- )   XHEADER MET-DOER DOFFBASE C, XIMMEDIATE ;
+
+<b>INSIDE:
+: </b>FFBASE <b>( </b>tempbase &lt;name> -- ) <b class=y>  CREATE DOFFBASE C, IMMEDIATE </b><b>;   \ </b>(AN) 2004
+
+<b>ONLY:
+</b><b class=z>10 </b><b>FFBASE </b>HX  <b> \ </b>direct hexadecimal
+<b class=z>0A </b><b>FFBASE </b>DM  <b> \ </b>direct decimal
+ <b class=z>2 </b><b>FFBASE </b>BN  <b> \ </b>direct binary
+
+<b>ONLY:
+: </b>[THEN] <b>; IMMEDIATE
+
+INSIDE:
+: </b>[CONDITIONAL] <b>( </b>0 -- ) <b>  \ </b>(AN) 07dec2005
+ <b>    AHEAD
+  BEGIN  </b><b class=y>  DROP
+</b><b>     /THEN </b><b class=y>BL WORD> DUP 1+ C@ </b><b>[CHAR] </b>[ <b class=y>=
+</b><b>  UNTIL               \ </b>Yes, first char = [
+ <b class=y> COUNT </b><b class=z>1 </b><b class=y>/STRING 2DUP UPPER
+  2DUP </b><b>S" </b>THEN]" <b class=y> COMPARE 0=  </b><b>IF </b><b class=y>2DROP  0= </b><b>?EXIT RE}
+</b><b class=y>  2DUP </b><b>S" </b>ELSE]" <b class=y> COMPARE 0=  </b><b>IF </b><b class=y>2DROP  ?DUP 0= </b><b>?EXIT RE}
+</b><b class=y>  2DUP </b><b>S" </b>IF]" <b class=y>   COMPARE 0=  </b><b>IF </b><b class=y>2DROP  DUP 1+ </b><b>RE}
+       S" </b>AHEAD]" <b class=y>COMPARE 0=  </b><b>IF  </b><b class=y>      DUP 1+ </b><b>THEN
+  RE (;)
+
+ONLY:
+: </b>[ELSE]  <b>( </b>-- ) <b class=z>    0 </b><b class=y>[CONDITIONAL] </b><b>; IMMEDIATE
+: </b>[AHEAD] <b>( </b>-- ) <b>    POSTPONE </b>[ELSE] <b>; IMMEDIATE
+: </b>[IF] <b>( </b>vlag -- ) <b>  ?EXIT POSTPONE </b>[ELSE] <b>; IMMEDIATE
+
+FORTH:
+: </b>MS <b>( </b>x -- ) <b class=z>0 </b><b>?DO </b><b class=z>12 0 </b><b>DO LOOP LOOP ;
+
+\ </b>=========== ASSEMBLER CODA ==========
+
+<b>\ </b>6809 addressing modes
+<b>ASSEMBLER:
+: </b>#  <b class=z> 0 </b><b>TO </b>MODE <b>;
+: </b>REG <b>( </b>"lijst" -- regbyte ) <b>  \ </b>voorbeelden:  REG D,X  REG X  REG X,Y
+ <b class=z> 0 </b><b class=y>BL WORD
+  COUNT </b><b class=z>0  </b><b>                  ( </b>0=regbyte  adres  count )
+<b>  ?DO                        ( </b>regbyte  adres )
+<b class=y>       COUNT
+       REGCODE SWAP >R OR R> </b><b>( </b>regbyte2 adres ) <b>\ </b>Bouw reg byte op
+ <b> LOOP
+</b><b class=y>  DROP FLYER LIT, </b><b>POSTPONE </b># <b>; IMMEDIATE
+: </b>ALLREG  <b class=z> 0FF </b><b class=y># </b><b>;             \ </b>voor push/pull van alle registers
+<b>: </b>DP)  <b class=z> 10 </b><b>TO </b>MODE <b>;        \ </b>DP relative
+<b>: </b>#)  <b class=y>   SWAP </b><b class=z>89 </b><b class=y>INDEXREG </b><b>;   ( </b>rval n -- n postbyte ) <b>\ </b>indexregister + offset
+<b>: </b>PC)  <b class=z> 20 </b><b>TO </b>MODE <b class=z>8D </b><b>;      ( </b>n -- n postbyte ) <b>\ </b>pc relative
+<b>: </b>[]
+<b class=y>  MODE
+</b><b class=z>  20 </b><b class=y>= </b><b>IF  </b><b class=y>DUP </b><b class=z>9D </b><b class=y>AND
+</b><b class=z>           80 </b><b class=y>= ?ILLEGAL
+</b><b class=z>           10 </b><b class=y>+ </b><b>}             \ </b>Indexed:  postbyte -- postbyte
+ <b class=z> 20 </b><b>TO </b>MODE <b class=z>9F </b><b>;             \ </b>Extended: n -- n postbyte
+
+<b>\ </b>6809  structured conditionals with compiler controll
+<b>: </b>IF  <b>  ( </b>cond# -- cs: ifadr 6 ) <b class=y>  C, </b><b class=z>0 </b><b class=y>C, HERE </b><b class=z>6 </b><b class=y>>CS </b><b>;
+: </b>AHEAD <b>( </b>-- cs: aheadadr 6 ) <b class=z>     20 </b><b>( </b>NVR ) <b class=y>IF </b><b>;
+: </b>THEN  <b>( </b>cs: adr 6 -- )
+<b class=y>  CS> </b><b class=z>6 </b><b class=y>?PAIR HERE OVER -
+  DUP 8BIT? 0= ?ILLEGAL SWAP 1- C! </b><b>;
+: </b>BEGIN  <b>( </b>c": -- beginadr 7 ) <b class=y>         HERE </b><b class=z>7 </b><b class=y>>CS </b><b>;
+: </b>UNTIL  <b>( </b>cond# cs: beginadr 7 -- ) <b class=y>   CS> </b><b class=z>7 </b><b class=y>?PAIR SWAP C, HERE 1+ -
+                                        DUP 8BIT? 0= ?ILLEGAL C, </b><b>;
+: </b>AGAIN  <b>( </b>cs: beginadr 7 -- ) <b class=z>         20 </b><b>( </b>NVR ) <b class=y>UNTIL </b><b>;
+: </b>ELSE  <b> ( </b>cs: ifadr 6 -- elseadr 6 ) <b class=y>  AHEAD </b><b class=z>1 </b><b class=y>CS-ROLL THEN </b><b>;
+: </b>REPEAT <b>( </b>cs: whileadr 6 beginadr 7 -- ) <b class=y>  AGAIN THEN </b><b>;
+: </b>WHILE  <b>( </b>cond# cs: adr n -- whileadr 6 adr n ) <b class=y>  IF </b><b class=z>1 </b><b class=y>CS-ROLL </b><b>;
+: </b>NEXT  <b class=y>Y )++ [] JMP </b><b>;   \ </b>6809 Direct Threaded Code
+
+<b>\ </b>----- 20 -----
+<b>\ </b>THROW messages
+
+<b>FORTH:
+</b><b class=z>
+   0 </b><b>MSG" </b>MaisForth an601" <b>\ </b>Default message
+
+<b>' </b>TOPMSG <b class=z>3 </b><b>+ @ ORIGINHOSTA + @ </b><b class=z>4 </b><b>+
+' </b>MSG#-2  <b class=z> 3 </b><b>+ @ ORIGINHOSTA + !   \ </b>Default pointer in msg#-2
+ <b class=z>        -3 </b><b>MSG" </b>Stack overflow"
+<b class=z>         -4 </b><b>MSG" </b>Stack underflow"
+<b>( </b>-13 ) <b class=z>-0D </b><b>MSG" </b>Can't find"
+<b>( </b>-14 ) <b class=z>-0E </b><b>MSG" </b>Only compiling"
+<b>( </b>-15 ) <b class=z>-0F </b><b>MSG" </b>Protected"
+<b>( </b>-16 ) <b class=z>-10 </b><b>MSG" </b>End of input"
+<b>( </b>-22 ) <b class=z>-16 </b><b>MSG" </b>Structure error"
+<b>( </b>-28 ) <b class=z>-1C </b><b>MSG" </b>User interrupt"
+<b>( </b>-32 ) <b class=z>-20 </b><b>MSG" </b>Invalid name argument"
+<b>( </b>-49 ) <b class=z>-31 </b><b>MSG" </b>Search order overflow"
+<b>( </b>-50 ) <b class=z>-32 </b><b>MSG" </b>Search order underflow"
+<b>( </b>-61 ) <b class=z>-3D </b><b>MSG" </b>What's this?"
+<b>( </b>-62 ) <b class=z>-3E </b><b>MSG" </b>BASE is reset to decimal"
+<b>( </b>-63 ) <b class=z>-3F </b><b>MSG" </b>Illegal addressing mode"
+<b>\ </b>( -64 ) -40 MSG" Ivalid Baud rate"
+
+<b>\ </b>store starting adres on last memory address - 2 
+
+<b>' </b>COLD <b>ORIGINHOSTA </b><b class=z>-2 </b><b>+ COMPILE!     \ </b>Resetvector vullen 
+<b>' </b>COLD <b>ORIGINHOSTA </b><b class=z>1 </b><b>+ COMPILE!      \ </b>Jump naar COLD (op ORIGIN)
+
+<b>;;;MAIS;;;
+</b>
+<pre class=wit>
+&lt;---- ANS:
+Throw#   Reserved for
+---      --- 
+ -1      ABORT
+ -2      ABORT"
+ -3      stack overflow
+ -4      stack underflow
+ -5      return stack overflow
+ -6      return stack underflow
+ -7      do-loops nested too deeply during execution
+ -8      dictionary overflow
+ -9      invalid memory address
+ -10     division by zero
+ -11     result out of range
+ -12     argument type mismatch
+ -13     undefined word
+ -14     interpreting a compile-only word
+ -15     invalid FORGET
+ -16     attempt to use zero-length string as a name
+ -17     pictured numeric output string overflow
+ -18     parsed string overflow
+ -19     definition name too long
+ -20     write to a read-only location
+ -21     unsupported operation (e.g., AT-XY on a too-dumb terminal)
+ -22     control structure mismatch
+ -23     address alignment exception
+ -24     invalid numeric argument
+ -25     return stack imbalance
+ -26     loop parameters unavailable
+ -27     invalid recursion
+ -28     user interrupt
+ -29     compiler nesting
+ -30     obsolescent feature
+ -31     >BODY used on non-CREATEd definition
+ -32     invalid name argument (e.g., TO xxx)
+ -33     block read exception
+ -34     block write exception
+ -35     invalid block number
+ -36     invalid file position
+ -37     file I/O exception
+ -38     non-existent file
+ -39     unexpected end of file
+ -40     invalid BASE for floating point conversion
+ -41     loss of precision
+ -42     floating-point divide by zero
+ -43     floating-point result out of range
+ -44     floating-point stack overflow
+ -45     floating-point stack underflow
+ -46     floating-point invalid argument
+ -47     compilation word list deleted
+ -48     invalid POSTPONE
+ -49     search-order overflow
+ -50     search-order underflow
+ -51     compilation word list changed
+ -52     control-flow stack overflow
+ -53     exception stack overflow
+ -54     floating-point underflow
+ -55     floating-point unidentified fault
+ -56     QUIT
+ -57     exception in sending or receiving a character
+ -58     [IF], [ELSE], or [THEN] exception
+---->
+</pre></body></html>

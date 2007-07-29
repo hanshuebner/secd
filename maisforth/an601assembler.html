@@ -1,0 +1,217 @@
+<HTML>
+<head><title>an601assembler</title>
+<style>body{font:10pt verdana;margin-left:5%; margin-right:5%;color:#000}
+span{font:10pt verdana;color:#000}
+td{font-size:10pt;vertical-align:top;padding:0.5em}
+tt,pre{font:10pt "letter gothic MT",monospace;color:#00f}</style>
+
+</head>
+<BODY bgcolor=#ffff66 text=#000000>
+<small>20apr2006</small>
+
+<table cellpadding=0 cellspacing=0>
+<tr><td colspan=3 class=k><div align=center>&nbsp;<br>6809 assembler in MaisForth an601
+<tr><td colspan=3><div align=center style="font-size:7pt">12jul2005</div>
+</div>
+
+<tr>
+<td><pre>
+
+
+S = <span>Forth data stack pointer</span>
+U = <span>Forth return stack pointer</span> &nbsp;
+</pre>
+<td><pre>
+
+
+D = <span>TOS</span>
+Y = <span>IP</span>
+X = <span>free</span>
+</pre>
+
+<tr>
+<td>
+<pre>
+CODE &lt;name>  ...  NEXT END-CODE    
+</pre>
+
+<td>
+<pre>
+: NEXT ( -- ) Y )++ [] JMP ;
+</pre>
+
+
+<tr>
+<td>&nbsp;
+
+<td>
+<pre>
+<b>Motorola</b>     <b>MaisForth an601</b>
+</pre>
+
+
+<tr>
+<td>push & pull
+
+<td><pre>
+PULS D,X      REG D,X PULS
+PULU ...      ALLREG  PULU (all registers)
+</pre>
+
+
+<tr>
+<td>
+<pre>
+<span>indexed</span>
+
+     )
+    #)
+</pre>
+
+<td>
+<pre>
+LDD  0,Y      Y ) LDD
+LDB   ,U      U ) LDB
+LDA   33,X    X  33 #) LDA
+LDY   -2,S    S  -2 #) LDY
+LDX  400,Y    Y 400 #) LDX
+</pre>
+
+<tr>
+<td>
+<pre>
+    D)
+    A)
+    B)
+</pre>
+
+<td>
+<pre>
+LDX  D,Y      Y D)  LDX
+LEAX A,X      X A)  LEAX
+LDA  B,Y      Y B)  LDA
+</pre>
+
+
+<tr>
+<td>
+<pre>
+     )+
+     )++
+    -)
+   --)
+</pre>
+
+<td>
+<pre>
+LDA  ,X+      X )+  LDA       
+STD  ,Y++     Y )++ STD
+LDB  ,-Y      Y  -) LDB
+LDX  ,--S     S --) LDX
+<pre>
+
+
+<tr>
+<td>indexed indirect
+
+<td>
+<pre>
+LDA [$10,X]   X 10 #) [] LDA
+</pre>
+
+
+<tr>
+<td>extended indirect
+
+<td>
+<pre>
+LDA [$1234]   1234    [] LDA
+</pre>
+
+
+<tr>
+<td>inherent
+
+<td>
+<pre>
+ASLA          ASLA
+CLRB          CLRB
+</pre>
+
+<tr>
+<td>immediate
+
+<td>
+<pre>
+LDA    #7        7 # LDA
+LDD #1234     1234 # LDD
+</pre>
+
+
+
+<tr>
+<td>extended/absolute
+
+<td>
+<pre>
+LDA >$0100     100 LDA
+JMP >$1234    1234 JMP
+</pre>
+
+
+
+<tr>
+<td>relative
+
+<td>
+<pre>
+BRA 1234      1234 BRA
+</pre>
+
+
+<tr>
+<td>PC relative <tt>(not used)</tt>
+
+<td>
+<pre>
+LDA $1234,PC  1234 PC) LDA
+</pre>
+
+
+<tr>
+<td>DP relative <tt>(not used, DP=0)</tt>
+
+<td>
+<pre>
+LDA   $34,DP    34 DP) LDA
+</pre>
+
+
+
+<tr>
+<td>assembler conditionals
+
+
+<td>
+<pre>
+IF AHEAD ELSE THEN
+BEGIN WHILE AGAIN UNTIL REPEAT
+</pre>
+
+<tr>
+<td>conditions
+<br>preceding
+<br><tt> IF UNTIL WHILE</tt>
+
+
+
+<td>
+<pre>
+CS?  &lt;?  U&lt;?  =?
+VS?  >?  U>?  0&lt;?
+NO ( opposite condition )
+=? IF  |  CS? NO UNTIL  |  U&lt;? NO WHILE
+</pre>
+
+</table>
+</body></html>
