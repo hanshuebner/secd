@@ -1,6 +1,0 @@
-[VerilogDirs-used]
-tools=1
-[ExLibList-used]
-MV_PRECISIONRTL=1
-[tools*VerilogDirs]
-src=user

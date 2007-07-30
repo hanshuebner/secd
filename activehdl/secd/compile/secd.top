@@ -1,3 +1,0 @@
-secd_system ENTITY
-TESTBENCH_FOR_secd_fep_trenz CONFIGURATION
-secd_fep_trenz_tb ENTITY
