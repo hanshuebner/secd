@@ -1,3 +1,7 @@
+:::MAIS:::
+
+FORTH:
+
 hex
 B020 constant vdu
 vdu constant vdu-char
@@ -16,7 +20,103 @@ decimal
 
 hex
 B030 constant leds
+B031 constant switches
+B032 constant rotary
+B033 constant lcd
 55 leds c!
+
+decimal
+: poll-keys
+    begin
+        switches c@ .
+        32 emit
+        rotary c@ .
+        cr
+    key? until
+    key drop ;
+
+hex
+: send-lcd ( bb -- )
+    dup lcd c!
+    dup 10 or lcd c!
+    lcd c! ;
+
+: lcd-command ( bb -- )
+    10 /mod
+    send-lcd
+    send-lcd ;
+
+: lcd-data ( bb -- )
+    10 /mod
+    40 or send-lcd
+    40 or send-lcd ;
+
+: lcd-init ( -- )
+    200 ms
+    03 send-lcd
+    200 ms
+    03 send-lcd
+    200 ms
+    03 send-lcd
+    200 ms
+    02 send-lcd
+    28 lcd-command \ function set
+    06 lcd-command \ entry mode set
+    0C lcd-command \ display on/off
+    01 lcd-command \ clear screen
+    30 ms ;
+
+: lcd-string ( adr count -- )
+    0 do
+        dup c@ lcd-data 1+
+    loop
+    drop ;
+
+: lcd-line ( line-no -- )
+    40 * 80 or lcd-command ;
+
+: banner ( -- )
+    lcd-init
+    0 lcd-line " Maisforth an601 " lcd-string ;
+
+banner
+    
+decimal
+: up ( -- )
+    1
+    8 0 do
+        dup leds c!
+        2 *
+        1000 ms
+    loop
+    drop ;
+
+: down ( -- )
+    128
+    8 0 do
+        dup leds c!
+        2 /
+        1000 ms
+    loop
+    drop ;
+
+: updown ( -- )
+    begin
+        up
+        down
+        key?
+    until
+    key drop ;
+
+\ assembler tests
+
+hex
+code set-leds
+    B030 # ldx
+    reg d puls
+    x ) stb
+    next
+end-code
 
 hex
 B040 constant spi-lsb
@@ -74,3 +174,14 @@ hex
         light-show
     key? until
     key drop ;
+
+\ misc stuff
+decimal
+: at-xy ( y x -- )
+    swap
+    27 emit
+    91 emit
+    s>d d.string type
+    59 emit
+    s>d d.string type
+    72 emit ;
