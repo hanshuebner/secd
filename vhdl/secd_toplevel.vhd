@@ -5,6 +5,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.secd_defs.all;
+use work.datapath;
+use work.control_unit;
+use work.clock_gen;
 
 entity secd_system is
   port(
