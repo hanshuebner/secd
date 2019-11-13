@@ -17,8 +17,9 @@ entity secd_ram is
     write_en         : in std_logic;
     clk              : in std_logic;
     reset            : in std_logic;
-    busy             : out std_logic;
-end;
+    busy             : out std_logic
+    );
+end entity;
 
 architecture sim of secd_ram is
 
@@ -59,5 +60,5 @@ begin
     end if;
   end process;
 
-end internal_ram;
+end sim;
 

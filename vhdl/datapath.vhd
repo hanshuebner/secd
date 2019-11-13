@@ -27,7 +27,7 @@ entity datapath is
         flags       : out flagsunit;
         state       : out std_logic_vector(1 downto 0)
         );
-end entity;
+end datapath;
 
 architecture datapath_arch of datapath is
 
